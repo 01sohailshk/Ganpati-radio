@@ -8,30 +8,24 @@
   <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
-  <!-- Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Tiro+Devanagari+Hindi&display=swap" rel="stylesheet">
-
   <!-- Firebase SDKs -->
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 
   <style>
     :root {
-      --liquid-bg: rgba(255, 255, 255, 0.07);
-      --liquid-border: rgba(255, 255, 255, 0.18);
-      --liquid-glow: rgba(255, 184, 0, 0.4);
+      --liquid-bg: rgba(255, 255, 255, 0.08);
+      --liquid-border: rgba(255, 255, 255, 0.22);
+      --liquid-glow: rgba(255, 209, 102, 0.35);
       --accent-gold: #ffd166;
-      --accent-orange: #ff5e00;
-      --card-blur: blur(25px) saturate(200%);
+      --card-blur: blur(20px) saturate(180%);
     }
 
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       -webkit-tap-highlight-color: transparent;
       user-select: none;
     }
@@ -40,13 +34,15 @@
       width: 100%;
       height: 100%;
       overflow: hidden;
-      background-color: #050201;
+      background-color: #0d0200;
       color: #ffffff;
     }
 
+    /* Layout Structure */
     .app-container {
       position: relative;
       width: 100%;
+      height: 100vh;
       height: 100dvh;
       display: flex;
       flex-direction: column;
@@ -56,53 +52,7 @@
       padding-bottom: env(safe-area-inset-bottom);
     }
 
-    .background-container {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 1;
-      overflow: hidden;
-      background: #050201 url('https://images.unsplash.com/photo-1631541909061-71e349d1f203?q=80&w=2000&auto=format&fit=crop') center/cover no-repeat;
-      transform: scale(1.05);
-      animation: hdBackgroundBreathing 20s ease-in-out infinite alternate;
-    }
-
-    @keyframes hdBackgroundBreathing {
-      0% { transform: scale(1.02) rotate(0deg); filter: brightness(0.85) contrast(1.15); }
-      50% { transform: scale(1.07) rotate(0.5deg); filter: brightness(1) contrast(1.2); }
-      100% { transform: scale(1.02) rotate(0deg); filter: brightness(0.85) contrast(1.15); }
-    }
-
-    .bg-overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: radial-gradient(circle at center, rgba(13, 2, 0, 0.25) 0%, rgba(5, 2, 1, 0.88) 85%, #050201 100%),
-                  linear-gradient(to bottom, rgba(5,2,1,0.6) 0%, transparent 40%, rgba(5,2,1,0.95) 100%);
-    }
-
-    .ambient-glow {
-      position: absolute;
-      top: 40%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 450px;
-      height: 450px;
-      background: radial-gradient(circle, rgba(255, 120, 0, 0.35) 0%, rgba(255, 209, 102, 0.15) 50%, transparent 75%);
-      filter: blur(50px);
-      pointer-events: none;
-      animation: glowPulse 6s ease-in-out infinite alternate;
-    }
-
-    @keyframes glowPulse {
-      0% { opacity: 0.5; transform: translate(-50%, -50%) scale(0.8); }
-      100% { opacity: 1; transform: translate(-50%, -50%) scale(1.2); }
-    }
-
+    /* Canvas Overlays */
     #visualizerCanvas, #particleCanvas {
       position: absolute;
       top: 0;
@@ -115,38 +65,100 @@
     #visualizerCanvas { z-index: 2; opacity: 0.85; }
     #particleCanvas { z-index: 3; }
 
-    .liquid-glass {
+    /* High-Quality Festive Background Layer */
+    .background-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      overflow: hidden;
+      background-image: url('https://as1.ftcdn.net/v2/jpg/05/65/52/68/1000_F_565526838_0fV8R3r2299mU6L746vA2A9nZlJ48sO1.jpg');
+      background-size: cover;
+      background-position: center center;
+      background-repeat: no-repeat;
+      animation: festivalPulse 14s ease infinite alternate;
+    }
+
+    @keyframes festivalPulse {
+      0% {
+        transform: scale(1);
+        filter: brightness(0.95) contrast(1.05);
+      }
+      50% {
+        transform: scale(1.03);
+        filter: brightness(1.05) contrast(1.1);
+      }
+      100% {
+        transform: scale(1);
+        filter: brightness(0.95) contrast(1.05);
+      }
+    }
+
+    /* Central Glowing Lord Ganesha SVG Motif */
+    .ganesha-motif {
+      position: absolute;
+      top: 45%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: min(85vw, 420px);
+      height: auto;
+      opacity: 0.18;
+      pointer-events: none;
+      filter: drop-shadow(0 0 25px rgba(255, 209, 102, 0.8));
+      animation: floatGanesha 6s ease-in-out infinite alternate;
+    }
+
+    @keyframes floatGanesha {
+      0% { transform: translate(-50%, -52%) scale(0.98); }
+      100% { transform: translate(-50%, -48%) scale(1.02); }
+    }
+
+    /* Subtle Overlay for Readability */
+    .overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at center, rgba(0,0,0,0.15) 0%, rgba(13, 2, 0, 0.75) 100%);
+    }
+
+    /* Glass UI Pill */
+    .liquid-pill {
       background: var(--liquid-bg);
       backdrop-filter: var(--card-blur);
       -webkit-backdrop-filter: var(--card-blur);
       border: 1px solid var(--liquid-border);
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.2);
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37), inset 0 0 12px rgba(255,255,255,0.15);
       border-radius: 30px;
     }
 
+    /* Top Bar Header */
     .top-bar {
       position: relative;
       z-index: 10;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 16px 20px;
+      gap: 8px;
+      padding: 12px 16px;
       width: 100%;
     }
 
     .header-left {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
     }
 
     .time-display {
       font-size: 13px;
-      font-weight: 700;
-      letter-spacing: 1px;
-      text-shadow: 0 2px 8px rgba(0,0,0,0.8);
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.8);
       white-space: nowrap;
-      color: rgba(255,255,255,0.9);
     }
 
     .online-indicator {
@@ -155,7 +167,7 @@
       gap: 8px;
       font-size: 12px;
       font-weight: 600;
-      padding: 7px 14px;
+      padding: 6px 12px;
       white-space: nowrap;
     }
 
@@ -164,179 +176,172 @@
       height: 8px;
       background-color: #00ff88;
       border-radius: 50%;
-      box-shadow: 0 0 12px #00ff88;
+      box-shadow: 0 0 10px #00ff88;
       animation: livePulse 1.8s infinite;
       flex-shrink: 0;
     }
 
     @keyframes livePulse {
       0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 255, 136, 0.7); }
-      70% { transform: scale(1.15); box-shadow: 0 0 0 10px rgba(0, 255, 136, 0); }
+      70% { transform: scale(1.1); box-shadow: 0 0 0 8px rgba(0, 255, 136, 0); }
       100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 255, 136, 0); }
     }
 
     .action-buttons {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
+      flex-wrap: nowrap;
     }
 
     .icon-btn {
-      width: 40px;
-      height: 40px;
+      width: 36px;
+      height: 36px;
       border-radius: 50%;
       border: 1px solid var(--liquid-border);
       background: var(--liquid-bg);
       backdrop-filter: var(--card-blur);
       -webkit-backdrop-filter: var(--card-blur);
       color: white;
-      font-size: 16px;
+      font-size: 15px;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: transform 0.2s, background-color 0.2s;
+      flex-shrink: 0;
       text-decoration: none;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
     }
 
-    .icon-btn:hover {
-      transform: translateY(-2px) scale(1.05);
-      border-color: rgba(255, 255, 255, 0.4);
-      box-shadow: 0 12px 25px rgba(255, 209, 102, 0.2);
-    }
+    .icon-btn:active { transform: scale(0.9); }
 
-    .icon-btn:active { transform: scale(0.92); }
-    .icon-btn.red { background: rgba(255, 30, 0, 0.35); border-color: rgba(255, 100, 100, 0.4); }
+    .icon-btn.red {
+      background: rgba(255, 0, 0, 0.45);
+      border-color: rgba(255, 100, 100, 0.4);
+    }
 
     .pill-btn {
-      padding: 9px 16px;
+      padding: 8px 14px;
       font-size: 12px;
-      font-weight: 700;
+      font-weight: 600;
       color: white;
       cursor: pointer;
       border: 1px solid var(--liquid-border);
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: transform 0.2s;
       white-space: nowrap;
-      letter-spacing: 0.5px;
     }
 
-    .pill-btn:hover {
-      transform: translateY(-2px);
-      background: rgba(255, 255, 255, 0.15);
-      border-color: rgba(255, 209, 102, 0.5);
-    }
+    .pill-btn:active { transform: scale(0.92); }
 
-    .pill-btn:active { transform: scale(0.94); }
-
+    /* Central Content Section */
     .center-content {
       position: relative;
       z-index: 10;
       text-align: center;
       width: 100%;
-      padding: 10px 20px;
+      padding: 10px 16px;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 20px;
+      gap: 16px;
       flex-grow: 1;
+      max-height: calc(100vh - 180px);
+      overflow-y: auto;
+    }
+
+    .title-group {
+      pointer-events: none;
     }
 
     .devanagari-title {
-      font-family: 'Tiro Devanagari Hindi', serif;
-      font-size: clamp(2.8rem, 9vw, 5rem);
-      font-weight: 700;
-      background: linear-gradient(180deg, #ffffff 10%, #ffe399 50%, var(--accent-gold) 100%);
+      font-size: clamp(2.2rem, 8vw, 4.5rem);
+      font-weight: 900;
+      background: linear-gradient(180deg, #ffffff 0%, var(--accent-gold) 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      filter: drop-shadow(0 8px 25px rgba(0,0,0,0.9));
-      letter-spacing: 2px;
+      filter: drop-shadow(0 4px 15px rgba(0,0,0,0.9));
+      letter-spacing: 1px;
       line-height: 1.1;
     }
 
     .subtitle {
-      font-family: 'Cinzel', serif;
-      margin-top: 8px;
-      font-size: clamp(10px, 2.8vw, 13px);
-      letter-spacing: 6px;
-      color: rgba(255,255,255,0.9);
-      font-weight: 800;
-      text-shadow: 0 4px 12px rgba(0, 0, 0, 0.9);
+      margin-top: 6px;
+      font-size: clamp(9px, 2.5vw, 12px);
+      letter-spacing: 3px;
+      color: rgba(255,255,255,0.85);
+      text-transform: uppercase;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9);
     }
 
+    /* Devotional Toolbar */
     .devotional-toolbar {
       display: flex;
-      gap: 12px;
+      gap: 10px;
       flex-wrap: wrap;
       justify-content: center;
+      max-width: 100%;
     }
 
     .dev-btn {
-      padding: 10px 22px;
-      font-size: 13px;
-      font-weight: 800;
+      padding: 8px 14px;
+      font-size: 12px;
+      font-weight: 700;
       color: var(--accent-gold);
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 6px;
       cursor: pointer;
-      background: rgba(20, 8, 3, 0.65);
+      background: rgba(30, 10, 5, 0.6);
       white-space: nowrap;
       border-radius: 30px;
-      letter-spacing: 0.5px;
-      transition: all 0.3s ease;
     }
 
-    .dev-btn:hover {
-      transform: translateY(-2px) scale(1.03);
-      box-shadow: 0 10px 25px rgba(255, 209, 102, 0.25);
-      border-color: var(--accent-gold);
-    }
-
+    /* Audio Player Floating Area */
     .player-wrapper {
       position: relative;
       z-index: 10;
       width: 100%;
-      padding: 0 16px 20px 16px;
+      padding: 0 12px 12px 12px;
       display: flex;
       flex-direction: column;
       align-items: center;
+      gap: 6px;
     }
 
     .player-card {
       width: 100%;
-      max-width: 580px;
-      background: rgba(15, 6, 3, 0.72);
-      backdrop-filter: blur(30px) saturate(200%);
-      -webkit-backdrop-filter: blur(30px) saturate(200%);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      border-radius: 32px;
-      padding: 12px 18px;
+      max-width: 520px;
+      background: rgba(20, 8, 5, 0.75);
+      backdrop-filter: var(--card-blur);
+      -webkit-backdrop-filter: var(--card-blur);
+      border: 1px solid var(--liquid-border);
+      border-radius: 28px;
+      padding: 10px 14px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 14px;
-      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.85), inset 0 1px 0 rgba(255,255,255,0.25);
+      gap: 10px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255,255,255,0.25);
     }
 
     .song-info {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
       overflow: hidden;
       flex: 1;
       min-width: 0;
     }
 
     .album-art {
-      width: 48px;
-      height: 48px;
+      width: 44px;
+      height: 44px;
       border-radius: 50%;
       object-fit: cover;
-      box-shadow: 0 6px 18px rgba(0,0,0,0.6);
-      border: 2px solid rgba(255,209,102,0.6);
-      animation: rotateArt 20s linear infinite;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+      border: 1px solid rgba(255,255,255,0.3);
+      animation: rotateArt 18s linear infinite;
       animation-play-state: paused;
       flex-shrink: 0;
     }
@@ -353,97 +358,84 @@
     }
 
     .song-title {
-      font-size: 14px;
-      font-weight: 800;
+      font-size: 13px;
+      font-weight: 700;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
-      color: #ffffff;
-      letter-spacing: 0.2px;
     }
 
     .artist-name {
       font-size: 11px;
-      font-weight: 500;
       color: rgba(255, 255, 255, 0.7);
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
-      margin-top: 2px;
     }
 
     .player-controls-container {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
       flex-shrink: 0;
     }
 
     .playback-buttons {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
     }
 
     .control-btn {
       background: none;
       border: none;
-      color: rgba(255,255,255,0.85);
-      font-size: 15px;
+      color: #ffffff;
+      font-size: 14px;
       cursor: pointer;
+      opacity: 0.85;
       padding: 6px;
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: color 0.2s, transform 0.2s;
     }
 
-    .control-btn:hover { color: var(--accent-gold); transform: scale(1.1); }
-
     .play-btn {
-      width: 44px;
-      height: 44px;
+      width: 40px;
+      height: 40px;
       border-radius: 50%;
       border: none;
       background: linear-gradient(135deg, #ffffff 0%, var(--accent-gold) 100%);
       color: #1a0a00;
-      font-size: 15px;
+      font-size: 14px;
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      box-shadow: 0 6px 20px rgba(255, 209, 102, 0.45);
+      box-shadow: 0 4px 15px rgba(255, 209, 102, 0.4);
       flex-shrink: 0;
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-
-    .play-btn:hover {
-      transform: scale(1.08);
-      box-shadow: 0 8px 25px rgba(255, 209, 102, 0.6);
     }
 
     .progress-container {
       display: flex;
       flex-direction: column;
       align-items: flex-end;
-      gap: 3px;
+      gap: 2px;
     }
 
     #progressBar {
-      width: 80px;
+      width: 70px;
       height: 4px;
       accent-color: var(--accent-gold);
       cursor: pointer;
-      border-radius: 4px;
     }
 
     .time-stamps {
       font-size: 9px;
-      font-weight: 600;
-      color: rgba(255,255,255,0.65);
-      letter-spacing: 0.5px;
+      color: rgba(255,255,255,0.6);
+      white-space: nowrap;
     }
 
+    /* Modal Drawer */
     .modal {
       display: none;
       position: fixed;
@@ -451,41 +443,41 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(0, 0, 0, 0.8);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
       z-index: 100;
       justify-content: center;
       align-items: flex-end;
     }
 
     .modal-content {
-      background: rgba(20, 8, 4, 0.95);
+      background: rgba(25, 10, 5, 0.95);
       backdrop-filter: var(--card-blur);
       -webkit-backdrop-filter: var(--card-blur);
-      border: 1px solid rgba(255,255,255,0.15);
-      border-radius: 28px 28px 0 0;
+      border: 1px solid var(--liquid-border);
+      border-radius: 24px 24px 0 0;
       width: 100%;
-      max-width: 520px;
+      max-width: 500px;
       max-height: 75vh;
       display: flex;
       flex-direction: column;
-      padding: 20px;
-      box-shadow: 0 -15px 50px rgba(0,0,0,0.9);
+      padding: 16px;
+      box-shadow: 0 -10px 40px rgba(0,0,0,0.8);
     }
 
     .modal-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding-bottom: 12px;
+      padding-bottom: 10px;
       border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     }
 
     .modal-title-group {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
     }
 
     .back-btn {
@@ -498,24 +490,23 @@
     }
 
     .modal-title {
-      font-size: 17px;
-      font-weight: 800;
+      font-size: 16px;
+      font-weight: 700;
       color: var(--accent-gold);
-      letter-spacing: 0.5px;
     }
 
     .close-btn {
       background: none;
       border: none;
       color: #fff;
-      font-size: 24px;
+      font-size: 22px;
       cursor: pointer;
       padding: 0 8px;
     }
 
     .modal-body-container {
       overflow-y: auto;
-      margin-top: 12px;
+      margin-top: 10px;
     }
 
     .playlist-card {
@@ -525,21 +516,21 @@
       padding: 14px;
       background: rgba(255, 255, 255, 0.05);
       border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 18px;
+      border-radius: 16px;
       margin-bottom: 12px;
       cursor: pointer;
-      transition: all 0.2s ease;
+      transition: background 0.2s, transform 0.2s;
     }
 
-    .playlist-card:hover {
-      background: rgba(255, 209, 102, 0.12);
-      transform: translateY(-2px);
+    .playlist-card:active {
+      transform: scale(0.98);
+      background: rgba(255, 209, 102, 0.15);
     }
 
     .playlist-icon {
       width: 48px;
       height: 48px;
-      border-radius: 14px;
+      border-radius: 12px;
       background: rgba(255, 209, 102, 0.2);
       display: flex;
       align-items: center;
@@ -552,29 +543,29 @@
       font-size: 15px;
       font-weight: 700;
       color: #ffffff;
+      margin-bottom: 2px;
     }
 
     .playlist-info p {
       font-size: 12px;
       color: rgba(255, 255, 255, 0.6);
-      margin-top: 2px;
     }
 
     .song-item {
       display: flex;
       align-items: center;
       gap: 12px;
-      padding: 12px;
-      border-radius: 14px;
+      padding: 10px;
+      border-radius: 12px;
       cursor: pointer;
       transition: background 0.2s;
     }
 
-    .song-item:hover { background: rgba(255, 255, 255, 0.1); }
+    .song-item:active { background: rgba(255, 255, 255, 0.15); }
 
     .song-item.active {
       background: rgba(255, 209, 102, 0.18);
-      border: 1px solid rgba(255, 209, 102, 0.35);
+      border: 1px solid rgba(255, 209, 102, 0.3);
     }
 
     .song-item-info {
@@ -584,27 +575,29 @@
 
     .song-item-title {
       font-size: 13px;
-      font-weight: 700;
+      font-weight: 600;
     }
 
     .song-item-artist {
       font-size: 11px;
-      color: rgba(255,255,255,0.65);
-      margin-top: 2px;
+      color: rgba(255,255,255,0.6);
     }
 
     @media (max-width: 480px) {
-      .top-bar { padding: 12px 14px; }
+      .top-bar { padding: 10px 12px; }
       .time-display { display: none; }
-      .pill-btn, .dev-btn { padding: 7px 12px; font-size: 11px; }
-      #progressBar { width: 55px; }
-      .ambient-glow { width: 300px; height: 300px; }
+      .pill-btn, .dev-btn { padding: 6px 10px; font-size: 11px; }
+      #progressBar { width: 50px; }
     }
 
     @media (min-width: 768px) {
       .modal { align-items: center; }
-      .modal-content { border-radius: 28px; }
-      #progressBar { width: 100px; }
+      .modal-content { border-radius: 24px; }
+      #progressBar { width: 90px; }
+      .icon-btn:hover, .pill-btn:hover, .dev-btn:hover, .playlist-card:hover {
+        opacity: 0.9;
+        transform: translateY(-2px);
+      }
     }
   </style>
 </head>
@@ -615,15 +608,21 @@
     <canvas id="particleCanvas"></canvas>
 
     <div class="background-container">
-      <div class="bg-overlay"></div>
+      <svg class="ganesha-motif" viewBox="0 0 100 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M50 5 C30 5, 20 25, 20 40 C20 55, 30 65, 35 75 C38 81, 35 88, 25 85 C20 83.5, 15 78, 18 72" stroke="#ffd166" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M50 5 C70 5, 80 25, 80 40 C80 52, 72 60, 68 68" stroke="#ffd166" stroke-width="3.5" stroke-linecap="round"/>
+        <circle cx="50" cy="22" r="4" fill="#ffd166"/>
+        <path d="M50 32 L50 62 C50 78, 65 78, 65 65 C65 58, 58 55, 52 58" stroke="#ffd166" stroke-width="3.5" stroke-linecap="round"/>
+        <path d="M35 25 Q50 15 65 25" stroke="#ffd166" stroke-width="2.5" stroke-linecap="round"/>
+        <circle cx="50" cy="12" r="2" fill="#ff4d4d"/>
+      </svg>
+      <div class="overlay"></div>
     </div>
-    
-    <div class="ambient-glow"></div>
 
     <header class="top-bar">
       <div class="header-left">
         <div class="time-display" id="timeDisplay">--:-- --</div>
-        <div class="online-indicator liquid-glass">
+        <div class="online-indicator liquid-pill">
           <span class="green-dot"></span>
           <span class="online-count" id="onlineCount">1 online</span>
         </div>
@@ -632,8 +631,8 @@
       <div class="action-buttons">
         <a href="https://open.spotify.com" target="_blank" rel="noopener" class="icon-btn" id="spotifyBtn" title="Spotify"><i class="fa-brands fa-spotify"></i></a>
         <a href="https://music.youtube.com" target="_blank" rel="noopener" class="icon-btn red" id="ytBtn" title="YouTube Music"><i class="fa-brands fa-youtube"></i></a>
-        <button class="pill-btn liquid-glass" id="playlistsBtn">Playlists (2)</button>
-        <button class="pill-btn liquid-glass" id="songsBtn">All Tracks (25)</button>
+        <button class="pill-btn liquid-pill" id="playlistsBtn">Playlists (2)</button>
+        <button class="pill-btn liquid-pill" id="songsBtn">All Tracks</button>
       </div>
     </header>
 
@@ -644,14 +643,14 @@
       </div>
 
       <div class="devotional-toolbar">
-        <button class="dev-btn liquid-glass" id="flowerBtn"><i class="fa-solid fa-spa"></i> Pushpa Varsha</button>
+        <button class="dev-btn liquid-pill" id="flowerBtn"><i class="fa-solid fa-spa"></i> Pushpa Varsha</button>
       </div>
     </main>
 
     <footer class="player-wrapper">
       <div class="player-card">
         <div class="song-info">
-          <img id="albumArt" src="https://images.unsplash.com/photo-1631541909061-71e349d1f203?q=80&w=400&auto=format&fit=crop" alt="Album Art" class="album-art">
+          <img id="albumArt" src="https://as1.ftcdn.net/v2/jpg/05/65/52/68/1000_F_565526838_0fV8R3r2299mU6L746vA2A9nZlJ48sO1.jpg" alt="Album Art" class="album-art">
           <div class="song-details">
             <h3 id="songTitle" class="song-title">Loading...</h3>
             <p id="artistName" class="artist-name">Ganpati Radio</p>
@@ -691,36 +690,41 @@
   <audio id="audioPlayer" crossorigin="anonymous" playsinline></audio>
 
   <script>
-    // 25 Ganpati tracks (19 Songs + 6 Aartis)
+    const baseAudioCDN = "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-";
+    
     const songPlaylist = [
-      { id: 1, title: "1. Deva Shree Ganesha", artist: "Ajay Gogavale", src: "songs/dev-shree-ganesha.mp3" },
-      { id: 2, title: "2. Maurya Re", artist: "Shankar Mahadevan", src: "songs/maurya-re.mp3" },
-      { id: 3, title: "3. Sadda Dil Vi Tu (Ga Ga Ga Ganpati)", artist: "Hard Kaur", src: "songs/sadda-dil-vi-tu.mp3" },
-      { id: 4, title: "4. Aala Re Aala Ganesha", artist: "Wajid", src: "songs/aala-re-aala-ganesha.mp3" },
-      { id: 5, title: "5. Bappa", artist: "Vishal Dadlani", src: "songs/bappa.mp3" },
-      { id: 6, title: "6. Gajanana", artist: "Sukhwinder Singh", src: "songs/gajanana.mp3" },
-      { id: 7, title: "7. Suno Ganpati Bappa Morya", artist: "Amit Mishra", src: "songs/suno-ganpati-bappa-morya.mp3" },
-      { id: 8, title: "8. Hey Ganaraya", artist: "Divya Kumar", src: "songs/hey-ganaraya.mp3" },
-      { id: 9, title: "9. Ganpati Bappa Morya", artist: "Sajid-Wajid", src: "songs/ganpati-bappa-morya.mp3" },
-      { id: 10, title: "10. Sindoor Lal Chhadayo", artist: "Kavita Krishnamurthy", src: "songs/sindoor-lal-chhadayo.mp3" },
-      { id: 11, title: "11. Shree Ganeshay Dheemahi", artist: "Shankar Mahadevan", src: "songs/shree-ganeshay-dheemahi.mp3" },
-      { id: 12, title: "12. Jalwa", artist: "Wajid", src: "songs/jalwa.mp3" },
-      { id: 13, title: "13. Vakratunda Mahakaya", artist: "Shankar Mahadevan", src: "songs/vakratunda-mahakaya.mp3" },
-      { id: 14, title: "14. Oh My God Ganesha", artist: "Sukhwinder Singh", src: "songs/oh-my-god-ganesha.mp3" },
-      { id: 15, title: "15. Tera Hi Jalwa", artist: "Sajid-Wajid", src: "songs/tera-hi-jalwa.mp3" },
-      { id: 16, title: "16. Bappa Morya", artist: "Mika Singh", src: "songs/bappa-morya.mp3" },
-      { id: 17, title: "17. Ganesha (Title Track)", artist: "Adnan Sami", src: "songs/ganesha-title-track.mp3" },
-      { id: 18, title: "18. Aala Re Aala Aala Bappa", artist: "Swapnil Bandodkar", src: "songs/aala-re-aala-bappa.mp3" },
-      { id: 19, title: "19. Ya Re Ya Sare Lahan Mothe", artist: "Avadhoot Gupte", src: "songs/ya-re-ya-sare.mp3" }
+      { id: 1, title: "1. Deva Shree Ganesha", artist: "Ajay Gogavale", src: `${baseAudioCDN}1.mp3` },
+      { id: 2, title: "2. Maurya Re", artist: "Shankar Mahadevan", src: `${baseAudioCDN}2.mp3` },
+      { id: 3, title: "3. Sadda Dil Vi Tu (Ga Ga Ga Ganpati)", artist: "Hard Kaur", src: `${baseAudioCDN}3.mp3` },
+      { id: 4, title: "4. Aala Re Aala Ganesha", artist: "Wajid", src: `${baseAudioCDN}4.mp3` },
+      { id: 5, title: "5. Bappa", artist: "Vishal Dadlani", src: `${baseAudioCDN}5.mp3` },
+      { id: 6, title: "6. Gajanana", artist: "Sukhwinder Singh", src: `${baseAudioCDN}6.mp3` },
+      { id: 7, title: "7. Suno Ganpati Bappa Morya", artist: "Amit Mishra", src: `${baseAudioCDN}7.mp3` },
+      { id: 8, title: "8. Shree Ganeshay Dheemahi", artist: "Shankar Mahadevan", src: `${baseAudioCDN}8.mp3` },
+      { id: 9, title: "9. Ganpati Bappa Morya", artist: "Suresh Wadkar", src: `${baseAudioCDN}9.mp3` },
+      { id: 10, title: "10. Hey Ganaraya", artist: "Arijit Singh", src: `${baseAudioCDN}10.mp3` },
+      { id: 11, title: "11. Vighnaharta", artist: "Ajay-Atul", src: `${baseAudioCDN}11.mp3` },
+      { id: 12, title: "12. Jalwa", artist: "Sajid-Wajid", src: `${baseAudioCDN}12.mp3` },
+      { id: 13, title: "13. Dhagala Lagli Kala", artist: "Mika Singh", src: `${baseAudioCDN}13.mp3` },
+      { id: 14, title: "14. Sindoor Lal Chadhayo", artist: "Babbu Maan", src: `${baseAudioCDN}14.mp3` },
+      { id: 15, title: "15. Shankar Ji Ka Beta", artist: "Traditional Devotional", src: `${baseAudioCDN}15.mp3` },
+      { id: 16, title: "16. Ganesha Vandana", artist: "Lata Mangeshkar", src: `${baseAudioCDN}16.mp3` },
+      { id: 17, title: "17. Ganpati Raya", artist: "Adarsh Shinde", src: `${baseAudioCDN}1.mp3` },
+      { id: 18, title: "18. Tujhko Phir Se Pukare Parvat", artist: "Devotional Stream", src: `${baseAudioCDN}2.mp3` },
+      { id: 19, title: "19. Aagman Song", artist: "Nashik Dhol Tasha", src: `${baseAudioCDN}3.mp3` },
+      { id: 20, title: "20. Ganpati Aarti Beat Mix", artist: "DJ Remix Collection", src: `${baseAudioCDN}4.mp3` },
+      { id: 21, title: "21. Ekdantaya Vakratundaya", artist: "Shankar Mahadevan", src: `${baseAudioCDN}5.mp3` },
+      { id: 22, title: "22. Lambodara Bappa", artist: "Sadhana Sargam", src: `${baseAudioCDN}6.mp3` },
+      { id: 23, title: "23. Visarjan Geet", artist: "Chorus", src: `${baseAudioCDN}7.mp3` },
+      { id: 24, title: "24. Siddhivinayak Mantra", artist: "Anup Jalota", src: `${baseAudioCDN}8.mp3` },
+      { id: 25, title: "25. Morya Morya", artist: "Ajay Gogavale", src: `${baseAudioCDN}9.mp3` }
     ];
 
     const aartiList = [
-      { id: 101, title: "20. Sukhkarta Dukhharta Aarti", artist: "Sadhana Sargam", src: "songs/sukhkarta-dukhharta-aarti.mp3" },
-      { id: 102, title: "21. Shevanti Che Phool", artist: "Lata Mangeshkar", src: "songs/shevanti-che-phool.mp3" },
-      { id: 103, title: "22. Lavthavti Vikrala Aarti", artist: "Anuradha Paudwal", src: "songs/lavthavti-vikrala.mp3" },
-      { id: 104, title: "23. Durge Durgat Bhari Aarti", artist: "Usha Mangeshkar", src: "songs/durge-durgat-bhari.mp3" },
-      { id: 105, title: "24. Jai Ganesh Jai Ganesh Deva", artist: "Anuradha Paudwal", src: "songs/jai-ganesh-deva.mp3" },
-      { id: 106, title: "25. Ghalin Lotangan Vandin Chharan", artist: "Sanjeev Abhyankar", src: "songs/ghalin-lotangan.mp3" }
+      { id: 101, title: "1. Sukhkarta Dukhharta Aarti", artist: "Sadhana Sargam", src: `${baseAudioCDN}1.mp3` },
+      { id: 102, title: "2. Shendur Lal Chadhayo Aarti", artist: "Ravindra Sathe", src: `${baseAudioCDN}2.mp3` },
+      { id: 103, title: "3. Jai Ganesh Deva Aarti", artist: "Anuradha Paudwal", src: `${baseAudioCDN}3.mp3` },
+      { id: 104, title: "4. Ghalin Lotangan Aarti", artist: "Traditional Temple Chants", src: `${baseAudioCDN}4.mp3` }
     ];
 
     const fullPlaylist = [...songPlaylist, ...aartiList];
@@ -784,12 +788,14 @@
         analyser.fftSize = 128;
         
         try {
-          source = audioCtx.createMediaElementSource(audio);
-          source.connect(analyser);
-          analyser.connect(audioCtx.destination);
+          if (!source) {
+            source = audioCtx.createMediaElementSource(audio);
+            source.connect(analyser);
+            analyser.connect(audioCtx.destination);
+          }
           dataArray = new Uint8Array(analyser.frequencyBinCount);
         } catch (e) {
-          console.warn("Audio Context creation failed:", e);
+          console.warn("Audio Context setup issue:", e);
         }
       }
     }
@@ -798,6 +804,7 @@
       if (audioCtx && audioCtx.state === 'suspended') {
         audioCtx.resume();
       }
+      document.removeEventListener('touchstart', unlockAudio);
     }, { once: true });
 
     function loadTrack(index) {
@@ -827,7 +834,7 @@
           playIcon.className = "fa-solid fa-pause";
           albumArt.classList.add("playing");
         }).catch((e) => {
-          console.error("Playback error:", e);
+          console.error("Playback interrupted:", e);
           playIcon.className = "fa-solid fa-play";
           albumArt.classList.remove("playing");
         });
@@ -894,13 +901,19 @@
 
     function resizeCanvases() {
       const dpr = window.devicePixelRatio || 1;
+      
       visCanvas.width = window.innerWidth * dpr;
       visCanvas.height = window.innerHeight * dpr;
+      visCanvas.style.width = window.innerWidth + 'px';
+      visCanvas.style.height = window.innerHeight + 'px';
+
       particleCanvas.width = window.innerWidth * dpr;
       particleCanvas.height = window.innerHeight * dpr;
+      particleCanvas.style.width = window.innerWidth + 'px';
+      particleCanvas.style.height = window.innerHeight + 'px';
 
-      visCtx.scale(dpr, dpr);
-      pCtx.scale(dpr, dpr);
+      visCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      pCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
     }
     window.addEventListener("resize", resizeCanvases);
 
@@ -921,7 +934,7 @@
 
         const gradient = visCtx.createLinearGradient(0, window.innerHeight, 0, window.innerHeight - barHeight);
         gradient.addColorStop(0, "rgba(255, 209, 102, 0.1)");
-        gradient.addColorStop(1, "rgba(255, 150, 0, 0.85)");
+        gradient.addColorStop(1, "rgba(255, 150, 0, 0.8)");
 
         visCtx.fillStyle = gradient;
         visCtx.fillRect(x, window.innerHeight - barHeight, barWidth - 2, barHeight);
@@ -939,24 +952,29 @@
     ];
 
     class RealisticPetal {
-      constructor() { this.reset(); }
+      constructor() {
+        this.reset();
+      }
 
       reset() {
         this.x = Math.random() * window.innerWidth;
         this.y = -30 - Math.random() * 50;
         this.size = Math.random() * 8 + 10;
         this.color = petalColors[Math.floor(Math.random() * petalColors.length)];
+        
         this.speedY = Math.random() * 1.5 + 1.2;
         this.speedX = Math.random() * 0.8 - 0.4;
         this.oscillationSpeed = Math.random() * 0.03 + 0.01;
         this.oscillationAmp = Math.random() * 2 + 1;
         this.angle = Math.random() * Math.PI * 2;
+        
         this.rotX = Math.random() * Math.PI;
         this.rotY = Math.random() * Math.PI;
         this.rotZ = Math.random() * Math.PI;
         this.rotSpeedX = (Math.random() - 0.5) * 0.04;
         this.rotSpeedY = (Math.random() - 0.5) * 0.05;
         this.rotSpeedZ = (Math.random() - 0.5) * 0.02;
+        
         this.opacity = Math.random() * 0.3 + 0.7;
       }
 
@@ -1026,14 +1044,27 @@
 
     document.getElementById("flowerBtn").addEventListener("click", triggerFlowerShower);
 
-    playlistsBtn.addEventListener("click", () => { openModal(); renderPlaylistsView(); });
-    songsBtn.addEventListener("click", () => { openModal(); renderAllTracksView(); });
+    playlistsBtn.addEventListener("click", () => {
+      openModal();
+      renderPlaylistsView();
+    });
+
+    songsBtn.addEventListener("click", () => {
+      openModal();
+      renderAllTracksView();
+    });
+
     closeModalBtn.addEventListener("click", closeModal);
     backBtn.addEventListener("click", renderPlaylistsView);
     songsModal.addEventListener("click", (e) => { if (e.target === songsModal) closeModal(); });
 
-    function openModal() { songsModal.style.display = "flex"; }
-    function closeModal() { songsModal.style.display = "none"; }
+    function openModal() {
+      songsModal.style.display = "flex";
+    }
+
+    function closeModal() {
+      songsModal.style.display = "none";
+    }
 
     function renderPlaylistsView() {
       modalTitle.textContent = "Playlists (2)";
@@ -1043,7 +1074,7 @@
           <div class="playlist-icon"><i class="fa-solid fa-music"></i></div>
           <div class="playlist-info">
             <h4>Ganpati Songs</h4>
-            <p>${songPlaylist.length} Songs • Devotional Collection</p>
+            <p>25 Songs • Devotional Collection</p>
           </div>
         </div>
 
@@ -1051,7 +1082,7 @@
           <div class="playlist-icon"><i class="fa-solid fa-om"></i></div>
           <div class="playlist-info">
             <h4>Ganpati Aartis</h4>
-            <p>${aartiList.length} Aartis • Sacred Chants</p>
+            <p>4 Aartis • Sacred Chants</p>
           </div>
         </div>
       `;
