@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>गणपति उत्सव | Ganpati Radio (Offline Ready)</title>
+  <title>गणपति उत्सव | Ganpati Radio</title>
 
   <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -14,11 +14,37 @@
 
   <style>
     :root {
+      --bg-image: none;
       --liquid-bg: rgba(255, 255, 255, 0.08);
       --liquid-border: rgba(255, 255, 255, 0.22);
-      --liquid-glow: rgba(255, 209, 102, 0.35);
       --accent-gold: #ffd166;
+      --player-bg: rgba(20, 8, 5, 0.85);
       --card-blur: blur(20px) saturate(180%);
+    }
+
+    /* Dynamic Theme Styles */
+    body.theme-art {
+      --bg-image: url('https://images.unsplash.com/photo-1631541909061-71e349d1f203?q=80&w=1200&auto=format&fit=crop');
+      --accent-gold: #ffd166;
+      --player-bg: rgba(20, 8, 5, 0.85);
+    }
+
+    body.theme-gold {
+      --bg-image: url('https://images.unsplash.com/photo-1567157577867-05ccb1388e66?q=80&w=1200&auto=format&fit=crop');
+      --accent-gold: #ffb703;
+      --player-bg: rgba(30, 20, 5, 0.85);
+    }
+
+    body.theme-neon {
+      --bg-image: url('https://images.unsplash.com/photo-1609102026400-0e922f30b991?q=80&w=1200&auto=format&fit=crop');
+      --accent-gold: #ff007f;
+      --player-bg: rgba(15, 5, 25, 0.85);
+    }
+
+    body.theme-dark {
+      --bg-image: url('https://images.unsplash.com/photo-1544717305-2782549b5136?q=80&w=1200&auto=format&fit=crop');
+      --accent-gold: #00f0ff;
+      --player-bg: rgba(5, 15, 25, 0.85);
     }
 
     * {
@@ -38,10 +64,11 @@
       color: #ffffff;
     }
 
+    /* Layout Structure */
     .app-container {
       position: relative;
       width: 100%;
-      height: 100vh;
+      height: 100%;
       height: 100dvh;
       display: flex;
       flex-direction: column;
@@ -51,6 +78,7 @@
       padding-bottom: env(safe-area-inset-bottom);
     }
 
+    /* Canvas Overlays */
     #visualizerCanvas, #particleCanvas {
       position: absolute;
       top: 0;
@@ -63,6 +91,7 @@
     #visualizerCanvas { z-index: 2; opacity: 0.85; }
     #particleCanvas { z-index: 3; }
 
+    /* Animated Festive Background Gradient & Wallpaper Layer */
     .background-container {
       position: absolute;
       top: 0;
@@ -71,20 +100,22 @@
       height: 100%;
       z-index: 1;
       overflow: hidden;
-      /* Updated Background Image path. Replace with your local image path (e.g., 'images/ganpati-bg.jpg') if playing offline */
-      background-image: url('images/ganpati-bg.jpg');
+      background-color: #38000a;
+      background-image: var(--bg-image);
       background-size: cover;
-      background-position: center center;
+      background-position: center;
       background-repeat: no-repeat;
+      transition: background-image 0.5s ease-in-out;
       animation: festivalPulse 14s ease infinite alternate;
     }
 
     @keyframes festivalPulse {
-      0% { transform: scale(1); filter: brightness(0.95) contrast(1.05); }
-      50% { transform: scale(1.03); filter: brightness(1.05) contrast(1.1); }
-      100% { transform: scale(1); filter: brightness(0.95) contrast(1.05); }
+      0% { transform: scale(1); filter: brightness(1) contrast(1); }
+      50% { transform: scale(1.03); filter: brightness(1.1) contrast(1.05); }
+      100% { transform: scale(1); filter: brightness(1) contrast(1); }
     }
 
+    /* Central Glowing Lord Ganesha SVG Motif */
     .ganesha-motif {
       position: absolute;
       top: 45%;
@@ -92,9 +123,9 @@
       transform: translate(-50%, -50%);
       width: min(85vw, 420px);
       height: auto;
-      opacity: 0.18;
+      opacity: 0.22;
       pointer-events: none;
-      filter: drop-shadow(0 0 25px rgba(255, 209, 102, 0.8));
+      filter: drop-shadow(0 0 25px var(--accent-gold));
       animation: floatGanesha 6s ease-in-out infinite alternate;
     }
 
@@ -103,15 +134,17 @@
       100% { transform: translate(-50%, -48%) scale(1.02); }
     }
 
+    /* Subtle Darkening Overlay */
     .overlay {
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background: radial-gradient(circle at center, rgba(0,0,0,0.15) 0%, rgba(13, 2, 0, 0.75) 100%);
+      background: radial-gradient(circle at center, rgba(0,0,0,0.2) 20%, rgba(13, 2, 0, 0.85) 100%);
     }
 
+    /* Glass UI Pill */
     .liquid-pill {
       background: var(--liquid-bg);
       backdrop-filter: var(--card-blur);
@@ -121,6 +154,7 @@
       border-radius: 30px;
     }
 
+    /* Top Bar Header */
     .top-bar {
       position: relative;
       z-index: 10;
@@ -135,7 +169,7 @@
     .header-left {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
     }
 
     .time-display {
@@ -150,7 +184,7 @@
       display: flex;
       align-items: center;
       gap: 8px;
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 600;
       padding: 6px 12px;
       white-space: nowrap;
@@ -175,20 +209,20 @@
     .action-buttons {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
       flex-wrap: nowrap;
     }
 
     .icon-btn {
-      width: 36px;
-      height: 36px;
+      width: 34px;
+      height: 34px;
       border-radius: 50%;
       border: 1px solid var(--liquid-border);
       background: var(--liquid-bg);
       backdrop-filter: var(--card-blur);
       -webkit-backdrop-filter: var(--card-blur);
       color: white;
-      font-size: 15px;
+      font-size: 14px;
       cursor: pointer;
       display: flex;
       align-items: center;
@@ -206,8 +240,8 @@
     }
 
     .pill-btn {
-      padding: 8px 14px;
-      font-size: 12px;
+      padding: 8px 12px;
+      font-size: 11px;
       font-weight: 600;
       color: white;
       cursor: pointer;
@@ -218,6 +252,7 @@
 
     .pill-btn:active { transform: scale(0.92); }
 
+    /* Central Content Section */
     .center-content {
       position: relative;
       z-index: 10;
@@ -234,7 +269,9 @@
       overflow-y: auto;
     }
 
-    .title-group { pointer-events: none; }
+    .title-group {
+      pointer-events: none;
+    }
 
     .devanagari-title {
       font-size: clamp(2.2rem, 8vw, 4.5rem);
@@ -256,6 +293,7 @@
       text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9);
     }
 
+    /* Interactive Devotional Toolbar */
     .devotional-toolbar {
       display: flex;
       gap: 10px;
@@ -278,6 +316,7 @@
       border-radius: 30px;
     }
 
+    /* Audio Player Floating Area */
     .player-wrapper {
       position: relative;
       z-index: 10;
@@ -292,7 +331,7 @@
     .player-card {
       width: 100%;
       max-width: 520px;
-      background: rgba(20, 8, 5, 0.75);
+      background: var(--player-bg);
       backdrop-filter: var(--card-blur);
       -webkit-backdrop-filter: var(--card-blur);
       border: 1px solid var(--liquid-border);
@@ -303,6 +342,7 @@
       justify-content: space-between;
       gap: 10px;
       box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255,255,255,0.25);
+      transition: background 0.3s ease;
     }
 
     .song-info {
@@ -415,6 +455,7 @@
       white-space: nowrap;
     }
 
+    /* Glass Drawer Modal */
     .modal {
       display: none;
       position: fixed;
@@ -488,6 +529,45 @@
       margin-top: 10px;
     }
 
+    /* Theme Option Cards */
+    .theme-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .theme-card {
+      border-radius: 12px;
+      overflow: hidden;
+      border: 2px solid transparent;
+      cursor: pointer;
+      position: relative;
+      height: 100px;
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      align-items: flex-end;
+      padding: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+    }
+
+    .theme-card.active {
+      border-color: var(--accent-gold);
+    }
+
+    .theme-card span {
+      background: rgba(0, 0, 0, 0.7);
+      color: white;
+      font-size: 11px;
+      font-weight: bold;
+      padding: 4px 8px;
+      border-radius: 6px;
+      width: 100%;
+      text-align: center;
+      backdrop-filter: blur(4px);
+    }
+
+    /* Playlist Cards */
     .playlist-card {
       display: flex;
       align-items: center;
@@ -530,6 +610,7 @@
       color: rgba(255, 255, 255, 0.6);
     }
 
+    /* Song Items */
     .song-item {
       display: flex;
       align-items: center;
@@ -562,13 +643,17 @@
       color: rgba(255,255,255,0.6);
     }
 
+    /* Mobile Responsive Optimizations */
     @media (max-width: 480px) {
       .top-bar { padding: 10px 12px; }
       .time-display { display: none; }
-      .pill-btn, .dev-btn { padding: 6px 10px; font-size: 11px; }
+      .pill-btn { padding: 6px 10px; font-size: 10px; }
+      .dev-btn { padding: 6px 10px; font-size: 11px; }
       #progressBar { width: 50px; }
+      .icon-btn { width: 30px; height: 30px; font-size: 12px; }
     }
 
+    /* Desktop Layout */
     @media (min-width: 768px) {
       .modal { align-items: center; }
       .modal-content { border-radius: 24px; }
@@ -580,13 +665,16 @@
     }
   </style>
 </head>
-<body>
+<body class="theme-art">
 
   <div class="app-container">
+    <!-- Dynamic Canvases -->
     <canvas id="visualizerCanvas"></canvas>
     <canvas id="particleCanvas"></canvas>
 
+    <!-- Devotional Ganpati Background Layer -->
     <div class="background-container">
+      <!-- Decorative Divine Lord Ganesha Contour SVG Artwork -->
       <svg class="ganesha-motif" viewBox="0 0 100 120" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M50 5 C30 5, 20 25, 20 40 C20 55, 30 65, 35 75 C38 81, 35 88, 25 85 C20 83.5, 15 78, 18 72" stroke="#ffd166" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
         <path d="M50 5 C70 5, 80 25, 80 40 C80 52, 72 60, 68 68" stroke="#ffd166" stroke-width="3.5" stroke-linecap="round"/>
@@ -598,39 +686,44 @@
       <div class="overlay"></div>
     </div>
 
+    <!-- Header Overlay -->
     <header class="top-bar">
       <div class="header-left">
         <div class="time-display" id="timeDisplay">--:-- --</div>
         <div class="online-indicator liquid-pill">
           <span class="green-dot"></span>
-          <span class="online-count" id="onlineCount">Offline Mode Ready</span>
+          <span class="online-count" id="onlineCount">1 online</span>
         </div>
       </div>
 
       <div class="action-buttons">
+        <button class="pill-btn liquid-pill" id="themeBtn"><i class="fa-solid fa-palette"></i> Themes</button>
         <a href="https://open.spotify.com" target="_blank" rel="noopener" class="icon-btn" id="spotifyBtn" title="Spotify"><i class="fa-brands fa-spotify"></i></a>
         <a href="https://music.youtube.com" target="_blank" rel="noopener" class="icon-btn red" id="ytBtn" title="YouTube Music"><i class="fa-brands fa-youtube"></i></a>
-        <button class="pill-btn liquid-pill" id="playlistsBtn">Playlists (2)</button>
-        <button class="pill-btn liquid-pill" id="songsBtn">All Tracks (30)</button>
+        <button class="pill-btn liquid-pill" id="playlistsBtn">Playlists</button>
+        <button class="pill-btn liquid-pill" id="songsBtn">All Tracks</button>
       </div>
     </header>
 
+    <!-- Central Header Banner -->
     <main class="center-content">
       <div class="title-group">
         <h1 class="devanagari-title">गणपति उत्सव</h1>
-        <p class="subtitle">GANPATI RADIO • OFFLINE PLAYLIST</p>
+        <p class="subtitle">GANPATI RADIO • OPEN ALL HOURS</p>
       </div>
 
+      <!-- Interactive Devotional Actions Toolbar -->
       <div class="devotional-toolbar">
         <button class="dev-btn liquid-pill" id="flowerBtn"><i class="fa-solid fa-spa"></i> Pushpa Varsha</button>
+        <button class="dev-btn liquid-pill" id="bellBtn"><i class="fa-solid fa-bell"></i> Ring Bell</button>
       </div>
     </main>
 
+    <!-- Audio Player Floating Bar -->
     <footer class="player-wrapper">
       <div class="player-card">
         <div class="song-info">
-          <!-- Updated Album Art image -->
-          <img id="albumArt" src="images/ganpati-bg.jpg" alt="Album Art" class="album-art">
+          <img id="albumArt" src="https://images.unsplash.com/photo-1631541909061-71e349d1f203?q=80&w=400&auto=format&fit=crop" alt="Album Art" class="album-art">
           <div class="song-details">
             <h3 id="songTitle" class="song-title">Loading...</h3>
             <p id="artistName" class="artist-name">Ganpati Radio</p>
@@ -654,6 +747,7 @@
     </footer>
   </div>
 
+  <!-- Drawer Modal -->
   <div class="modal" id="songsModal">
     <div class="modal-content">
       <div class="modal-header">
@@ -670,46 +764,54 @@
   <audio id="audioPlayer" crossorigin="anonymous" playsinline></audio>
 
   <script>
-    // 30 Local Audio Tracks for Offline Support
+    const themes = [
+      { id: "theme-art", name: "Watercolor Art", img: "https://images.unsplash.com/photo-1631541909061-71e349d1f203?q=80&w=600&auto=format&fit=crop" },
+      { id: "theme-gold", name: "Traditional Gold", img: "https://images.unsplash.com/photo-1567157577867-05ccb1388e66?q=80&w=600&auto=format&fit=crop" },
+      { id: "theme-neon", name: "Neon Festive", img: "https://images.unsplash.com/photo-1609102026400-0e922f30b991?q=80&w=600&auto=format&fit=crop" },
+      { id: "theme-dark", name: "Divine Cyan", img: "https://images.unsplash.com/photo-1544717305-2782549b5136?q=80&w=600&auto=format&fit=crop" }
+    ];
+
+    const baseAudioCDN = "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-";
+    
     const songPlaylist = [
-      { id: 1, title: "1. Deva Shree Ganesha", artist: "Ajay Gogavale", src: "./audio/song1.mp3" },
-      { id: 2, title: "2. Maurya Re", artist: "Shankar Mahadevan", src: "./audio/song2.mp3" },
-      { id: 3, title: "3. Sadda Dil Vi Tu (Ga Ga Ga Ganpati)", artist: "Hard Kaur", src: "./audio/song3.mp3" },
-      { id: 4, title: "4. Aala Re Aala Ganesha", artist: "Wajid", src: "./audio/song4.mp3" },
-      { id: 5, title: "5. Bappa", artist: "Vishal Dadlani", src: "./audio/song5.mp3" },
-      { id: 6, title: "6. Gajanana", artist: "Sukhwinder Singh", src: "./audio/song6.mp3" },
-      { id: 7, title: "7. Suno Ganpati Bappa Morya", artist: "Amit Mishra", src: "./audio/song7.mp3" },
-      { id: 8, title: "8. Shree Ganeshay Dheemahi", artist: "Shankar Mahadevan", src: "./audio/song8.mp3" },
-      { id: 9, title: "9. Ganpati Bappa Morya", artist: "Suresh Wadkar", src: "./audio/song9.mp3" },
-      { id: 10, title: "10. Hey Ganaraya", artist: "Arijit Singh", src: "./audio/song10.mp3" },
-      { id: 11, title: "11. Vighnaharta", artist: "Ajay-Atul", src: "./audio/song11.mp3" },
-      { id: 12, title: "12. Jalwa", artist: "Sajid-Wajid", src: "./audio/song12.mp3" },
-      { id: 13, title: "13. Dhagala Lagli Kala", artist: "Mika Singh", src: "./audio/song13.mp3" },
-      { id: 14, title: "14. Sindoor Lal Chadhayo", artist: "Babbu Maan", src: "./audio/song14.mp3" },
-      { id: 15, title: "15. Shankar Ji Ka Beta", artist: "Traditional Devotional", src: "./audio/song15.mp3" },
-      { id: 16, title: "16. Ganesha Vandana", artist: "Lata Mangeshkar", src: "./audio/song16.mp3" },
-      { id: 17, title: "17. Ganpati Raya", artist: "Adarsh Shinde", src: "./audio/song17.mp3" },
-      { id: 18, title: "18. Tujhko Phir Se Pukare Parvat", artist: "Devotional Stream", src: "./audio/song18.mp3" },
-      { id: 19, title: "19. Aagman Song", artist: "Nashik Dhol Tasha", src: "./audio/song19.mp3" },
-      { id: 20, title: "20. Ganpati Aarti Beat Mix", artist: "DJ Remix Collection", src: "./audio/song20.mp3" },
-      { id: 21, title: "21. Ekdantaya Vakratundaya", artist: "Shankar Mahadevan", src: "./audio/song21.mp3" },
-      { id: 22, title: "22. Lambodara Bappa", artist: "Sadhana Sargam", src: "./audio/song22.mp3" },
-      { id: 23, title: "23. Visarjan Geet", artist: "Chorus", src: "./audio/song23.mp3" },
-      { id: 24, title: "24. Siddhivinayak Mantra", artist: "Anup Jalota", src: "./audio/song24.mp3" },
-      { id: 25, title: "25. Morya Morya", artist: "Ajay Gogavale", src: "./audio/song25.mp3" }
+      { id: 1, title: "1. Deva Shree Ganesha", artist: "Ajay Gogavale", src: `${baseAudioCDN}1.mp3` },
+      { id: 2, title: "2. Maurya Re", artist: "Shankar Mahadevan", src: `${baseAudioCDN}2.mp3` },
+      { id: 3, title: "3. Sadda Dil Vi Tu (Ga Ga Ga Ganpati)", artist: "Hard Kaur", src: `${baseAudioCDN}3.mp3` },
+      { id: 4, title: "4. Aala Re Aala Ganesha", artist: "Wajid", src: `${baseAudioCDN}4.mp3` },
+      { id: 5, title: "5. Bappa", artist: "Vishal Dadlani", src: `${baseAudioCDN}5.mp3` },
+      { id: 6, title: "6. Gajanana", artist: "Sukhwinder Singh", src: `${baseAudioCDN}6.mp3` },
+      { id: 7, title: "7. Suno Ganpati Bappa Morya", artist: "Amit Mishra", src: `${baseAudioCDN}7.mp3` },
+      { id: 8, title: "8. Shree Ganeshay Dheemahi", artist: "Shankar Mahadevan", src: `${baseAudioCDN}8.mp3` },
+      { id: 9, title: "9. Ganpati Bappa Morya", artist: "Suresh Wadkar", src: `${baseAudioCDN}9.mp3` },
+      { id: 10, title: "10. Hey Ganaraya", artist: "Arijit Singh", src: `${baseAudioCDN}10.mp3` },
+      { id: 11, title: "11. Vighnaharta", artist: "Ajay-Atul", src: `${baseAudioCDN}11.mp3` },
+      { id: 12, title: "12. Jalwa", artist: "Sajid-Wajid", src: `${baseAudioCDN}12.mp3` },
+      { id: 13, title: "13. Dhagala Lagli Kala", artist: "Mika Singh", src: `${baseAudioCDN}13.mp3` },
+      { id: 14, title: "14. Sindoor Lal Chadhayo", artist: "Babbu Maan", src: `${baseAudioCDN}14.mp3` },
+      { id: 15, title: "15. Shankar Ji Ka Beta", artist: "Traditional Devotional", src: `${baseAudioCDN}15.mp3` },
+      { id: 16, title: "16. Ganesha Vandana", artist: "Lata Mangeshkar", src: `${baseAudioCDN}16.mp3` },
+      { id: 17, title: "17. Ganpati Raya", artist: "Adarsh Shinde", src: `${baseAudioCDN}1.mp3` },
+      { id: 18, title: "18. Tujhko Phir Se Pukare Parvat", artist: "Devotional Stream", src: `${baseAudioCDN}2.mp3` },
+      { id: 19, title: "19. Aagman Song", artist: "Nashik Dhol Tasha", src: `${baseAudioCDN}3.mp3` },
+      { id: 20, title: "20. Ganpati Aarti Beat Mix", artist: "DJ Remix Collection", src: `${baseAudioCDN}4.mp3` },
+      { id: 21, title: "21. Ekdantaya Vakratundaya", artist: "Shankar Mahadevan", src: `${baseAudioCDN}5.mp3` },
+      { id: 22, title: "22. Lambodara Bappa", artist: "Sadhana Sargam", src: `${baseAudioCDN}6.mp3` },
+      { id: 23, title: "23. Visarjan Geet", artist: "Chorus", src: `${baseAudioCDN}7.mp3` },
+      { id: 24, title: "24. Siddhivinayak Mantra", artist: "Anup Jalota", src: `${baseAudioCDN}8.mp3` },
+      { id: 25, title: "25. Morya Morya", artist: "Ajay Gogavale", src: `${baseAudioCDN}9.mp3` }
     ];
 
     const aartiList = [
-      { id: 101, title: "26. Sukhkarta Dukhharta Aarti", artist: "Sadhana Sargam", src: "./audio/song26.mp3" },
-      { id: 102, title: "27. Shendur Lal Chadhayo Aarti", artist: "Ravindra Sathe", src: "./audio/song27.mp3" },
-      { id: 103, title: "28. Jai Ganesh Deva Aarti", artist: "Anuradha Paudwal", src: "./audio/song28.mp3" },
-      { id: 104, title: "29. Ghalin Lotangan Aarti", artist: "Traditional Temple Chants", src: "./audio/song29.mp3" },
-      { id: 105, title: "30. Ganesh Stotram", artist: "Traditional Chants", src: "./audio/song30.mp3" }
+      { id: 101, title: "1. Sukhkarta Dukhharta Aarti", artist: "Sadhana Sargam", src: `${baseAudioCDN}1.mp3` },
+      { id: 102, title: "2. Shendur Lal Chadhayo Aarti", artist: "Ravindra Sathe", src: `${baseAudioCDN}2.mp3` },
+      { id: 103, title: "3. Jai Ganesh Deva Aarti", artist: "Anuradha Paudwal", src: `${baseAudioCDN}3.mp3` },
+      { id: 104, title: "4. Ghalin Lotangan Aarti", artist: "Traditional Temple Chants", src: `${baseAudioCDN}4.mp3` }
     ];
 
     const fullPlaylist = [...songPlaylist, ...aartiList];
     let currentTrackIndex = 0;
 
+    // DOM Elements
     const audio = document.getElementById("audioPlayer");
     const playPauseBtn = document.getElementById("playPauseBtn");
     const playIcon = document.getElementById("playIcon");
@@ -729,39 +831,36 @@
     const modalTitle = document.getElementById("modalTitle");
     const songsBtn = document.getElementById("songsBtn");
     const playlistsBtn = document.getElementById("playlistsBtn");
+    const themeBtn = document.getElementById("themeBtn");
     const modalBodyContainer = document.getElementById("modalBodyContainer");
 
-    // Automatic Offline Caching via Service Worker
-    if ('serviceWorker' in navigator) {
-      const swCode = `
-        const CACHE_NAME = 'ganpati-radio-offline-v1';
-        const urlsToCache = [
-          './',
-          'images/ganpati-bg.jpg',
-          '${fullPlaylist.map(track => track.src).join("','")}'
-        ];
+    // Real-Time Visitor Counter Sync via Firebase
+    const firebaseConfig = { databaseURL: "https://ganpati-live-default-rtdb.firebaseio.com" };
+    try {
+      if (typeof firebase !== 'undefined' && firebase.initializeApp) {
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+        const connectedRef = db.ref(".info/connected");
+        const presenceRef = db.ref("live_presence");
 
-        self.addEventListener('install', event => {
-          event.waitUntil(
-            caches.open(CACHE_NAME).then(cache => cache.addAll(urlsToCache))
-          );
+        connectedRef.on("value", (snap) => {
+          if (snap.val() === true) {
+            const con = presenceRef.push();
+            con.onDisconnect().remove();
+            con.set(true);
+          }
         });
 
-        self.addEventListener('fetch', event => {
-          event.respondWith(
-            caches.match(event.request).then(response => response || fetch(event.request))
-          );
+        presenceRef.on("value", (snap) => {
+          const count = snap.numChildren();
+          onlineCountEl.textContent = `${Math.max(1, count)} online`;
         });
-      `;
-      
-      const blob = new Blob([swCode], { type: 'application/javascript' });
-      const workerUrl = URL.createObjectURL(blob);
-      
-      navigator.serviceWorker.register(workerUrl).then(() => {
-        console.log('Offline audio cache active');
-      }).catch(err => console.warn('SW register fail:', err));
+      }
+    } catch(e) {
+      onlineCountEl.textContent = "1 online";
     }
 
+    // Web Audio API Setup
     let audioCtx, analyser, dataArray, source;
 
     function initAudioContext() {
@@ -774,14 +873,12 @@
         analyser.fftSize = 128;
         
         try {
-          if (!source) {
-            source = audioCtx.createMediaElementSource(audio);
-            source.connect(analyser);
-            analyser.connect(audioCtx.destination);
-          }
+          source = audioCtx.createMediaElementSource(audio);
+          source.connect(analyser);
+          analyser.connect(audioCtx.destination);
           dataArray = new Uint8Array(analyser.frequencyBinCount);
         } catch (e) {
-          console.warn("Audio Context setup issue:", e);
+          console.warn("Audio Context creation/connection failed:", e);
         }
       }
     }
@@ -820,7 +917,7 @@
           playIcon.className = "fa-solid fa-pause";
           albumArt.classList.add("playing");
         }).catch((e) => {
-          console.error("Playback interrupted:", e);
+          console.error("Playback prevented:", e);
           playIcon.className = "fa-solid fa-play";
           albumArt.classList.remove("playing");
         });
@@ -880,6 +977,7 @@
       return `${mins}:${secs < 10 ? "0" : ""}${secs}`;
     }
 
+    // Audio Visualizer Canvas Setup
     const visCanvas = document.getElementById("visualizerCanvas");
     const visCtx = visCanvas.getContext("2d");
     const particleCanvas = document.getElementById("particleCanvas");
@@ -929,6 +1027,7 @@
       }
     }
 
+    // Realistic Petal Particle Engine
     let particles = [];
     const petalColors = [
       { fill: '#e60033', shade: '#990022' },
@@ -1030,6 +1129,41 @@
 
     document.getElementById("flowerBtn").addEventListener("click", triggerFlowerShower);
 
+    function playBellSound() {
+      try {
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        const bellCtx = new AudioCtx();
+        if (bellCtx.state === 'suspended') {
+          bellCtx.resume();
+        }
+        const osc = bellCtx.createOscillator();
+        const gain = bellCtx.createGain();
+
+        osc.type = "sine";
+        osc.frequency.setValueAtTime(1200, bellCtx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(400, bellCtx.currentTime + 1.2);
+
+        gain.gain.setValueAtTime(0.6, bellCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, bellCtx.currentTime + 1.2);
+
+        osc.connect(gain);
+        gain.connect(bellCtx.destination);
+
+        osc.start();
+        osc.stop(bellCtx.currentTime + 1.2);
+      } catch (e) {
+        console.warn("Audio Context trigger blocked:", e);
+      }
+    }
+
+    document.getElementById("bellBtn").addEventListener("click", playBellSound);
+
+    // Modal Actions: Theme Selector & Playlist Views
+    themeBtn.addEventListener("click", () => {
+      openModal();
+      renderThemeView();
+    });
+
     playlistsBtn.addEventListener("click", () => {
       openModal();
       renderPlaylistsView();
@@ -1052,8 +1186,29 @@
       songsModal.style.display = "none";
     }
 
+    // View: Wallpaper Themes
+    function renderThemeView() {
+      modalTitle.textContent = "Select Wallpaper Theme";
+      backBtn.style.display = "none";
+      modalBodyContainer.innerHTML = `<div class="theme-grid"></div>`;
+      const grid = modalBodyContainer.querySelector(".theme-grid");
+
+      themes.forEach(t => {
+        const card = document.createElement("div");
+        card.className = `theme-card ${document.body.classList.contains(t.id) ? 'active' : ''}`;
+        card.style.backgroundImage = `url('${t.img}')`;
+        card.innerHTML = `<span>${t.name}</span>`;
+        card.addEventListener("click", () => {
+          document.body.className = t.id;
+          closeModal();
+        });
+        grid.appendChild(card);
+      });
+    }
+
+    // View: Playlists Overview
     function renderPlaylistsView() {
-      modalTitle.textContent = "Playlists (2)";
+      modalTitle.textContent = "Playlists";
       backBtn.style.display = "none";
       modalBodyContainer.innerHTML = `
         <div class="playlist-card" id="playlistSongs">
@@ -1068,7 +1223,7 @@
           <div class="playlist-icon"><i class="fa-solid fa-om"></i></div>
           <div class="playlist-info">
             <h4>Ganpati Aartis</h4>
-            <p>5 Aartis • Sacred Chants</p>
+            <p>4 Aartis • Sacred Chants</p>
           </div>
         </div>
       `;
@@ -1082,6 +1237,7 @@
       });
     }
 
+    // View: Playlist Tracks
     function renderPlaylistTracks(title, trackList, globalOffset) {
       modalTitle.textContent = title;
       backBtn.style.display = "inline-block";
@@ -1093,8 +1249,9 @@
       });
     }
 
+    // View: All Tracks
     function renderAllTracksView() {
-      modalTitle.textContent = "All Tracks (30)";
+      modalTitle.textContent = "All Tracks";
       backBtn.style.display = "none";
       modalBodyContainer.innerHTML = "";
 
