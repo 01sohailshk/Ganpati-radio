@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>गणपति उत्सव | Ganpati Radio</title>
+  <title>गणपति उत्सव | Ganpati Radio (Offline Ready)</title>
 
   <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -38,7 +38,6 @@
       color: #ffffff;
     }
 
-    /* Layout Structure */
     .app-container {
       position: relative;
       width: 100%;
@@ -52,7 +51,6 @@
       padding-bottom: env(safe-area-inset-bottom);
     }
 
-    /* Canvas Overlays */
     #visualizerCanvas, #particleCanvas {
       position: absolute;
       top: 0;
@@ -65,7 +63,6 @@
     #visualizerCanvas { z-index: 2; opacity: 0.85; }
     #particleCanvas { z-index: 3; }
 
-    /* High-Quality Festive Background Layer */
     .background-container {
       position: absolute;
       top: 0;
@@ -74,7 +71,8 @@
       height: 100%;
       z-index: 1;
       overflow: hidden;
-      background-image: url('https://as1.ftcdn.net/v2/jpg/05/65/52/68/1000_F_565526838_0fV8R3r2299mU6L746vA2A9nZlJ48sO1.jpg');
+      /* Updated Background Image path. Replace with your local image path (e.g., 'images/ganpati-bg.jpg') if playing offline */
+      background-image: url('images/ganpati-bg.jpg');
       background-size: cover;
       background-position: center center;
       background-repeat: no-repeat;
@@ -82,21 +80,11 @@
     }
 
     @keyframes festivalPulse {
-      0% {
-        transform: scale(1);
-        filter: brightness(0.95) contrast(1.05);
-      }
-      50% {
-        transform: scale(1.03);
-        filter: brightness(1.05) contrast(1.1);
-      }
-      100% {
-        transform: scale(1);
-        filter: brightness(0.95) contrast(1.05);
-      }
+      0% { transform: scale(1); filter: brightness(0.95) contrast(1.05); }
+      50% { transform: scale(1.03); filter: brightness(1.05) contrast(1.1); }
+      100% { transform: scale(1); filter: brightness(0.95) contrast(1.05); }
     }
 
-    /* Central Glowing Lord Ganesha SVG Motif */
     .ganesha-motif {
       position: absolute;
       top: 45%;
@@ -115,7 +103,6 @@
       100% { transform: translate(-50%, -48%) scale(1.02); }
     }
 
-    /* Subtle Overlay for Readability */
     .overlay {
       position: absolute;
       top: 0;
@@ -125,7 +112,6 @@
       background: radial-gradient(circle at center, rgba(0,0,0,0.15) 0%, rgba(13, 2, 0, 0.75) 100%);
     }
 
-    /* Glass UI Pill */
     .liquid-pill {
       background: var(--liquid-bg);
       backdrop-filter: var(--card-blur);
@@ -135,7 +121,6 @@
       border-radius: 30px;
     }
 
-    /* Top Bar Header */
     .top-bar {
       position: relative;
       z-index: 10;
@@ -233,7 +218,6 @@
 
     .pill-btn:active { transform: scale(0.92); }
 
-    /* Central Content Section */
     .center-content {
       position: relative;
       z-index: 10;
@@ -250,9 +234,7 @@
       overflow-y: auto;
     }
 
-    .title-group {
-      pointer-events: none;
-    }
+    .title-group { pointer-events: none; }
 
     .devanagari-title {
       font-size: clamp(2.2rem, 8vw, 4.5rem);
@@ -274,7 +256,6 @@
       text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9);
     }
 
-    /* Devotional Toolbar */
     .devotional-toolbar {
       display: flex;
       gap: 10px;
@@ -297,7 +278,6 @@
       border-radius: 30px;
     }
 
-    /* Audio Player Floating Area */
     .player-wrapper {
       position: relative;
       z-index: 10;
@@ -435,7 +415,6 @@
       white-space: nowrap;
     }
 
-    /* Modal Drawer */
     .modal {
       display: none;
       position: fixed;
@@ -624,7 +603,7 @@
         <div class="time-display" id="timeDisplay">--:-- --</div>
         <div class="online-indicator liquid-pill">
           <span class="green-dot"></span>
-          <span class="online-count" id="onlineCount">1 online</span>
+          <span class="online-count" id="onlineCount">Offline Mode Ready</span>
         </div>
       </div>
 
@@ -632,14 +611,14 @@
         <a href="https://open.spotify.com" target="_blank" rel="noopener" class="icon-btn" id="spotifyBtn" title="Spotify"><i class="fa-brands fa-spotify"></i></a>
         <a href="https://music.youtube.com" target="_blank" rel="noopener" class="icon-btn red" id="ytBtn" title="YouTube Music"><i class="fa-brands fa-youtube"></i></a>
         <button class="pill-btn liquid-pill" id="playlistsBtn">Playlists (2)</button>
-        <button class="pill-btn liquid-pill" id="songsBtn">All Tracks</button>
+        <button class="pill-btn liquid-pill" id="songsBtn">All Tracks (30)</button>
       </div>
     </header>
 
     <main class="center-content">
       <div class="title-group">
         <h1 class="devanagari-title">गणपति उत्सव</h1>
-        <p class="subtitle">GANPATI RADIO • OPEN ALL HOURS</p>
+        <p class="subtitle">GANPATI RADIO • OFFLINE PLAYLIST</p>
       </div>
 
       <div class="devotional-toolbar">
@@ -650,7 +629,8 @@
     <footer class="player-wrapper">
       <div class="player-card">
         <div class="song-info">
-          <img id="albumArt" src="https://as1.ftcdn.net/v2/jpg/05/65/52/68/1000_F_565526838_0fV8R3r2299mU6L746vA2A9nZlJ48sO1.jpg" alt="Album Art" class="album-art">
+          <!-- Updated Album Art image -->
+          <img id="albumArt" src="images/ganpati-bg.jpg" alt="Album Art" class="album-art">
           <div class="song-details">
             <h3 id="songTitle" class="song-title">Loading...</h3>
             <p id="artistName" class="artist-name">Ganpati Radio</p>
@@ -690,41 +670,41 @@
   <audio id="audioPlayer" crossorigin="anonymous" playsinline></audio>
 
   <script>
-    const baseAudioCDN = "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-";
-    
+    // 30 Local Audio Tracks for Offline Support
     const songPlaylist = [
-      { id: 1, title: "1. Deva Shree Ganesha", artist: "Ajay Gogavale", src: `${baseAudioCDN}1.mp3` },
-      { id: 2, title: "2. Maurya Re", artist: "Shankar Mahadevan", src: `${baseAudioCDN}2.mp3` },
-      { id: 3, title: "3. Sadda Dil Vi Tu (Ga Ga Ga Ganpati)", artist: "Hard Kaur", src: `${baseAudioCDN}3.mp3` },
-      { id: 4, title: "4. Aala Re Aala Ganesha", artist: "Wajid", src: `${baseAudioCDN}4.mp3` },
-      { id: 5, title: "5. Bappa", artist: "Vishal Dadlani", src: `${baseAudioCDN}5.mp3` },
-      { id: 6, title: "6. Gajanana", artist: "Sukhwinder Singh", src: `${baseAudioCDN}6.mp3` },
-      { id: 7, title: "7. Suno Ganpati Bappa Morya", artist: "Amit Mishra", src: `${baseAudioCDN}7.mp3` },
-      { id: 8, title: "8. Shree Ganeshay Dheemahi", artist: "Shankar Mahadevan", src: `${baseAudioCDN}8.mp3` },
-      { id: 9, title: "9. Ganpati Bappa Morya", artist: "Suresh Wadkar", src: `${baseAudioCDN}9.mp3` },
-      { id: 10, title: "10. Hey Ganaraya", artist: "Arijit Singh", src: `${baseAudioCDN}10.mp3` },
-      { id: 11, title: "11. Vighnaharta", artist: "Ajay-Atul", src: `${baseAudioCDN}11.mp3` },
-      { id: 12, title: "12. Jalwa", artist: "Sajid-Wajid", src: `${baseAudioCDN}12.mp3` },
-      { id: 13, title: "13. Dhagala Lagli Kala", artist: "Mika Singh", src: `${baseAudioCDN}13.mp3` },
-      { id: 14, title: "14. Sindoor Lal Chadhayo", artist: "Babbu Maan", src: `${baseAudioCDN}14.mp3` },
-      { id: 15, title: "15. Shankar Ji Ka Beta", artist: "Traditional Devotional", src: `${baseAudioCDN}15.mp3` },
-      { id: 16, title: "16. Ganesha Vandana", artist: "Lata Mangeshkar", src: `${baseAudioCDN}16.mp3` },
-      { id: 17, title: "17. Ganpati Raya", artist: "Adarsh Shinde", src: `${baseAudioCDN}1.mp3` },
-      { id: 18, title: "18. Tujhko Phir Se Pukare Parvat", artist: "Devotional Stream", src: `${baseAudioCDN}2.mp3` },
-      { id: 19, title: "19. Aagman Song", artist: "Nashik Dhol Tasha", src: `${baseAudioCDN}3.mp3` },
-      { id: 20, title: "20. Ganpati Aarti Beat Mix", artist: "DJ Remix Collection", src: `${baseAudioCDN}4.mp3` },
-      { id: 21, title: "21. Ekdantaya Vakratundaya", artist: "Shankar Mahadevan", src: `${baseAudioCDN}5.mp3` },
-      { id: 22, title: "22. Lambodara Bappa", artist: "Sadhana Sargam", src: `${baseAudioCDN}6.mp3` },
-      { id: 23, title: "23. Visarjan Geet", artist: "Chorus", src: `${baseAudioCDN}7.mp3` },
-      { id: 24, title: "24. Siddhivinayak Mantra", artist: "Anup Jalota", src: `${baseAudioCDN}8.mp3` },
-      { id: 25, title: "25. Morya Morya", artist: "Ajay Gogavale", src: `${baseAudioCDN}9.mp3` }
+      { id: 1, title: "1. Deva Shree Ganesha", artist: "Ajay Gogavale", src: "./audio/song1.mp3" },
+      { id: 2, title: "2. Maurya Re", artist: "Shankar Mahadevan", src: "./audio/song2.mp3" },
+      { id: 3, title: "3. Sadda Dil Vi Tu (Ga Ga Ga Ganpati)", artist: "Hard Kaur", src: "./audio/song3.mp3" },
+      { id: 4, title: "4. Aala Re Aala Ganesha", artist: "Wajid", src: "./audio/song4.mp3" },
+      { id: 5, title: "5. Bappa", artist: "Vishal Dadlani", src: "./audio/song5.mp3" },
+      { id: 6, title: "6. Gajanana", artist: "Sukhwinder Singh", src: "./audio/song6.mp3" },
+      { id: 7, title: "7. Suno Ganpati Bappa Morya", artist: "Amit Mishra", src: "./audio/song7.mp3" },
+      { id: 8, title: "8. Shree Ganeshay Dheemahi", artist: "Shankar Mahadevan", src: "./audio/song8.mp3" },
+      { id: 9, title: "9. Ganpati Bappa Morya", artist: "Suresh Wadkar", src: "./audio/song9.mp3" },
+      { id: 10, title: "10. Hey Ganaraya", artist: "Arijit Singh", src: "./audio/song10.mp3" },
+      { id: 11, title: "11. Vighnaharta", artist: "Ajay-Atul", src: "./audio/song11.mp3" },
+      { id: 12, title: "12. Jalwa", artist: "Sajid-Wajid", src: "./audio/song12.mp3" },
+      { id: 13, title: "13. Dhagala Lagli Kala", artist: "Mika Singh", src: "./audio/song13.mp3" },
+      { id: 14, title: "14. Sindoor Lal Chadhayo", artist: "Babbu Maan", src: "./audio/song14.mp3" },
+      { id: 15, title: "15. Shankar Ji Ka Beta", artist: "Traditional Devotional", src: "./audio/song15.mp3" },
+      { id: 16, title: "16. Ganesha Vandana", artist: "Lata Mangeshkar", src: "./audio/song16.mp3" },
+      { id: 17, title: "17. Ganpati Raya", artist: "Adarsh Shinde", src: "./audio/song17.mp3" },
+      { id: 18, title: "18. Tujhko Phir Se Pukare Parvat", artist: "Devotional Stream", src: "./audio/song18.mp3" },
+      { id: 19, title: "19. Aagman Song", artist: "Nashik Dhol Tasha", src: "./audio/song19.mp3" },
+      { id: 20, title: "20. Ganpati Aarti Beat Mix", artist: "DJ Remix Collection", src: "./audio/song20.mp3" },
+      { id: 21, title: "21. Ekdantaya Vakratundaya", artist: "Shankar Mahadevan", src: "./audio/song21.mp3" },
+      { id: 22, title: "22. Lambodara Bappa", artist: "Sadhana Sargam", src: "./audio/song22.mp3" },
+      { id: 23, title: "23. Visarjan Geet", artist: "Chorus", src: "./audio/song23.mp3" },
+      { id: 24, title: "24. Siddhivinayak Mantra", artist: "Anup Jalota", src: "./audio/song24.mp3" },
+      { id: 25, title: "25. Morya Morya", artist: "Ajay Gogavale", src: "./audio/song25.mp3" }
     ];
 
     const aartiList = [
-      { id: 101, title: "1. Sukhkarta Dukhharta Aarti", artist: "Sadhana Sargam", src: `${baseAudioCDN}1.mp3` },
-      { id: 102, title: "2. Shendur Lal Chadhayo Aarti", artist: "Ravindra Sathe", src: `${baseAudioCDN}2.mp3` },
-      { id: 103, title: "3. Jai Ganesh Deva Aarti", artist: "Anuradha Paudwal", src: `${baseAudioCDN}3.mp3` },
-      { id: 104, title: "4. Ghalin Lotangan Aarti", artist: "Traditional Temple Chants", src: `${baseAudioCDN}4.mp3` }
+      { id: 101, title: "26. Sukhkarta Dukhharta Aarti", artist: "Sadhana Sargam", src: "./audio/song26.mp3" },
+      { id: 102, title: "27. Shendur Lal Chadhayo Aarti", artist: "Ravindra Sathe", src: "./audio/song27.mp3" },
+      { id: 103, title: "28. Jai Ganesh Deva Aarti", artist: "Anuradha Paudwal", src: "./audio/song28.mp3" },
+      { id: 104, title: "29. Ghalin Lotangan Aarti", artist: "Traditional Temple Chants", src: "./audio/song29.mp3" },
+      { id: 105, title: "30. Ganesh Stotram", artist: "Traditional Chants", src: "./audio/song30.mp3" }
     ];
 
     const fullPlaylist = [...songPlaylist, ...aartiList];
@@ -751,29 +731,35 @@
     const playlistsBtn = document.getElementById("playlistsBtn");
     const modalBodyContainer = document.getElementById("modalBodyContainer");
 
-    const firebaseConfig = { databaseURL: "https://ganpati-live-default-rtdb.firebaseio.com" };
-    try {
-      if (typeof firebase !== 'undefined' && firebase.initializeApp) {
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.database();
-        const connectedRef = db.ref(".info/connected");
-        const presenceRef = db.ref("live_presence");
+    // Automatic Offline Caching via Service Worker
+    if ('serviceWorker' in navigator) {
+      const swCode = `
+        const CACHE_NAME = 'ganpati-radio-offline-v1';
+        const urlsToCache = [
+          './',
+          'images/ganpati-bg.jpg',
+          '${fullPlaylist.map(track => track.src).join("','")}'
+        ];
 
-        connectedRef.on("value", (snap) => {
-          if (snap.val() === true) {
-            const con = presenceRef.push();
-            con.onDisconnect().remove();
-            con.set(true);
-          }
+        self.addEventListener('install', event => {
+          event.waitUntil(
+            caches.open(CACHE_NAME).then(cache => cache.addAll(urlsToCache))
+          );
         });
 
-        presenceRef.on("value", (snap) => {
-          const count = snap.numChildren();
-          onlineCountEl.textContent = `${Math.max(1, count)} online`;
+        self.addEventListener('fetch', event => {
+          event.respondWith(
+            caches.match(event.request).then(response => response || fetch(event.request))
+          );
         });
-      }
-    } catch(e) {
-      onlineCountEl.textContent = "1 online";
+      `;
+      
+      const blob = new Blob([swCode], { type: 'application/javascript' });
+      const workerUrl = URL.createObjectURL(blob);
+      
+      navigator.serviceWorker.register(workerUrl).then(() => {
+        console.log('Offline audio cache active');
+      }).catch(err => console.warn('SW register fail:', err));
     }
 
     let audioCtx, analyser, dataArray, source;
@@ -1082,7 +1068,7 @@
           <div class="playlist-icon"><i class="fa-solid fa-om"></i></div>
           <div class="playlist-info">
             <h4>Ganpati Aartis</h4>
-            <p>4 Aartis • Sacred Chants</p>
+            <p>5 Aartis • Sacred Chants</p>
           </div>
         </div>
       `;
@@ -1108,7 +1094,7 @@
     }
 
     function renderAllTracksView() {
-      modalTitle.textContent = "All Tracks";
+      modalTitle.textContent = "All Tracks (30)";
       backBtn.style.display = "none";
       modalBodyContainer.innerHTML = "";
 
