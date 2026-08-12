@@ -510,7 +510,7 @@
       color: rgba(255,255,255,0.6);
     }
 
-    /* Small Mobile Optimizations */
+    /* Mobile Responsive Optimizations */
     @media (max-width: 480px) {
       .top-bar {
         padding: 10px 12px;
@@ -631,42 +631,21 @@
   <audio id="audioPlayer" crossorigin="anonymous"></audio>
 
   <script>
-    // Audio Stream Fallbacks to guarantee cross-origin functional playback
-    const sampleAudio = "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3";
-
-    const songPlaylist = [
-      { id: 1, title: "1. Sukhkarta Dukhharta", artist: "Lata Mangeshkar • Traditional", src: sampleAudio },
-      { id: 2, title: "2. Deva Shree Ganesha", artist: "Ajay Gogavale • Agneepath", src: sampleAudio },
-      { id: 3, title: "3. Shendur Lal Chadhayo", artist: "Ravindra Sathe • Vaastav", src: sampleAudio },
-      { id: 4, title: "4. Morya Re", artist: "Shankar Mahadevan • Don", src: sampleAudio },
-      { id: 5, title: "5. Gajanana", artist: "Sukhwinder Singh • Bajirao Mastani", src: sampleAudio },
-      { id: 6, title: "6. Ganpati Ki Seva Mangal Meva", artist: "Anup Jalota • Devotional", src: sampleAudio },
-      { id: 7, title: "7. Mourya Re Mourya", artist: "Lata Mangeshkar • Classic", src: sampleAudio },
-      { id: 8, title: "8. Shree Siddhivinayak Mantra", artist: "Sanjeev Abhyankar", src: sampleAudio },
-      { id: 9, title: "9. Sadda Dil Vi Tu", artist: "Hard Kaur • ABCD", src: sampleAudio },
-      { id: 10, title: "10. Ganpati Bappa Morya", artist: "Vishal Dadlani", src: sampleAudio },
-      { id: 11, title: "11. Jai Ganesh Deva", artist: "Anuradha Paudwal", src: sampleAudio },
-      { id: 12, title: "12. Aala Re Aala Ganesha", artist: "Daler Mehndi • Daddy", src: sampleAudio },
-      { id: 13, title: "13. Vakratunda Mahakaya", artist: "Shankar Mahadevan", src: sampleAudio },
-      { id: 14, title: "14. Bappa Morya Re", artist: "Ajay-Atul • Marathi Classic", src: sampleAudio },
-      { id: 15, title: "15. Hey Ganaraya", artist: "Arijit Singh • ABCD 2", src: sampleAudio },
-      { id: 16, title: "16. Ganesh Chalisa", artist: "Suresh Wadkar", src: sampleAudio },
-      { id: 17, title: "17. Ganpati Aagman Sohala", artist: "Traditional Dhol Tasha", src: sampleAudio },
-      { id: 18, title: "18. Suno Ganpati Bappa Morya", artist: "Amit Mishra • Judwaa 2", src: sampleAudio },
-      { id: 19, title: "19. Prathama Tula Vandito", artist: "Vasantrao Deshpande", src: sampleAudio },
-      { id: 20, title: "20. Ganraj Rangi Nachato", artist: "Lata Mangeshkar", src: sampleAudio },
-      { id: 21, title: "21. Tujhmagato Baba", artist: "Suresh Wadkar", src: sampleAudio },
-      { id: 22, title: "22. Om Gan Ganapataye Namaha", artist: "Deva Premal", src: sampleAudio },
-      { id: 23, title: "23. Ganesha Ashtakam", artist: "Traditional Stotram", src: sampleAudio },
-      { id: 24, title: "24. Sindhoor Lal Chadhayo (Song)", artist: "Hariharan", src: sampleAudio },
-      { id: 25, title: "25. Visarjan Geet - Lalbaugcha Raja", artist: "Festival Special Dhol", src: sampleAudio }
-    ];
+    // Audio Tracks Divided into 25 Songs + Ganpati Aartis (Reliable Streams)
+    const baseAudioCDN = "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-";
+    
+    const songPlaylist = Array.from({ length: 25 }, (_, i) => ({
+      id: i + 1,
+      title: `${i + 1}. Ganpati Special Devotional Track ${i + 1}`,
+      artist: "Devotional Stream • Ganesh Utsav",
+      src: `${baseAudioCDN}${(i % 16) + 1}.mp3`
+    }));
 
     const aartiList = [
-      { id: 101, title: "Aarti 1. Sukhkarta Dukhharta Full Aarti", artist: "Sadhana Sargam", src: sampleAudio },
-      { id: 102, title: "Aarti 2. Shendur Lal Chadhayo Full Aarti", artist: "Ravindra Sathe", src: sampleAudio },
-      { id: 103, title: "Aarti 3. Jai Ganesh Deva Aarti", artist: "Anuradha Paudwal", src: sampleAudio },
-      { id: 104, title: "Aarti 4. Ghalin Lotangan", artist: "Traditional Temple Chants", src: sampleAudio }
+      { id: 101, title: "Aarti 1. Sukhkarta Dukhharta Full Aarti", artist: "Sadhana Sargam", src: `${baseAudioCDN}1.mp3` },
+      { id: 102, title: "Aarti 2. Shendur Lal Chadhayo Full Aarti", artist: "Ravindra Sathe", src: `${baseAudioCDN}2.mp3` },
+      { id: 103, title: "Aarti 3. Jai Ganesh Deva Aarti", artist: "Anuradha Paudwal", src: `${baseAudioCDN}3.mp3` },
+      { id: 104, title: "Aarti 4. Ghalin Lotangan", artist: "Traditional Temple Chants", src: `${baseAudioCDN}4.mp3` }
     ];
 
     const fullPlaylist = [...songPlaylist, ...aartiList];
@@ -692,7 +671,7 @@
     const playlistsBtn = document.getElementById("playlistsBtn");
     const songListContainer = document.getElementById("songListContainer");
 
-    // Real-Time Visitor Counter Sync Safe Fallback
+    // Real-Time Visitor Counter Sync via Firebase
     const firebaseConfig = { databaseURL: "https://ganpati-live-default-rtdb.firebaseio.com" };
     try {
       if (typeof firebase !== 'undefined' && firebase.initializeApp) {
@@ -793,6 +772,7 @@
 
     playPauseBtn.addEventListener("click", togglePlay);
 
+    // Auto play next track when current ends
     audio.addEventListener("ended", () => {
       currentTrackIndex = (currentTrackIndex + 1) % fullPlaylist.length;
       loadTrack(currentTrackIndex);
@@ -868,7 +848,7 @@
       }
     }
 
-    // Flower Shower (Pushpa Varsha)
+    // Flower Shower (Pushpa Varsha) Particles
     let particles = [];
 
     class Petal {
@@ -923,56 +903,54 @@
 
     document.getElementById("flowerBtn").addEventListener("click", triggerFlowerShower);
 
-    // Synthesized Devotional Sounds (Reusing Context)
+    // Synthesized Devotional Sounds (Aarti Bell & Shankh)
     function playBellSound() {
       try {
-        initAudioContext();
-        if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
-        
-        const osc = audioCtx.createOscillator();
-        const gain = audioCtx.createGain();
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        const bellCtx = new AudioCtx();
+        const osc = bellCtx.createOscillator();
+        const gain = bellCtx.createGain();
 
         osc.type = "sine";
-        osc.frequency.setValueAtTime(1200, audioCtx.currentTime);
-        osc.frequency.exponentialRampToValueAtTime(400, audioCtx.currentTime + 1.2);
+        osc.frequency.setValueAtTime(1200, bellCtx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(400, bellCtx.currentTime + 1.2);
 
-        gain.gain.setValueAtTime(0.6, audioCtx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 1.2);
+        gain.gain.setValueAtTime(0.6, bellCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, bellCtx.currentTime + 1.2);
 
         osc.connect(gain);
-        gain.connect(audioCtx.destination);
+        gain.connect(bellCtx.destination);
 
         osc.start();
-        osc.stop(audioCtx.currentTime + 1.2);
+        osc.stop(bellCtx.currentTime + 1.2);
       } catch (e) {
-        console.warn("Audio error:", e);
+        console.warn("Audio Context trigger blocked:", e);
       }
     }
 
     function playShankhSound() {
       try {
-        initAudioContext();
-        if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
-
-        const osc = audioCtx.createOscillator();
-        const gain = audioCtx.createGain();
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        const shankhCtx = new AudioCtx();
+        const osc = shankhCtx.createOscillator();
+        const gain = shankhCtx.createGain();
 
         osc.type = "sawtooth";
-        osc.frequency.setValueAtTime(220, audioCtx.currentTime);
-        osc.frequency.linearRampToValueAtTime(440, audioCtx.currentTime + 1.5);
-        osc.frequency.linearRampToValueAtTime(330, audioCtx.currentTime + 3.0);
+        osc.frequency.setValueAtTime(220, shankhCtx.currentTime);
+        osc.frequency.linearRampToValueAtTime(440, shankhCtx.currentTime + 1.5);
+        osc.frequency.linearRampToValueAtTime(330, shankhCtx.currentTime + 3.0);
 
-        gain.gain.setValueAtTime(0.01, audioCtx.currentTime);
-        gain.gain.linearRampToValueAtTime(0.4, audioCtx.currentTime + 0.5);
-        gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 3.0);
+        gain.gain.setValueAtTime(0.01, shankhCtx.currentTime);
+        gain.gain.linearRampToValueAtTime(0.4, shankhCtx.currentTime + 0.5);
+        gain.gain.exponentialRampToValueAtTime(0.01, shankhCtx.currentTime + 3.0);
 
         osc.connect(gain);
-        gain.connect(audioCtx.destination);
+        gain.connect(shankhCtx.destination);
 
         osc.start();
-        osc.stop(audioCtx.currentTime + 3.0);
+        osc.stop(shankhCtx.currentTime + 3.0);
       } catch (e) {
-        console.warn("Audio error:", e);
+        console.warn("Audio Context trigger blocked:", e);
       }
     }
 
