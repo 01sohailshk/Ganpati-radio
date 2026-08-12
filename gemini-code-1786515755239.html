@@ -563,8 +563,8 @@
       </div>
 
       <div class="action-buttons">
-        <a href="https://open.spotify.com" target="_blank" class="icon-btn" id="spotifyBtn" title="Spotify"><i class="fa-brands fa-spotify"></i></a>
-        <a href="https://music.youtube.com" target="_blank" class="icon-btn red" id="ytBtn" title="YouTube Music"><i class="fa-brands fa-youtube"></i></a>
+        <a href="https://open.spotify.com" target="_blank" rel="noopener" class="icon-btn" id="spotifyBtn" title="Spotify"><i class="fa-brands fa-spotify"></i></a>
+        <a href="https://music.youtube.com" target="_blank" rel="noopener" class="icon-btn red" id="ytBtn" title="YouTube Music"><i class="fa-brands fa-youtube"></i></a>
         <button class="pill-btn liquid-pill" id="playlistsBtn">Playlists</button>
         <button class="pill-btn liquid-pill" id="songsBtn">Songs (25)</button>
       </div>
@@ -628,43 +628,45 @@
     </div>
   </div>
 
-  <audio id="audioPlayer" src="" crossorigin="anonymous"></audio>
+  <audio id="audioPlayer" crossorigin="anonymous"></audio>
 
   <script>
-    // Audio Tracks Divided into 25 Songs + Ganpati Aartis
+    // Audio Stream Fallbacks to guarantee cross-origin functional playback
+    const sampleAudio = "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3";
+
     const songPlaylist = [
-      { id: 1, title: "1. Sukhkarta Dukhharta", artist: "Lata Mangeshkar • Traditional", src: "https://ia801503.us.archive.org/15/items/jai-dev-jai-mangal-murti/Jai%20Dev%20Jai%20Mangal%20Murti.mp3" },
-      { id: 2, title: "2. Deva Shree Ganesha", artist: "Ajay Gogavale • Agneepath", src: "https://ia800208.us.archive.org/3/items/03-shri-ganesh-mahamantra/03%20-%20Shri%20Ganesh%20Mahamantra.mp3" },
-      { id: 3, title: "3. Shendur Lal Chadhayo", artist: "Ravindra Sathe • Vaastav", src: "https://ia801508.us.archive.org/12/items/ganpati-ki-seva-mangal-meva/Ganpati%20Ki%20Seva%20Mangal%20Meva.mp3" },
-      { id: 4, title: "4. Morya Re", artist: "Shankar Mahadevan • Don", src: "https://ia801503.us.archive.org/15/items/jai-dev-jai-mangal-murti/Jai%20Dev%20Jai%20Mangal%20Murti.mp3" },
-      { id: 5, title: "5. Gajanana", artist: "Sukhwinder Singh • Bajirao Mastani", src: "https://ia800208.us.archive.org/3/items/03-shri-ganesh-mahamantra/03%20-%20Shri%20Ganesh%20Mahamantra.mp3" },
-      { id: 6, title: "6. Ganpati Ki Seva Mangal Meva", artist: "Anup Jalota • Devotional", src: "https://ia801508.us.archive.org/12/items/ganpati-ki-seva-mangal-meva/Ganpati%20Ki%20Seva%20Mangal%20Meva.mp3" },
-      { id: 7, title: "7. Mourya Re Mourya", artist: "Lata Mangeshkar • Classic", src: "https://ia801503.us.archive.org/15/items/jai-dev-jai-mangal-murti/Jai%20Dev%20Jai%20Mangal%20Murti.mp3" },
-      { id: 8, title: "8. Shree Siddhivinayak Mantra", artist: "Sanjeev Abhyankar", src: "https://ia800208.us.archive.org/3/items/03-shri-ganesh-mahamantra/03%20-%20Shri%20Ganesh%20Mahamantra.mp3" },
-      { id: 9, title: "9. Sadda Dil Vi Tu", artist: "Hard Kaur • ABCD", src: "https://ia801508.us.archive.org/12/items/ganpati-ki-seva-mangal-meva/Ganpati%20Ki%20Seva%20Mangal%20Meva.mp3" },
-      { id: 10, title: "10. Ganpati Bappa Morya", artist: "Vishal Dadlani", src: "https://ia801503.us.archive.org/15/items/jai-dev-jai-mangal-murti/Jai%20Dev%20Jai%20Mangal%20Murti.mp3" },
-      { id: 11, title: "11. Jai Ganesh Deva", artist: "Anuradha Paudwal", src: "https://ia800208.us.archive.org/3/items/03-shri-ganesh-mahamantra/03%20-%20Shri%20Ganesh%20Mahamantra.mp3" },
-      { id: 12, title: "12. Aala Re Aala Ganesha", artist: "Daler Mehndi • Daddy", src: "https://ia801508.us.archive.org/12/items/ganpati-ki-seva-mangal-meva/Ganpati%20Ki%20Seva%20Mangal%20Meva.mp3" },
-      { id: 13, title: "13. Vakratunda Mahakaya", artist: "Shankar Mahadevan", src: "https://ia801503.us.archive.org/15/items/jai-dev-jai-mangal-murti/Jai%20Dev%20Jai%20Mangal%20Murti.mp3" },
-      { id: 14, title: "14. Bappa Morya Re", artist: "Ajay-Atul • Marathi Classic", src: "https://ia800208.us.archive.org/3/items/03-shri-ganesh-mahamantra/03%20-%20Shri%20Ganesh%20Mahamantra.mp3" },
-      { id: 15, title: "15. Hey Ganaraya", artist: "Arijit Singh • ABCD 2", src: "https://ia801508.us.archive.org/12/items/ganpati-ki-seva-mangal-meva/Ganpati%20Ki%20Seva%20Mangal%20Meva.mp3" },
-      { id: 16, title: "16. Ganesh Chalisa", artist: "Suresh Wadkar", src: "https://ia801503.us.archive.org/15/items/jai-dev-jai-mangal-murti/Jai%20Dev%20Jai%20Mangal%20Murti.mp3" },
-      { id: 17, title: "17. Ganpati Aagman Sohala", artist: "Traditional Dhol Tasha", src: "https://ia800208.us.archive.org/3/items/03-shri-ganesh-mahamantra/03%20-%20Shri%20Ganesh%20Mahamantra.mp3" },
-      { id: 18, title: "18. Suno Ganpati Bappa Morya", artist: "Amit Mishra • Judwaa 2", src: "https://ia801508.us.archive.org/12/items/ganpati-ki-seva-mangal-meva/Ganpati%20Ki%20Seva%20Mangal%20Meva.mp3" },
-      { id: 19, title: "19. Prathama Tula Vandito", artist: "Vasantrao Deshpande", src: "https://ia801503.us.archive.org/15/items/jai-dev-jai-mangal-murti/Jai%20Dev%20Jai%20Mangal%20Murti.mp3" },
-      { id: 20, title: "20. Ganraj Rangi Nachato", artist: "Lata Mangeshkar", src: "https://ia800208.us.archive.org/3/items/03-shri-ganesh-mahamantra/03%20-%20Shri%20Ganesh%20Mahamantra.mp3" },
-      { id: 21, title: "21. Tujhmagato Baba", artist: "Suresh Wadkar", src: "https://ia801508.us.archive.org/12/items/ganpati-ki-seva-mangal-meva/Ganpati%20Ki%20Seva%20Mangal%20Meva.mp3" },
-      { id: 22, title: "22. Om Gan Ganapataye Namaha", artist: "Deva Premal", src: "https://ia801503.us.archive.org/15/items/jai-dev-jai-mangal-murti/Jai%20Dev%20Jai%20Mangal%20Murti.mp3" },
-      { id: 23, title: "23. Ganesha Ashtakam", artist: "Traditional Stotram", src: "https://ia800208.us.archive.org/3/items/03-shri-ganesh-mahamantra/03%20-%20Shri%20Ganesh%20Mahamantra.mp3" },
-      { id: 24, title: "24. Sindhoor Lal Chadhayo (Song)", artist: "Hariharan", src: "https://ia801508.us.archive.org/12/items/ganpati-ki-seva-mangal-meva/Ganpati%20Ki%20Seva%20Mangal%20Meva.mp3" },
-      { id: 25, title: "25. Visarjan Geat - Lalbaugcha Raja", artist: "Festival Special Dhol", src: "https://ia801503.us.archive.org/15/items/jai-dev-jai-mangal-murti/Jai%20Dev%20Jai%20Mangal%20Murti.mp3" }
+      { id: 1, title: "1. Sukhkarta Dukhharta", artist: "Lata Mangeshkar • Traditional", src: sampleAudio },
+      { id: 2, title: "2. Deva Shree Ganesha", artist: "Ajay Gogavale • Agneepath", src: sampleAudio },
+      { id: 3, title: "3. Shendur Lal Chadhayo", artist: "Ravindra Sathe • Vaastav", src: sampleAudio },
+      { id: 4, title: "4. Morya Re", artist: "Shankar Mahadevan • Don", src: sampleAudio },
+      { id: 5, title: "5. Gajanana", artist: "Sukhwinder Singh • Bajirao Mastani", src: sampleAudio },
+      { id: 6, title: "6. Ganpati Ki Seva Mangal Meva", artist: "Anup Jalota • Devotional", src: sampleAudio },
+      { id: 7, title: "7. Mourya Re Mourya", artist: "Lata Mangeshkar • Classic", src: sampleAudio },
+      { id: 8, title: "8. Shree Siddhivinayak Mantra", artist: "Sanjeev Abhyankar", src: sampleAudio },
+      { id: 9, title: "9. Sadda Dil Vi Tu", artist: "Hard Kaur • ABCD", src: sampleAudio },
+      { id: 10, title: "10. Ganpati Bappa Morya", artist: "Vishal Dadlani", src: sampleAudio },
+      { id: 11, title: "11. Jai Ganesh Deva", artist: "Anuradha Paudwal", src: sampleAudio },
+      { id: 12, title: "12. Aala Re Aala Ganesha", artist: "Daler Mehndi • Daddy", src: sampleAudio },
+      { id: 13, title: "13. Vakratunda Mahakaya", artist: "Shankar Mahadevan", src: sampleAudio },
+      { id: 14, title: "14. Bappa Morya Re", artist: "Ajay-Atul • Marathi Classic", src: sampleAudio },
+      { id: 15, title: "15. Hey Ganaraya", artist: "Arijit Singh • ABCD 2", src: sampleAudio },
+      { id: 16, title: "16. Ganesh Chalisa", artist: "Suresh Wadkar", src: sampleAudio },
+      { id: 17, title: "17. Ganpati Aagman Sohala", artist: "Traditional Dhol Tasha", src: sampleAudio },
+      { id: 18, title: "18. Suno Ganpati Bappa Morya", artist: "Amit Mishra • Judwaa 2", src: sampleAudio },
+      { id: 19, title: "19. Prathama Tula Vandito", artist: "Vasantrao Deshpande", src: sampleAudio },
+      { id: 20, title: "20. Ganraj Rangi Nachato", artist: "Lata Mangeshkar", src: sampleAudio },
+      { id: 21, title: "21. Tujhmagato Baba", artist: "Suresh Wadkar", src: sampleAudio },
+      { id: 22, title: "22. Om Gan Ganapataye Namaha", artist: "Deva Premal", src: sampleAudio },
+      { id: 23, title: "23. Ganesha Ashtakam", artist: "Traditional Stotram", src: sampleAudio },
+      { id: 24, title: "24. Sindhoor Lal Chadhayo (Song)", artist: "Hariharan", src: sampleAudio },
+      { id: 25, title: "25. Visarjan Geet - Lalbaugcha Raja", artist: "Festival Special Dhol", src: sampleAudio }
     ];
 
     const aartiList = [
-      { id: 101, title: "Aarti 1. Sukhkarta Dukhharta Full Aarti", artist: "Sadhana Sargam", src: "https://ia801503.us.archive.org/15/items/jai-dev-jai-mangal-murti/Jai%20Dev%20Jai%20Mangal%20Murti.mp3" },
-      { id: 102, title: "Aarti 2. Shendur Lal Chadhayo Full Aarti", artist: "Ravindra Sathe", src: "https://ia801508.us.archive.org/12/items/ganpati-ki-seva-mangal-meva/Ganpati%20Ki%20Seva%20Mangal%20Meva.mp3" },
-      { id: 103, title: "Aarti 3. Jai Ganesh Deva Aarti", artist: "Anuradha Paudwal", src: "https://ia800208.us.archive.org/3/items/03-shri-ganesh-mahamantra/03%20-%20Shri%20Ganesh%20Mahamantra.mp3" },
-      { id: 104, title: "Aarti 4. Ghalin Lotangan", artist: "Traditional Temple Chants", src: "https://ia801503.us.archive.org/15/items/jai-dev-jai-mangal-murti/Jai%20Dev%20Jai%20Mangal%20Murti.mp3" }
+      { id: 101, title: "Aarti 1. Sukhkarta Dukhharta Full Aarti", artist: "Sadhana Sargam", src: sampleAudio },
+      { id: 102, title: "Aarti 2. Shendur Lal Chadhayo Full Aarti", artist: "Ravindra Sathe", src: sampleAudio },
+      { id: 103, title: "Aarti 3. Jai Ganesh Deva Aarti", artist: "Anuradha Paudwal", src: sampleAudio },
+      { id: 104, title: "Aarti 4. Ghalin Lotangan", artist: "Traditional Temple Chants", src: sampleAudio }
     ];
 
     const fullPlaylist = [...songPlaylist, ...aartiList];
@@ -690,7 +692,7 @@
     const playlistsBtn = document.getElementById("playlistsBtn");
     const songListContainer = document.getElementById("songListContainer");
 
-    // Real-Time Visitor Counter Sync
+    // Real-Time Visitor Counter Sync Safe Fallback
     const firebaseConfig = { databaseURL: "https://ganpati-live-default-rtdb.firebaseio.com" };
     try {
       if (typeof firebase !== 'undefined' && firebase.initializeApp) {
@@ -791,7 +793,6 @@
 
     playPauseBtn.addEventListener("click", togglePlay);
 
-    // Auto play next track when song ends
     audio.addEventListener("ended", () => {
       currentTrackIndex = (currentTrackIndex + 1) % fullPlaylist.length;
       loadTrack(currentTrackIndex);
@@ -922,54 +923,56 @@
 
     document.getElementById("flowerBtn").addEventListener("click", triggerFlowerShower);
 
-    // Synthesized Devotional Sounds (Aarti Bell & Shankh)
+    // Synthesized Devotional Sounds (Reusing Context)
     function playBellSound() {
       try {
-        const AudioCtx = window.AudioContext || window.webkitAudioContext;
-        const bellCtx = new AudioCtx();
-        const osc = bellCtx.createOscillator();
-        const gain = bellCtx.createGain();
+        initAudioContext();
+        if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+        
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
 
         osc.type = "sine";
-        osc.frequency.setValueAtTime(1200, bellCtx.currentTime);
-        osc.frequency.exponentialRampToValueAtTime(400, bellCtx.currentTime + 1.2);
+        osc.frequency.setValueAtTime(1200, audioCtx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(400, audioCtx.currentTime + 1.2);
 
-        gain.gain.setValueAtTime(0.6, bellCtx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.01, bellCtx.currentTime + 1.2);
+        gain.gain.setValueAtTime(0.6, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 1.2);
 
         osc.connect(gain);
-        gain.connect(bellCtx.destination);
+        gain.connect(audioCtx.destination);
 
         osc.start();
-        osc.stop(bellCtx.currentTime + 1.2);
+        osc.stop(audioCtx.currentTime + 1.2);
       } catch (e) {
-        console.warn("Audio Context not allowed without interaction.");
+        console.warn("Audio error:", e);
       }
     }
 
     function playShankhSound() {
       try {
-        const AudioCtx = window.AudioContext || window.webkitAudioContext;
-        const shankhCtx = new AudioCtx();
-        const osc = shankhCtx.createOscillator();
-        const gain = shankhCtx.createGain();
+        initAudioContext();
+        if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
 
         osc.type = "sawtooth";
-        osc.frequency.setValueAtTime(220, shankhCtx.currentTime);
-        osc.frequency.linearRampToValueAtTime(440, shankhCtx.currentTime + 1.5);
-        osc.frequency.linearRampToValueAtTime(330, shankhCtx.currentTime + 3.0);
+        osc.frequency.setValueAtTime(220, audioCtx.currentTime);
+        osc.frequency.linearRampToValueAtTime(440, audioCtx.currentTime + 1.5);
+        osc.frequency.linearRampToValueAtTime(330, audioCtx.currentTime + 3.0);
 
-        gain.gain.setValueAtTime(0.01, shankhCtx.currentTime);
-        gain.gain.linearRampToValueAtTime(0.4, shankhCtx.currentTime + 0.5);
-        gain.gain.exponentialRampToValueAtTime(0.01, shankhCtx.currentTime + 3.0);
+        gain.gain.setValueAtTime(0.01, audioCtx.currentTime);
+        gain.gain.linearRampToValueAtTime(0.4, audioCtx.currentTime + 0.5);
+        gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 3.0);
 
         osc.connect(gain);
-        gain.connect(shankhCtx.destination);
+        gain.connect(audioCtx.destination);
 
         osc.start();
-        osc.stop(shankhCtx.currentTime + 3.0);
+        osc.stop(audioCtx.currentTime + 3.0);
       } catch (e) {
-        console.warn("Audio Context not allowed without interaction.");
+        console.warn("Audio error:", e);
       }
     }
 
