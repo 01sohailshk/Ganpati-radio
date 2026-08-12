@@ -56,7 +56,6 @@
       padding-bottom: env(safe-area-inset-bottom);
     }
 
-    /* Ultra 10/10 HD Ganpati Background Layer */
     .background-container {
       position: absolute;
       top: 0;
@@ -86,7 +85,6 @@
                   linear-gradient(to bottom, rgba(5,2,1,0.6) 0%, transparent 40%, rgba(5,2,1,0.95) 100%);
     }
 
-    /* Radial Ambient Glow Ball */
     .ambient-glow {
       position: absolute;
       top: 40%;
@@ -126,7 +124,6 @@
       border-radius: 30px;
     }
 
-    /* Top Bar */
     .top-bar {
       position: relative;
       z-index: 10;
@@ -232,7 +229,6 @@
 
     .pill-btn:active { transform: scale(0.94); }
 
-    /* Center Content UI */
     .center-content {
       position: relative;
       z-index: 10;
@@ -298,7 +294,6 @@
       border-color: var(--accent-gold);
     }
 
-    /* Modern Glassmorphic Audio Player Footer */
     .player-wrapper {
       position: relative;
       z-index: 10;
@@ -449,7 +444,6 @@
       letter-spacing: 0.5px;
     }
 
-    /* Modal Styling */
     .modal {
       display: none;
       position: fixed;
@@ -620,7 +614,6 @@
     <canvas id="visualizerCanvas"></canvas>
     <canvas id="particleCanvas"></canvas>
 
-    <!-- Ultra HD Ganpati Background Container -->
     <div class="background-container">
       <div class="bg-overlay"></div>
     </div>
@@ -640,7 +633,7 @@
         <a href="https://open.spotify.com" target="_blank" rel="noopener" class="icon-btn" id="spotifyBtn" title="Spotify"><i class="fa-brands fa-spotify"></i></a>
         <a href="https://music.youtube.com" target="_blank" rel="noopener" class="icon-btn red" id="ytBtn" title="YouTube Music"><i class="fa-brands fa-youtube"></i></a>
         <button class="pill-btn liquid-glass" id="playlistsBtn">Playlists (2)</button>
-        <button class="pill-btn liquid-glass" id="songsBtn">All Tracks</button>
+        <button class="pill-btn liquid-glass" id="songsBtn">All Tracks (25)</button>
       </div>
     </header>
 
@@ -698,16 +691,36 @@
   <audio id="audioPlayer" crossorigin="anonymous" playsinline></audio>
 
   <script>
+    // 25 Ganpati tracks (19 Songs + 6 Aartis)
     const songPlaylist = [
       { id: 1, title: "1. Deva Shree Ganesha", artist: "Ajay Gogavale", src: "songs/dev-shree-ganesha.mp3" },
       { id: 2, title: "2. Maurya Re", artist: "Shankar Mahadevan", src: "songs/maurya-re.mp3" },
       { id: 3, title: "3. Sadda Dil Vi Tu (Ga Ga Ga Ganpati)", artist: "Hard Kaur", src: "songs/sadda-dil-vi-tu.mp3" },
       { id: 4, title: "4. Aala Re Aala Ganesha", artist: "Wajid", src: "songs/aala-re-aala-ganesha.mp3" },
-      { id: 5, title: "5. Bappa", artist: "Vishal Dadlani", src: "songs/bappa.mp3" }
+      { id: 5, title: "5. Bappa", artist: "Vishal Dadlani", src: "songs/bappa.mp3" },
+      { id: 6, title: "6. Gajanana", artist: "Sukhwinder Singh", src: "songs/gajanana.mp3" },
+      { id: 7, title: "7. Suno Ganpati Bappa Morya", artist: "Amit Mishra", src: "songs/suno-ganpati-bappa-morya.mp3" },
+      { id: 8, title: "8. Hey Ganaraya", artist: "Divya Kumar", src: "songs/hey-ganaraya.mp3" },
+      { id: 9, title: "9. Ganpati Bappa Morya", artist: "Sajid-Wajid", src: "songs/ganpati-bappa-morya.mp3" },
+      { id: 10, title: "10. Sindoor Lal Chhadayo", artist: "Kavita Krishnamurthy", src: "songs/sindoor-lal-chhadayo.mp3" },
+      { id: 11, title: "11. Shree Ganeshay Dheemahi", artist: "Shankar Mahadevan", src: "songs/shree-ganeshay-dheemahi.mp3" },
+      { id: 12, title: "12. Jalwa", artist: "Wajid", src: "songs/jalwa.mp3" },
+      { id: 13, title: "13. Vakratunda Mahakaya", artist: "Shankar Mahadevan", src: "songs/vakratunda-mahakaya.mp3" },
+      { id: 14, title: "14. Oh My God Ganesha", artist: "Sukhwinder Singh", src: "songs/oh-my-god-ganesha.mp3" },
+      { id: 15, title: "15. Tera Hi Jalwa", artist: "Sajid-Wajid", src: "songs/tera-hi-jalwa.mp3" },
+      { id: 16, title: "16. Bappa Morya", artist: "Mika Singh", src: "songs/bappa-morya.mp3" },
+      { id: 17, title: "17. Ganesha (Title Track)", artist: "Adnan Sami", src: "songs/ganesha-title-track.mp3" },
+      { id: 18, title: "18. Aala Re Aala Aala Bappa", artist: "Swapnil Bandodkar", src: "songs/aala-re-aala-bappa.mp3" },
+      { id: 19, title: "19. Ya Re Ya Sare Lahan Mothe", artist: "Avadhoot Gupte", src: "songs/ya-re-ya-sare.mp3" }
     ];
 
     const aartiList = [
-      { id: 101, title: "1. Sukhkarta Dukhharta Aarti", artist: "Sadhana Sargam", src: "songs/sukhkarta-dukhharta-aarti.mp3" }
+      { id: 101, title: "20. Sukhkarta Dukhharta Aarti", artist: "Sadhana Sargam", src: "songs/sukhkarta-dukhharta-aarti.mp3" },
+      { id: 102, title: "21. Shevanti Che Phool", artist: "Lata Mangeshkar", src: "songs/shevanti-che-phool.mp3" },
+      { id: 103, title: "22. Lavthavti Vikrala Aarti", artist: "Anuradha Paudwal", src: "songs/lavthavti-vikrala.mp3" },
+      { id: 104, title: "23. Durge Durgat Bhari Aarti", artist: "Usha Mangeshkar", src: "songs/durge-durgat-bhari.mp3" },
+      { id: 105, title: "24. Jai Ganesh Jai Ganesh Deva", artist: "Anuradha Paudwal", src: "songs/jai-ganesh-deva.mp3" },
+      { id: 106, title: "25. Ghalin Lotangan Vandin Chharan", artist: "Sanjeev Abhyankar", src: "songs/ghalin-lotangan.mp3" }
     ];
 
     const fullPlaylist = [...songPlaylist, ...aartiList];
