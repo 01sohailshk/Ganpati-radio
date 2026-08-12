@@ -2,7 +2,7 @@
 <html lang="hi">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>गणपति उत्सव | Ganpati Radio</title>
 
   <!-- Font Awesome Icons -->
@@ -27,6 +27,7 @@
       box-sizing: border-box;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       -webkit-tap-highlight-color: transparent;
+      user-select: none;
     }
 
     body, html {
@@ -42,10 +43,13 @@
       position: relative;
       width: 100%;
       height: 100%;
+      height: 100dvh;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       overflow: hidden;
+      padding-top: env(safe-area-inset-top);
+      padding-bottom: env(safe-area-inset-bottom);
     }
 
     /* Canvas Overlays */
@@ -449,6 +453,21 @@
       border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     }
 
+    .modal-title-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .back-btn {
+      background: none;
+      border: none;
+      color: var(--accent-gold);
+      font-size: 16px;
+      cursor: pointer;
+      display: none;
+    }
+
     .modal-title {
       font-size: 16px;
       font-weight: 700;
@@ -464,20 +483,55 @@
       padding: 0 8px;
     }
 
-    .song-list-container {
+    .modal-body-container {
       overflow-y: auto;
       margin-top: 10px;
     }
 
-    .section-header {
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      color: var(--accent-gold);
-      margin: 12px 0 6px 6px;
-      font-weight: 800;
+    /* Playlist Cards */
+    .playlist-card {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 14px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      margin-bottom: 12px;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.2s;
     }
 
+    .playlist-card:active {
+      transform: scale(0.98);
+      background: rgba(255, 209, 102, 0.15);
+    }
+
+    .playlist-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: rgba(255, 209, 102, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--accent-gold);
+      font-size: 20px;
+    }
+
+    .playlist-info h4 {
+      font-size: 15px;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 2px;
+    }
+
+    .playlist-info p {
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    /* Song Items */
     .song-item {
       display: flex;
       align-items: center;
@@ -531,11 +585,15 @@
       }
     }
 
-    /* Desktop Layout */
+    /* Desktop Layout (Windows / macOS) */
     @media (min-width: 768px) {
       .modal { align-items: center; }
       .modal-content { border-radius: 24px; }
       #progressBar { width: 90px; }
+      .icon-btn:hover, .pill-btn:hover, .dev-btn:hover, .playlist-card:hover {
+        opacity: 0.9;
+        transform: translateY(-2px);
+      }
     }
   </style>
 </head>
@@ -565,8 +623,8 @@
       <div class="action-buttons">
         <a href="https://open.spotify.com" target="_blank" rel="noopener" class="icon-btn" id="spotifyBtn" title="Spotify"><i class="fa-brands fa-spotify"></i></a>
         <a href="https://music.youtube.com" target="_blank" rel="noopener" class="icon-btn red" id="ytBtn" title="YouTube Music"><i class="fa-brands fa-youtube"></i></a>
-        <button class="pill-btn liquid-pill" id="playlistsBtn">Playlists</button>
-        <button class="pill-btn liquid-pill" id="songsBtn">Songs (25)</button>
+        <button class="pill-btn liquid-pill" id="playlistsBtn">Playlists (2)</button>
+        <button class="pill-btn liquid-pill" id="songsBtn">All Tracks</button>
       </div>
     </header>
 
@@ -617,35 +675,59 @@
     </footer>
   </div>
 
-  <!-- Songs Drawer Modal -->
+  <!-- Songs & Playlists Drawer Modal -->
   <div class="modal" id="songsModal">
     <div class="modal-content">
       <div class="modal-header">
-        <h2 class="modal-title" id="modalTitle">Songs & Aartis</h2>
+        <div class="modal-title-group">
+          <button class="back-btn" id="backBtn"><i class="fa-solid fa-arrow-left"></i></button>
+          <h2 class="modal-title" id="modalTitle">Playlists</h2>
+        </div>
         <button class="close-btn" id="closeModalBtn">&times;</button>
       </div>
-      <div class="song-list-container" id="songListContainer"></div>
+      <div class="modal-body-container" id="modalBodyContainer"></div>
     </div>
   </div>
 
-  <audio id="audioPlayer" crossorigin="anonymous"></audio>
+  <audio id="audioPlayer" crossorigin="anonymous" playsinline></audio>
 
   <script>
-    // Audio Tracks Divided into 25 Songs + Ganpati Aartis (Reliable Streams)
+    // Audio Tracks Divided into 25 Named Ganpati Songs + Ganpati Aartis
     const baseAudioCDN = "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-";
     
-    const songPlaylist = Array.from({ length: 25 }, (_, i) => ({
-      id: i + 1,
-      title: `${i + 1}. Ganpati Special Devotional Track ${i + 1}`,
-      artist: "Devotional Stream • Ganesh Utsav",
-      src: `${baseAudioCDN}${(i % 16) + 1}.mp3`
-    }));
+    const songPlaylist = [
+      { id: 1, title: "1. Deva Shree Ganesha", artist: "Ajay Gogavale", src: `${baseAudioCDN}1.mp3` },
+      { id: 2, title: "2. Maurya Re", artist: "Shankar Mahadevan", src: `${baseAudioCDN}2.mp3` },
+      { id: 3, title: "3. Sadda Dil Vi Tu (Ga Ga Ga Ganpati)", artist: "Hard Kaur", src: `${baseAudioCDN}3.mp3` },
+      { id: 4, title: "4. Aala Re Aala Ganesha", artist: "Wajid", src: `${baseAudioCDN}4.mp3` },
+      { id: 5, title: "5. Bappa", artist: "Vishal Dadlani", src: `${baseAudioCDN}5.mp3` },
+      { id: 6, title: "6. Gajanana", artist: "Sukhwinder Singh", src: `${baseAudioCDN}6.mp3` },
+      { id: 7, title: "7. Suno Ganpati Bappa Morya", artist: "Amit Mishra", src: `${baseAudioCDN}7.mp3` },
+      { id: 8, title: "8. Shree Ganeshay Dheemahi", artist: "Shankar Mahadevan", src: `${baseAudioCDN}8.mp3` },
+      { id: 9, title: "9. Ganpati Bappa Morya", artist: "Suresh Wadkar", src: `${baseAudioCDN}9.mp3` },
+      { id: 10, title: "10. Hey Ganaraya", artist: "Arijit Singh", src: `${baseAudioCDN}10.mp3` },
+      { id: 11, title: "11. Vighnaharta", artist: "Ajay-Atul", src: `${baseAudioCDN}11.mp3` },
+      { id: 12, title: "12. Jalwa", artist: "Sajid-Wajid", src: `${baseAudioCDN}12.mp3` },
+      { id: 13, title: "13. Dhagala Lagli Kala", artist: "Mika Singh", src: `${baseAudioCDN}13.mp3` },
+      { id: 14, title: "14. Sindoor Lal Chadhayo", artist: "Babbu Maan", src: `${baseAudioCDN}14.mp3` },
+      { id: 15, title: "15. Shankar Ji Ka Beta", artist: "Traditional Devotional", src: `${baseAudioCDN}15.mp3` },
+      { id: 16, title: "16. Ganesha Vandana", artist: "Lata Mangeshkar", src: `${baseAudioCDN}16.mp3` },
+      { id: 17, title: "17. Ganpati Raya", artist: "Adarsh Shinde", src: `${baseAudioCDN}1.mp3` },
+      { id: 18, title: "18. Tujhko Phir Se Pukare Parvat", artist: "Devotional Stream", src: `${baseAudioCDN}2.mp3` },
+      { id: 19, title: "19. Aagman Song", artist: "Nashik Dhol Tasha", src: `${baseAudioCDN}3.mp3` },
+      { id: 20, title: "20. Ganpati Aarti Beat Mix", artist: "DJ Remix Collection", src: `${baseAudioCDN}4.mp3` },
+      { id: 21, title: "21. Ekdantaya Vakratundaya", artist: "Shankar Mahadevan", src: `${baseAudioCDN}5.mp3` },
+      { id: 22, title: "22. Lambodara Bappa", artist: "Sadhana Sargam", src: `${baseAudioCDN}6.mp3` },
+      { id: 23, title: "23. Visarjan Geet", artist: "Chorus", src: `${baseAudioCDN}7.mp3` },
+      { id: 24, title: "24. Siddhivinayak Mantra", artist: "Anup Jalota", src: `${baseAudioCDN}8.mp3` },
+      { id: 25, title: "25. Morya Morya", artist: "Ajay Gogavale", src: `${baseAudioCDN}9.mp3` }
+    ];
 
     const aartiList = [
-      { id: 101, title: "Aarti 1. Sukhkarta Dukhharta Full Aarti", artist: "Sadhana Sargam", src: `${baseAudioCDN}1.mp3` },
-      { id: 102, title: "Aarti 2. Shendur Lal Chadhayo Full Aarti", artist: "Ravindra Sathe", src: `${baseAudioCDN}2.mp3` },
-      { id: 103, title: "Aarti 3. Jai Ganesh Deva Aarti", artist: "Anuradha Paudwal", src: `${baseAudioCDN}3.mp3` },
-      { id: 104, title: "Aarti 4. Ghalin Lotangan", artist: "Traditional Temple Chants", src: `${baseAudioCDN}4.mp3` }
+      { id: 101, title: "1. Sukhkarta Dukhharta Aarti", artist: "Sadhana Sargam", src: `${baseAudioCDN}1.mp3` },
+      { id: 102, title: "2. Shendur Lal Chadhayo Aarti", artist: "Ravindra Sathe", src: `${baseAudioCDN}2.mp3` },
+      { id: 103, title: "3. Jai Ganesh Deva Aarti", artist: "Anuradha Paudwal", src: `${baseAudioCDN}3.mp3` },
+      { id: 104, title: "4. Ghalin Lotangan Aarti", artist: "Traditional Temple Chants", src: `${baseAudioCDN}4.mp3` }
     ];
 
     const fullPlaylist = [...songPlaylist, ...aartiList];
@@ -667,9 +749,11 @@
 
     const songsModal = document.getElementById("songsModal");
     const closeModalBtn = document.getElementById("closeModalBtn");
+    const backBtn = document.getElementById("backBtn");
+    const modalTitle = document.getElementById("modalTitle");
     const songsBtn = document.getElementById("songsBtn");
     const playlistsBtn = document.getElementById("playlistsBtn");
-    const songListContainer = document.getElementById("songListContainer");
+    const modalBodyContainer = document.getElementById("modalBodyContainer");
 
     // Real-Time Visitor Counter Sync via Firebase
     const firebaseConfig = { databaseURL: "https://ganpati-live-default-rtdb.firebaseio.com" };
@@ -719,6 +803,14 @@
         }
       }
     }
+
+    // iOS Safari Audio unlock handler
+    document.addEventListener('touchstart', function unlockAudio() {
+      if (audioCtx && audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+      document.removeEventListener('touchstart', unlockAudio);
+    }, { once: true });
 
     function loadTrack(index) {
       const track = fullPlaylist[index];
@@ -815,34 +907,38 @@
     const pCtx = particleCanvas.getContext("2d");
 
     function resizeCanvases() {
-      visCanvas.width = window.innerWidth;
-      visCanvas.height = window.innerHeight;
-      particleCanvas.width = window.innerWidth;
-      particleCanvas.height = window.innerHeight;
+      const dpr = window.devicePixelRatio || 1;
+      visCanvas.width = window.innerWidth * dpr;
+      visCanvas.height = window.innerHeight * dpr;
+      particleCanvas.width = window.innerWidth * dpr;
+      particleCanvas.height = window.innerHeight * dpr;
+
+      visCtx.scale(dpr, dpr);
+      pCtx.scale(dpr, dpr);
     }
     window.addEventListener("resize", resizeCanvases);
 
     function drawVisualizer() {
       requestAnimationFrame(drawVisualizer);
-      visCtx.clearRect(0, 0, visCanvas.width, visCanvas.height);
+      visCtx.clearRect(0, 0, window.innerWidth, window.innerHeight);
 
       if (!analyser || audio.paused || !dataArray) return;
 
       analyser.getByteFrequencyData(dataArray);
       const bufferLength = analyser.frequencyBinCount;
-      const barWidth = (visCanvas.width / bufferLength) * 2.2;
+      const barWidth = (window.innerWidth / bufferLength) * 2.2;
       let barHeight;
       let x = 0;
 
       for (let i = 0; i < bufferLength; i++) {
-        barHeight = (dataArray[i] / 255) * (visCanvas.height * 0.22);
+        barHeight = (dataArray[i] / 255) * (window.innerHeight * 0.22);
 
-        const gradient = visCtx.createLinearGradient(0, visCanvas.height, 0, visCanvas.height - barHeight);
+        const gradient = visCtx.createLinearGradient(0, window.innerHeight, 0, window.innerHeight - barHeight);
         gradient.addColorStop(0, "rgba(255, 209, 102, 0.1)");
         gradient.addColorStop(1, "rgba(255, 150, 0, 0.8)");
 
         visCtx.fillStyle = gradient;
-        visCtx.fillRect(x, visCanvas.height - barHeight, barWidth - 2, barHeight);
+        visCtx.fillRect(x, window.innerHeight - barHeight, barWidth - 2, barHeight);
 
         x += barWidth;
       }
@@ -856,7 +952,7 @@
         this.reset();
       }
       reset() {
-        this.x = Math.random() * particleCanvas.width;
+        this.x = Math.random() * window.innerWidth;
         this.y = -20;
         this.size = Math.random() * 8 + 6;
         this.speedY = Math.random() * 2 + 1.5;
@@ -889,13 +985,13 @@
 
     function animateParticles() {
       requestAnimationFrame(animateParticles);
-      pCtx.clearRect(0, 0, particleCanvas.width, particleCanvas.height);
+      pCtx.clearRect(0, 0, window.innerWidth, window.innerHeight);
       
       for (let i = particles.length - 1; i >= 0; i--) {
         const p = particles[i];
         p.update();
         p.draw();
-        if (p.y > particleCanvas.height + 20) {
+        if (p.y > window.innerHeight + 20) {
           particles.splice(i, 1);
         }
       }
@@ -957,14 +1053,22 @@
     document.getElementById("bellBtn").addEventListener("click", playBellSound);
     document.getElementById("shankhBtn").addEventListener("click", playShankhSound);
 
-    // Modals Management
-    songsBtn.addEventListener("click", openModal);
-    playlistsBtn.addEventListener("click", openModal);
+    // Modals & 2-Playlist Navigation
+    playlistsBtn.addEventListener("click", () => {
+      openModal();
+      renderPlaylistsView();
+    });
+
+    songsBtn.addEventListener("click", () => {
+      openModal();
+      renderAllTracksView();
+    });
+
     closeModalBtn.addEventListener("click", closeModal);
+    backBtn.addEventListener("click", renderPlaylistsView);
     songsModal.addEventListener("click", (e) => { if (e.target === songsModal) closeModal(); });
 
     function openModal() {
-      renderCategorizedSongs();
       songsModal.style.display = "flex";
     }
 
@@ -972,25 +1076,57 @@
       songsModal.style.display = "none";
     }
 
-    function renderCategorizedSongs() {
-      songListContainer.innerHTML = "";
+    // View 1: Exactly 2 Playlists Overview
+    function renderPlaylistsView() {
+      modalTitle.textContent = "Playlists (2)";
+      backBtn.style.display = "none";
+      modalBodyContainer.innerHTML = `
+        <div class="playlist-card" id="playlistSongs">
+          <div class="playlist-icon"><i class="fa-solid fa-music"></i></div>
+          <div class="playlist-info">
+            <h4>Ganpati Songs</h4>
+            <p>25 Songs • Devotional Collection</p>
+          </div>
+        </div>
 
-      const sec1 = document.createElement("div");
-      sec1.className = "section-header";
-      sec1.textContent = "Top 25 Ganpati Songs";
-      songListContainer.appendChild(sec1);
+        <div class="playlist-card" id="playlistAartis">
+          <div class="playlist-icon"><i class="fa-solid fa-om"></i></div>
+          <div class="playlist-info">
+            <h4>Ganpati Aartis</h4>
+            <p>4 Aartis • Sacred Chants</p>
+          </div>
+        </div>
+      `;
 
-      songPlaylist.forEach((song, idx) => {
-        songListContainer.appendChild(createSongRow(song, idx));
+      document.getElementById("playlistSongs").addEventListener("click", () => {
+        renderPlaylistTracks("Ganpati Songs", songPlaylist, 0);
       });
 
-      const sec2 = document.createElement("div");
-      sec2.className = "section-header";
-      sec2.textContent = "Ganpati Aartis & Chants";
-      songListContainer.appendChild(sec2);
+      document.getElementById("playlistAartis").addEventListener("click", () => {
+        renderPlaylistTracks("Ganpati Aartis", aartiList, songPlaylist.length);
+      });
+    }
 
-      aartiList.forEach((aarti, idx) => {
-        songListContainer.appendChild(createSongRow(aarti, songPlaylist.length + idx));
+    // View 2: Individual Playlist Tracks List
+    function renderPlaylistTracks(title, trackList, globalOffset) {
+      modalTitle.textContent = title;
+      backBtn.style.display = "inline-block";
+      modalBodyContainer.innerHTML = "";
+
+      trackList.forEach((song, idx) => {
+        const globalIdx = globalOffset + idx;
+        modalBodyContainer.appendChild(createSongRow(song, globalIdx));
+      });
+    }
+
+    // View 3: All Tracks List
+    function renderAllTracksView() {
+      modalTitle.textContent = "All Tracks";
+      backBtn.style.display = "none";
+      modalBodyContainer.innerHTML = "";
+
+      fullPlaylist.forEach((song, globalIdx) => {
+        modalBodyContainer.appendChild(createSongRow(song, globalIdx));
       });
     }
 
