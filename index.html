@@ -14,37 +14,32 @@
 
   <style>
     :root {
-      --bg-image: none;
-      --liquid-bg: rgba(255, 255, 255, 0.08);
-      --liquid-border: rgba(255, 255, 255, 0.22);
+      --bg-image: url('https://images.unsplash.com/photo-1631541909061-71e349d1f203?q=80&w=1200&auto=format&fit=crop');
+      --liquid-bg: rgba(255, 255, 255, 0.12);
+      --liquid-border: rgba(255, 255, 255, 0.25);
       --accent-gold: #ffd166;
-      --player-bg: rgba(20, 8, 5, 0.85);
+      --player-bg: rgba(20, 8, 5, 0.88);
       --card-blur: blur(20px) saturate(180%);
     }
 
-    /* Dynamic Theme Styles */
     body.theme-art {
       --bg-image: url('https://images.unsplash.com/photo-1631541909061-71e349d1f203?q=80&w=1200&auto=format&fit=crop');
       --accent-gold: #ffd166;
-      --player-bg: rgba(20, 8, 5, 0.85);
     }
 
     body.theme-gold {
       --bg-image: url('https://images.unsplash.com/photo-1567157577867-05ccb1388e66?q=80&w=1200&auto=format&fit=crop');
       --accent-gold: #ffb703;
-      --player-bg: rgba(30, 20, 5, 0.85);
     }
 
     body.theme-neon {
       --bg-image: url('https://images.unsplash.com/photo-1609102026400-0e922f30b991?q=80&w=1200&auto=format&fit=crop');
       --accent-gold: #ff007f;
-      --player-bg: rgba(15, 5, 25, 0.85);
     }
 
     body.theme-dark {
       --bg-image: url('https://images.unsplash.com/photo-1544717305-2782549b5136?q=80&w=1200&auto=format&fit=crop');
       --accent-gold: #00f0ff;
-      --player-bg: rgba(5, 15, 25, 0.85);
     }
 
     * {
@@ -56,7 +51,7 @@
       user-select: none;
     }
 
-    body, html {
+    html, body {
       width: 100%;
       height: 100%;
       overflow: hidden;
@@ -64,21 +59,21 @@
       color: #ffffff;
     }
 
-    /* Layout Structure */
+    /* Layout Structure Optimized for Mobile Viewport */
     .app-container {
       position: relative;
       width: 100%;
-      height: 100%;
+      height: 100vh;
       height: 100dvh;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       overflow: hidden;
-      padding-top: env(safe-area-inset-top);
-      padding-bottom: env(safe-area-inset-bottom);
+      padding-top: max(8px, env(safe-area-inset-top));
+      padding-bottom: max(8px, env(safe-area-inset-bottom));
     }
 
-    /* Canvas Overlays */
+    /* Canvases */
     #visualizerCanvas, #particleCanvas {
       position: absolute;
       top: 0;
@@ -91,7 +86,7 @@
     #visualizerCanvas { z-index: 2; opacity: 0.85; }
     #particleCanvas { z-index: 3; }
 
-    /* Animated Festive Background Gradient & Wallpaper Layer */
+    /* Mobile Ganpati Wallpaper */
     .background-container {
       position: absolute;
       top: 0;
@@ -100,122 +95,103 @@
       height: 100%;
       z-index: 1;
       overflow: hidden;
-      background-color: #38000a;
+      background-color: #1a0500;
       background-image: var(--bg-image);
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
-      transition: background-image 0.5s ease-in-out;
+      transition: background-image 0.4s ease;
       animation: festivalPulse 14s ease infinite alternate;
     }
 
     @keyframes festivalPulse {
-      0% { transform: scale(1); filter: brightness(1) contrast(1); }
-      50% { transform: scale(1.03); filter: brightness(1.1) contrast(1.05); }
-      100% { transform: scale(1); filter: brightness(1) contrast(1); }
+      0% { transform: scale(1); filter: brightness(0.9) contrast(1.05); }
+      50% { transform: scale(1.04); filter: brightness(1) contrast(1.1); }
+      100% { transform: scale(1); filter: brightness(0.9) contrast(1.05); }
     }
 
-    /* Central Glowing Lord Ganesha SVG Motif */
-    .ganesha-motif {
-      position: absolute;
-      top: 45%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: min(85vw, 420px);
-      height: auto;
-      opacity: 0.22;
-      pointer-events: none;
-      filter: drop-shadow(0 0 25px var(--accent-gold));
-      animation: floatGanesha 6s ease-in-out infinite alternate;
-    }
-
-    @keyframes floatGanesha {
-      0% { transform: translate(-50%, -52%) scale(0.98); }
-      100% { transform: translate(-50%, -48%) scale(1.02); }
-    }
-
-    /* Subtle Darkening Overlay */
     .overlay {
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background: radial-gradient(circle at center, rgba(0,0,0,0.2) 20%, rgba(13, 2, 0, 0.85) 100%);
+      background: radial-gradient(circle at center, rgba(0,0,0,0.15) 10%, rgba(13, 2, 0, 0.85) 100%);
     }
 
-    /* Glass UI Pill */
+    /* Glass UI Elements */
     .liquid-pill {
       background: var(--liquid-bg);
       backdrop-filter: var(--card-blur);
       -webkit-backdrop-filter: var(--card-blur);
       border: 1px solid var(--liquid-border);
-      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37), inset 0 0 12px rgba(255,255,255,0.15);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
       border-radius: 30px;
     }
 
-    /* Top Bar Header */
+    /* Top Bar Mobile Optimization */
     .top-bar {
       position: relative;
       z-index: 10;
       display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 8px;
-      padding: 12px 16px;
+      flex-direction: column;
+      gap: 10px;
+      padding: 6px 12px;
       width: 100%;
     }
 
-    .header-left {
+    .header-top {
       display: flex;
       align-items: center;
-      gap: 8px;
+      justify-content: space-between;
+      width: 100%;
     }
 
     .time-display {
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 600;
-      letter-spacing: 0.5px;
       text-shadow: 0 2px 4px rgba(0,0,0,0.8);
-      white-space: nowrap;
     }
 
     .online-indicator {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
       font-size: 11px;
       font-weight: 600;
-      padding: 6px 12px;
-      white-space: nowrap;
+      padding: 5px 10px;
     }
 
     .green-dot {
-      width: 8px;
-      height: 8px;
+      width: 7px;
+      height: 7px;
       background-color: #00ff88;
       border-radius: 50%;
-      box-shadow: 0 0 10px #00ff88;
+      box-shadow: 0 0 8px #00ff88;
       animation: livePulse 1.8s infinite;
-      flex-shrink: 0;
     }
 
     @keyframes livePulse {
-      0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 255, 136, 0.7); }
-      70% { transform: scale(1.1); box-shadow: 0 0 0 8px rgba(0, 255, 136, 0); }
-      100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 255, 136, 0); }
+      0% { transform: scale(0.95); opacity: 0.8; }
+      70% { transform: scale(1.2); opacity: 1; }
+      100% { transform: scale(0.95); opacity: 0.8; }
     }
 
     .action-buttons {
       display: flex;
       align-items: center;
+      justify-content: space-between;
       gap: 6px;
-      flex-wrap: nowrap;
+      width: 100%;
+      overflow-x: auto;
+      scrollbar-width: none;
     }
 
+    .action-buttons::-webkit-scrollbar { display: none; }
+
     .icon-btn {
-      width: 34px;
-      height: 34px;
+      width: 36px;
+      height: 36px;
       border-radius: 50%;
       border: 1px solid var(--liquid-border);
       background: var(--liquid-bg);
@@ -223,19 +199,16 @@
       -webkit-backdrop-filter: var(--card-blur);
       color: white;
       font-size: 14px;
-      cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: transform 0.2s, background-color 0.2s;
       flex-shrink: 0;
       text-decoration: none;
+      cursor: pointer;
     }
 
-    .icon-btn:active { transform: scale(0.9); }
-
     .icon-btn.red {
-      background: rgba(255, 0, 0, 0.45);
+      background: rgba(255, 0, 0, 0.4);
       border-color: rgba(255, 100, 100, 0.4);
     }
 
@@ -244,122 +217,102 @@
       font-size: 11px;
       font-weight: 600;
       color: white;
-      cursor: pointer;
       border: 1px solid var(--liquid-border);
-      transition: transform 0.2s;
       white-space: nowrap;
+      flex-shrink: 0;
+      cursor: pointer;
     }
 
-    .pill-btn:active { transform: scale(0.92); }
-
-    /* Central Content Section */
+    /* Central Content Area */
     .center-content {
       position: relative;
       z-index: 10;
       text-align: center;
       width: 100%;
-      padding: 10px 16px;
+      padding: 0 16px;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       gap: 16px;
       flex-grow: 1;
-      max-height: calc(100vh - 180px);
-      overflow-y: auto;
-    }
-
-    .title-group {
-      pointer-events: none;
     }
 
     .devanagari-title {
-      font-size: clamp(2.2rem, 8vw, 4.5rem);
+      font-size: clamp(2.4rem, 10vw, 3.8rem);
       font-weight: 900;
       background: linear-gradient(180deg, #ffffff 0%, var(--accent-gold) 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      filter: drop-shadow(0 4px 15px rgba(0,0,0,0.9));
-      letter-spacing: 1px;
+      filter: drop-shadow(0 4px 12px rgba(0,0,0,0.9));
       line-height: 1.1;
     }
 
     .subtitle {
-      margin-top: 6px;
-      font-size: clamp(9px, 2.5vw, 12px);
-      letter-spacing: 3px;
+      margin-top: 4px;
+      font-size: 10px;
+      letter-spacing: 2px;
       color: rgba(255,255,255,0.85);
       text-transform: uppercase;
-      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9);
+      text-shadow: 0 2px 6px rgba(0, 0, 0, 0.9);
     }
 
-    /* Interactive Devotional Toolbar */
     .devotional-toolbar {
       display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
+      gap: 8px;
       justify-content: center;
-      max-width: 100%;
+      width: 100%;
     }
 
     .dev-btn {
-      padding: 8px 14px;
-      font-size: 12px;
+      padding: 10px 20px;
+      font-size: 13px;
       font-weight: 700;
       color: var(--accent-gold);
       display: flex;
       align-items: center;
-      gap: 6px;
-      cursor: pointer;
-      background: rgba(30, 10, 5, 0.6);
-      white-space: nowrap;
+      gap: 8px;
+      background: rgba(30, 10, 5, 0.7);
       border-radius: 30px;
+      touch-action: manipulation;
+      border: 1px solid var(--liquid-border);
+      cursor: pointer;
     }
 
-    /* Audio Player Floating Area */
+    /* Mobile Floating Audio Player */
     .player-wrapper {
       position: relative;
       z-index: 10;
       width: 100%;
-      padding: 0 12px 12px 12px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 6px;
+      padding: 0 10px 8px 10px;
     }
 
     .player-card {
       width: 100%;
-      max-width: 520px;
       background: var(--player-bg);
       backdrop-filter: var(--card-blur);
       -webkit-backdrop-filter: var(--card-blur);
       border: 1px solid var(--liquid-border);
-      border-radius: 28px;
-      padding: 10px 14px;
+      border-radius: 20px;
+      padding: 10px 12px;
       display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255,255,255,0.25);
-      transition: background 0.3s ease;
+      flex-direction: column;
+      gap: 8px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
     }
 
     .song-info {
       display: flex;
       align-items: center;
       gap: 10px;
-      overflow: hidden;
-      flex: 1;
-      min-width: 0;
+      width: 100%;
     }
 
     .album-art {
-      width: 44px;
-      height: 44px;
+      width: 42px;
+      height: 42px;
       border-radius: 50%;
       object-fit: cover;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.5);
       border: 1px solid rgba(255,255,255,0.3);
       animation: rotateArt 18s linear infinite;
       animation-play-state: paused;
@@ -374,7 +327,7 @@
       display: flex;
       flex-direction: column;
       overflow: hidden;
-      min-width: 0;
+      flex: 1;
     }
 
     .song-title {
@@ -387,41 +340,41 @@
 
     .artist-name {
       font-size: 11px;
-      color: rgba(255, 255, 255, 0.7);
+      color: rgba(255, 255, 255, 0.65);
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
     }
 
-    .player-controls-container {
+    .player-controls-row {
       display: flex;
       align-items: center;
+      justify-content: space-between;
       gap: 10px;
-      flex-shrink: 0;
+      width: 100%;
     }
 
     .playback-buttons {
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 12px;
     }
 
     .control-btn {
       background: none;
       border: none;
       color: #ffffff;
-      font-size: 14px;
-      cursor: pointer;
-      opacity: 0.85;
+      font-size: 16px;
       padding: 6px;
       display: flex;
       align-items: center;
       justify-content: center;
+      cursor: pointer;
     }
 
     .play-btn {
-      width: 40px;
-      height: 40px;
+      width: 38px;
+      height: 38px;
       border-radius: 50%;
       border: none;
       background: linear-gradient(135deg, #ffffff 0%, var(--accent-gold) 100%);
@@ -430,20 +383,19 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      cursor: pointer;
-      box-shadow: 0 4px 15px rgba(255, 209, 102, 0.4);
       flex-shrink: 0;
+      cursor: pointer;
     }
 
     .progress-container {
       display: flex;
-      flex-direction: column;
-      align-items: flex-end;
-      gap: 2px;
+      align-items: center;
+      gap: 8px;
+      flex: 1;
     }
 
     #progressBar {
-      width: 70px;
+      flex: 1;
       height: 4px;
       accent-color: var(--accent-gold);
       cursor: pointer;
@@ -455,7 +407,7 @@
       white-space: nowrap;
     }
 
-    /* Glass Drawer Modal */
+    /* Mobile Sheet Modal */
     .modal {
       display: none;
       position: fixed;
@@ -464,26 +416,22 @@
       width: 100%;
       height: 100%;
       background: rgba(0, 0, 0, 0.75);
-      backdrop-filter: blur(15px);
-      -webkit-backdrop-filter: blur(15px);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
       z-index: 100;
       justify-content: center;
       align-items: flex-end;
     }
 
     .modal-content {
-      background: rgba(25, 10, 5, 0.95);
-      backdrop-filter: var(--card-blur);
-      -webkit-backdrop-filter: var(--card-blur);
+      background: rgba(20, 8, 5, 0.95);
       border: 1px solid var(--liquid-border);
-      border-radius: 24px 24px 0 0;
+      border-radius: 20px 20px 0 0;
       width: 100%;
-      max-width: 500px;
-      max-height: 75vh;
+      max-height: 80vh;
       display: flex;
       flex-direction: column;
       padding: 16px;
-      box-shadow: 0 -10px 40px rgba(0,0,0,0.8);
     }
 
     .modal-header {
@@ -505,12 +453,12 @@
       border: none;
       color: var(--accent-gold);
       font-size: 16px;
-      cursor: pointer;
       display: none;
+      cursor: pointer;
     }
 
     .modal-title {
-      font-size: 16px;
+      font-size: 15px;
       font-weight: 700;
       color: var(--accent-gold);
     }
@@ -521,7 +469,6 @@
       color: #fff;
       font-size: 22px;
       cursor: pointer;
-      padding: 0 8px;
     }
 
     .modal-body-container {
@@ -529,166 +476,94 @@
       margin-top: 10px;
     }
 
-    /* Theme Option Cards */
     .theme-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 12px;
+      gap: 10px;
     }
 
     .theme-card {
-      border-radius: 12px;
+      border-radius: 10px;
       overflow: hidden;
       border: 2px solid transparent;
-      cursor: pointer;
-      position: relative;
-      height: 100px;
+      height: 90px;
       background-size: cover;
       background-position: center;
       display: flex;
       align-items: flex-end;
-      padding: 8px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+      padding: 6px;
+      cursor: pointer;
     }
 
-    .theme-card.active {
-      border-color: var(--accent-gold);
-    }
+    .theme-card.active { border-color: var(--accent-gold); }
 
     .theme-card span {
       background: rgba(0, 0, 0, 0.7);
       color: white;
-      font-size: 11px;
+      font-size: 10px;
       font-weight: bold;
-      padding: 4px 8px;
-      border-radius: 6px;
+      padding: 4px;
+      border-radius: 4px;
       width: 100%;
       text-align: center;
-      backdrop-filter: blur(4px);
     }
 
-    /* Playlist Cards */
     .playlist-card {
       display: flex;
       align-items: center;
-      gap: 16px;
-      padding: 14px;
+      gap: 12px;
+      padding: 12px;
       background: rgba(255, 255, 255, 0.05);
       border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 16px;
-      margin-bottom: 12px;
+      border-radius: 12px;
+      margin-bottom: 10px;
       cursor: pointer;
-      transition: background 0.2s, transform 0.2s;
-    }
-
-    .playlist-card:active {
-      transform: scale(0.98);
-      background: rgba(255, 209, 102, 0.15);
     }
 
     .playlist-icon {
-      width: 48px;
-      height: 48px;
-      border-radius: 12px;
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
       background: rgba(255, 209, 102, 0.2);
       display: flex;
       align-items: center;
       justify-content: center;
       color: var(--accent-gold);
-      font-size: 20px;
     }
 
-    .playlist-info h4 {
-      font-size: 15px;
-      font-weight: 700;
-      color: #ffffff;
-      margin-bottom: 2px;
-    }
+    .playlist-info h4 { font-size: 14px; }
+    .playlist-info p { font-size: 11px; color: rgba(255, 255, 255, 0.6); }
 
-    .playlist-info p {
-      font-size: 12px;
-      color: rgba(255, 255, 255, 0.6);
-    }
-
-    /* Song Items */
     .song-item {
       display: flex;
       align-items: center;
-      gap: 12px;
       padding: 10px;
-      border-radius: 12px;
+      border-radius: 10px;
       cursor: pointer;
-      transition: background 0.2s;
     }
-
-    .song-item:active { background: rgba(255, 255, 255, 0.15); }
 
     .song-item.active {
       background: rgba(255, 209, 102, 0.18);
       border: 1px solid rgba(255, 209, 102, 0.3);
     }
 
-    .song-item-info {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .song-item-title {
-      font-size: 13px;
-      font-weight: 600;
-    }
-
-    .song-item-artist {
-      font-size: 11px;
-      color: rgba(255,255,255,0.6);
-    }
-
-    /* Mobile Responsive Optimizations */
-    @media (max-width: 480px) {
-      .top-bar { padding: 10px 12px; }
-      .time-display { display: none; }
-      .pill-btn { padding: 6px 10px; font-size: 10px; }
-      .dev-btn { padding: 6px 10px; font-size: 11px; }
-      #progressBar { width: 50px; }
-      .icon-btn { width: 30px; height: 30px; font-size: 12px; }
-    }
-
-    /* Desktop Layout */
-    @media (min-width: 768px) {
-      .modal { align-items: center; }
-      .modal-content { border-radius: 24px; }
-      #progressBar { width: 90px; }
-      .icon-btn:hover, .pill-btn:hover, .dev-btn:hover, .playlist-card:hover {
-        opacity: 0.9;
-        transform: translateY(-2px);
-      }
-    }
+    .song-item-title { font-size: 12px; font-weight: 600; display: block; }
+    .song-item-artist { font-size: 10px; color: rgba(255,255,255,0.6); }
   </style>
 </head>
 <body class="theme-art">
 
   <div class="app-container">
-    <!-- Dynamic Canvases -->
     <canvas id="visualizerCanvas"></canvas>
     <canvas id="particleCanvas"></canvas>
 
-    <!-- Devotional Ganpati Background Layer -->
     <div class="background-container">
-      <!-- Decorative Divine Lord Ganesha Contour SVG Artwork -->
-      <svg class="ganesha-motif" viewBox="0 0 100 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M50 5 C30 5, 20 25, 20 40 C20 55, 30 65, 35 75 C38 81, 35 88, 25 85 C20 83.5, 15 78, 18 72" stroke="#ffd166" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
-        <path d="M50 5 C70 5, 80 25, 80 40 C80 52, 72 60, 68 68" stroke="#ffd166" stroke-width="3.5" stroke-linecap="round"/>
-        <circle cx="50" cy="22" r="4" fill="#ffd166"/>
-        <path d="M50 32 L50 62 C50 78, 65 78, 65 65 C65 58, 58 55, 52 58" stroke="#ffd166" stroke-width="3.5" stroke-linecap="round"/>
-        <path d="M35 25 Q50 15 65 25" stroke="#ffd166" stroke-width="2.5" stroke-linecap="round"/>
-        <circle cx="50" cy="12" r="2" fill="#ff4d4d"/>
-      </svg>
       <div class="overlay"></div>
     </div>
 
-    <!-- Header Overlay -->
+    <!-- Mobile Header -->
     <header class="top-bar">
-      <div class="header-left">
+      <div class="header-top">
         <div class="time-display" id="timeDisplay">--:-- --</div>
         <div class="online-indicator liquid-pill">
           <span class="green-dot"></span>
@@ -698,28 +573,26 @@
 
       <div class="action-buttons">
         <button class="pill-btn liquid-pill" id="themeBtn"><i class="fa-solid fa-palette"></i> Themes</button>
-        <a href="https://open.spotify.com" target="_blank" rel="noopener" class="icon-btn" id="spotifyBtn" title="Spotify"><i class="fa-brands fa-spotify"></i></a>
-        <a href="https://music.youtube.com" target="_blank" rel="noopener" class="icon-btn red" id="ytBtn" title="YouTube Music"><i class="fa-brands fa-youtube"></i></a>
+        <a href="https://open.spotify.com" target="_blank" rel="noopener" class="icon-btn" id="spotifyBtn"><i class="fa-brands fa-spotify"></i></a>
+        <a href="https://music.youtube.com" target="_blank" rel="noopener" class="icon-btn red" id="ytBtn"><i class="fa-brands fa-youtube"></i></a>
         <button class="pill-btn liquid-pill" id="playlistsBtn">Playlists</button>
         <button class="pill-btn liquid-pill" id="songsBtn">All Tracks</button>
       </div>
     </header>
 
-    <!-- Central Header Banner -->
+    <!-- Center Hero Section -->
     <main class="center-content">
       <div class="title-group">
         <h1 class="devanagari-title">गणपति उत्सव</h1>
         <p class="subtitle">GANPATI RADIO • OPEN ALL HOURS</p>
       </div>
 
-      <!-- Interactive Devotional Actions Toolbar -->
       <div class="devotional-toolbar">
         <button class="dev-btn liquid-pill" id="flowerBtn"><i class="fa-solid fa-spa"></i> Pushpa Varsha</button>
-        <button class="dev-btn liquid-pill" id="bellBtn"><i class="fa-solid fa-bell"></i> Ring Bell</button>
       </div>
     </main>
 
-    <!-- Audio Player Floating Bar -->
+    <!-- Bottom Audio Controls -->
     <footer class="player-wrapper">
       <div class="player-card">
         <div class="song-info">
@@ -730,12 +603,13 @@
           </div>
         </div>
 
-        <div class="player-controls-container">
+        <div class="player-controls-row">
           <div class="playback-buttons">
-            <button id="prevBtn" class="control-btn" aria-label="Previous Track"><i class="fa-solid fa-backward-step"></i></button>
+            <button id="prevBtn" class="control-btn" aria-label="Previous"><i class="fa-solid fa-backward-step"></i></button>
             <button id="playPauseBtn" class="play-btn" aria-label="Play/Pause"><i id="playIcon" class="fa-solid fa-play"></i></button>
-            <button id="nextBtn" class="control-btn" aria-label="Next Track"><i class="fa-solid fa-forward-step"></i></button>
+            <button id="nextBtn" class="control-btn" aria-label="Next"><i class="fa-solid fa-forward-step"></i></button>
           </div>
+
           <div class="progress-container">
             <input type="range" id="progressBar" value="0" min="0" max="100">
             <div class="time-stamps">
@@ -747,7 +621,7 @@
     </footer>
   </div>
 
-  <!-- Drawer Modal -->
+  <!-- Mobile Drawer Modal -->
   <div class="modal" id="songsModal">
     <div class="modal-content">
       <div class="modal-header">
@@ -764,6 +638,7 @@
   <audio id="audioPlayer" crossorigin="anonymous" playsinline></audio>
 
   <script>
+    // --- Data Definitions ---
     const themes = [
       { id: "theme-art", name: "Watercolor Art", img: "https://images.unsplash.com/photo-1631541909061-71e349d1f203?q=80&w=600&auto=format&fit=crop" },
       { id: "theme-gold", name: "Traditional Gold", img: "https://images.unsplash.com/photo-1567157577867-05ccb1388e66?q=80&w=600&auto=format&fit=crop" },
@@ -776,42 +651,20 @@
     const songPlaylist = [
       { id: 1, title: "1. Deva Shree Ganesha", artist: "Ajay Gogavale", src: `${baseAudioCDN}1.mp3` },
       { id: 2, title: "2. Maurya Re", artist: "Shankar Mahadevan", src: `${baseAudioCDN}2.mp3` },
-      { id: 3, title: "3. Sadda Dil Vi Tu (Ga Ga Ga Ganpati)", artist: "Hard Kaur", src: `${baseAudioCDN}3.mp3` },
+      { id: 3, title: "3. Sadda Dil Vi Tu", artist: "Hard Kaur", src: `${baseAudioCDN}3.mp3` },
       { id: 4, title: "4. Aala Re Aala Ganesha", artist: "Wajid", src: `${baseAudioCDN}4.mp3` },
-      { id: 5, title: "5. Bappa", artist: "Vishal Dadlani", src: `${baseAudioCDN}5.mp3` },
-      { id: 6, title: "6. Gajanana", artist: "Sukhwinder Singh", src: `${baseAudioCDN}6.mp3` },
-      { id: 7, title: "7. Suno Ganpati Bappa Morya", artist: "Amit Mishra", src: `${baseAudioCDN}7.mp3` },
-      { id: 8, title: "8. Shree Ganeshay Dheemahi", artist: "Shankar Mahadevan", src: `${baseAudioCDN}8.mp3` },
-      { id: 9, title: "9. Ganpati Bappa Morya", artist: "Suresh Wadkar", src: `${baseAudioCDN}9.mp3` },
-      { id: 10, title: "10. Hey Ganaraya", artist: "Arijit Singh", src: `${baseAudioCDN}10.mp3` },
-      { id: 11, title: "11. Vighnaharta", artist: "Ajay-Atul", src: `${baseAudioCDN}11.mp3` },
-      { id: 12, title: "12. Jalwa", artist: "Sajid-Wajid", src: `${baseAudioCDN}12.mp3` },
-      { id: 13, title: "13. Dhagala Lagli Kala", artist: "Mika Singh", src: `${baseAudioCDN}13.mp3` },
-      { id: 14, title: "14. Sindoor Lal Chadhayo", artist: "Babbu Maan", src: `${baseAudioCDN}14.mp3` },
-      { id: 15, title: "15. Shankar Ji Ka Beta", artist: "Traditional Devotional", src: `${baseAudioCDN}15.mp3` },
-      { id: 16, title: "16. Ganesha Vandana", artist: "Lata Mangeshkar", src: `${baseAudioCDN}16.mp3` },
-      { id: 17, title: "17. Ganpati Raya", artist: "Adarsh Shinde", src: `${baseAudioCDN}1.mp3` },
-      { id: 18, title: "18. Tujhko Phir Se Pukare Parvat", artist: "Devotional Stream", src: `${baseAudioCDN}2.mp3` },
-      { id: 19, title: "19. Aagman Song", artist: "Nashik Dhol Tasha", src: `${baseAudioCDN}3.mp3` },
-      { id: 20, title: "20. Ganpati Aarti Beat Mix", artist: "DJ Remix Collection", src: `${baseAudioCDN}4.mp3` },
-      { id: 21, title: "21. Ekdantaya Vakratundaya", artist: "Shankar Mahadevan", src: `${baseAudioCDN}5.mp3` },
-      { id: 22, title: "22. Lambodara Bappa", artist: "Sadhana Sargam", src: `${baseAudioCDN}6.mp3` },
-      { id: 23, title: "23. Visarjan Geet", artist: "Chorus", src: `${baseAudioCDN}7.mp3` },
-      { id: 24, title: "24. Siddhivinayak Mantra", artist: "Anup Jalota", src: `${baseAudioCDN}8.mp3` },
-      { id: 25, title: "25. Morya Morya", artist: "Ajay Gogavale", src: `${baseAudioCDN}9.mp3` }
+      { id: 5, title: "5. Bappa", artist: "Vishal Dadlani", src: `${baseAudioCDN}5.mp3` }
     ];
 
     const aartiList = [
       { id: 101, title: "1. Sukhkarta Dukhharta Aarti", artist: "Sadhana Sargam", src: `${baseAudioCDN}1.mp3` },
-      { id: 102, title: "2. Shendur Lal Chadhayo Aarti", artist: "Ravindra Sathe", src: `${baseAudioCDN}2.mp3` },
-      { id: 103, title: "3. Jai Ganesh Deva Aarti", artist: "Anuradha Paudwal", src: `${baseAudioCDN}3.mp3` },
-      { id: 104, title: "4. Ghalin Lotangan Aarti", artist: "Traditional Temple Chants", src: `${baseAudioCDN}4.mp3` }
+      { id: 102, title: "2. Shendur Lal Chadhayo Aarti", artist: "Ravindra Sathe", src: `${baseAudioCDN}2.mp3` }
     ];
 
     const fullPlaylist = [...songPlaylist, ...aartiList];
     let currentTrackIndex = 0;
 
-    // DOM Elements
+    // --- DOM Elements ---
     const audio = document.getElementById("audioPlayer");
     const playPauseBtn = document.getElementById("playPauseBtn");
     const playIcon = document.getElementById("playIcon");
@@ -823,7 +676,6 @@
     const progressBar = document.getElementById("progressBar");
     const currentTimeEl = document.getElementById("currentTime");
     const durationEl = document.getElementById("duration");
-    const onlineCountEl = document.getElementById("onlineCount");
 
     const songsModal = document.getElementById("songsModal");
     const closeModalBtn = document.getElementById("closeModalBtn");
@@ -832,92 +684,27 @@
     const songsBtn = document.getElementById("songsBtn");
     const playlistsBtn = document.getElementById("playlistsBtn");
     const themeBtn = document.getElementById("themeBtn");
+    const flowerBtn = document.getElementById("flowerBtn");
     const modalBodyContainer = document.getElementById("modalBodyContainer");
 
-    // Real-Time Visitor Counter Sync via Firebase
-    const firebaseConfig = { databaseURL: "https://ganpati-live-default-rtdb.firebaseio.com" };
-    try {
-      if (typeof firebase !== 'undefined' && firebase.initializeApp) {
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.database();
-        const connectedRef = db.ref(".info/connected");
-        const presenceRef = db.ref("live_presence");
-
-        connectedRef.on("value", (snap) => {
-          if (snap.val() === true) {
-            const con = presenceRef.push();
-            con.onDisconnect().remove();
-            con.set(true);
-          }
-        });
-
-        presenceRef.on("value", (snap) => {
-          const count = snap.numChildren();
-          onlineCountEl.textContent = `${Math.max(1, count)} online`;
-        });
-      }
-    } catch(e) {
-      onlineCountEl.textContent = "1 online";
-    }
-
-    // Web Audio API Setup
-    let audioCtx, analyser, dataArray, source;
-
-    function initAudioContext() {
-      if (!audioCtx) {
-        const AudioCtx = window.AudioContext || window.webkitAudioContext;
-        if (!AudioCtx) return;
-        
-        audioCtx = new AudioCtx();
-        analyser = audioCtx.createAnalyser();
-        analyser.fftSize = 128;
-        
-        try {
-          source = audioCtx.createMediaElementSource(audio);
-          source.connect(analyser);
-          analyser.connect(audioCtx.destination);
-          dataArray = new Uint8Array(analyser.frequencyBinCount);
-        } catch (e) {
-          console.warn("Audio Context creation/connection failed:", e);
-        }
-      }
-    }
-
-    document.addEventListener('touchstart', function unlockAudio() {
-      if (audioCtx && audioCtx.state === 'suspended') {
-        audioCtx.resume();
-      }
-      document.removeEventListener('touchstart', unlockAudio);
-    }, { once: true });
-
+    // --- Audio Player Logic ---
     function loadTrack(index) {
       const track = fullPlaylist[index];
       songTitle.textContent = track.title;
       artistName.textContent = track.artist;
       audio.src = track.src;
-
-      if ('mediaSession' in navigator) {
-        navigator.mediaSession.metadata = new MediaMetadata({
-          title: track.title,
-          artist: track.artist,
-          album: "Ganpati Utsav Radio",
-          artwork: [{ src: albumArt.src, sizes: '512x512', type: 'image/jpeg' }]
-        });
-      }
     }
 
     function togglePlay() {
-      initAudioContext();
-      if (audioCtx && audioCtx.state === 'suspended') {
-        audioCtx.resume();
-      }
-
       if (audio.paused) {
+        // Initialize Web Audio API on user interaction if needed
+        if (audioCtx && audioCtx.state === 'suspended') {
+          audioCtx.resume();
+        }
         audio.play().then(() => {
           playIcon.className = "fa-solid fa-pause";
           albumArt.classList.add("playing");
         }).catch((e) => {
-          console.error("Playback prevented:", e);
           playIcon.className = "fa-solid fa-play";
           albumArt.classList.remove("playing");
         });
@@ -942,18 +729,12 @@
 
     playPauseBtn.addEventListener("click", togglePlay);
 
+    // Auto play next track when ended
     audio.addEventListener("ended", () => {
       currentTrackIndex = (currentTrackIndex + 1) % fullPlaylist.length;
       loadTrack(currentTrackIndex);
       togglePlay();
     });
-
-    if ('mediaSession' in navigator) {
-      navigator.mediaSession.setActionHandler('play', togglePlay);
-      navigator.mediaSession.setActionHandler('pause', togglePlay);
-      navigator.mediaSession.setActionHandler('previoustrack', () => prevBtn.click());
-      navigator.mediaSession.setActionHandler('nexttrack', () => nextBtn.click());
-    }
 
     audio.addEventListener("timeupdate", () => {
       if (audio.duration) {
@@ -977,216 +758,16 @@
       return `${mins}:${secs < 10 ? "0" : ""}${secs}`;
     }
 
-    // Audio Visualizer Canvas Setup
-    const visCanvas = document.getElementById("visualizerCanvas");
-    const visCtx = visCanvas.getContext("2d");
-    const particleCanvas = document.getElementById("particleCanvas");
-    const pCtx = particleCanvas.getContext("2d");
-
-    function resizeCanvases() {
-      const dpr = window.devicePixelRatio || 1;
-      
-      visCanvas.width = window.innerWidth * dpr;
-      visCanvas.height = window.innerHeight * dpr;
-      visCanvas.style.width = window.innerWidth + 'px';
-      visCanvas.style.height = window.innerHeight + 'px';
-
-      particleCanvas.width = window.innerWidth * dpr;
-      particleCanvas.height = window.innerHeight * dpr;
-      particleCanvas.style.width = window.innerWidth + 'px';
-      particleCanvas.style.height = window.innerHeight + 'px';
-
-      visCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      pCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    }
-    window.addEventListener("resize", resizeCanvases);
-
-    function drawVisualizer() {
-      requestAnimationFrame(drawVisualizer);
-      visCtx.clearRect(0, 0, window.innerWidth, window.innerHeight);
-
-      if (!analyser || audio.paused || !dataArray) return;
-
-      analyser.getByteFrequencyData(dataArray);
-      const bufferLength = analyser.frequencyBinCount;
-      const barWidth = (window.innerWidth / bufferLength) * 2.2;
-      let barHeight;
-      let x = 0;
-
-      for (let i = 0; i < bufferLength; i++) {
-        barHeight = (dataArray[i] / 255) * (window.innerHeight * 0.22);
-
-        const gradient = visCtx.createLinearGradient(0, window.innerHeight, 0, window.innerHeight - barHeight);
-        gradient.addColorStop(0, "rgba(255, 209, 102, 0.1)");
-        gradient.addColorStop(1, "rgba(255, 150, 0, 0.8)");
-
-        visCtx.fillStyle = gradient;
-        visCtx.fillRect(x, window.innerHeight - barHeight, barWidth - 2, barHeight);
-
-        x += barWidth;
-      }
-    }
-
-    // Realistic Petal Particle Engine
-    let particles = [];
-    const petalColors = [
-      { fill: '#e60033', shade: '#990022' },
-      { fill: '#ff6600', shade: '#b34700' },
-      { fill: '#ffcc00', shade: '#b38f00' },
-      { fill: '#ff3385', shade: '#b30054' }
-    ];
-
-    class RealisticPetal {
-      constructor() {
-        this.reset();
-      }
-
-      reset() {
-        this.x = Math.random() * window.innerWidth;
-        this.y = -30 - Math.random() * 50;
-        this.size = Math.random() * 8 + 10;
-        this.color = petalColors[Math.floor(Math.random() * petalColors.length)];
-        
-        this.speedY = Math.random() * 1.5 + 1.2;
-        this.speedX = Math.random() * 0.8 - 0.4;
-        this.oscillationSpeed = Math.random() * 0.03 + 0.01;
-        this.oscillationAmp = Math.random() * 2 + 1;
-        this.angle = Math.random() * Math.PI * 2;
-        
-        this.rotX = Math.random() * Math.PI;
-        this.rotY = Math.random() * Math.PI;
-        this.rotZ = Math.random() * Math.PI;
-        this.rotSpeedX = (Math.random() - 0.5) * 0.04;
-        this.rotSpeedY = (Math.random() - 0.5) * 0.05;
-        this.rotSpeedZ = (Math.random() - 0.5) * 0.02;
-        
-        this.opacity = Math.random() * 0.3 + 0.7;
-      }
-
-      update() {
-        this.angle += this.oscillationSpeed;
-        this.x += Math.sin(this.angle) * this.oscillationAmp + this.speedX;
-        this.y += this.speedY;
-
-        this.rotX += this.rotSpeedX;
-        this.rotY += this.rotSpeedY;
-        this.rotZ += this.rotSpeedZ;
-      }
-
-      draw() {
-        pCtx.save();
-        pCtx.translate(this.x, this.y);
-
-        const scaleX = Math.cos(this.rotY);
-        const scaleY = Math.sin(this.rotX);
-
-        pCtx.rotate(this.rotZ);
-        pCtx.scale(scaleX, scaleY);
-        pCtx.globalAlpha = this.opacity;
-
-        const grad = pCtx.createRadialGradient(0, 0, 2, 0, 0, this.size);
-        grad.addColorStop(0, this.color.fill);
-        grad.addColorStop(0.8, this.color.fill);
-        grad.addColorStop(1, this.color.shade);
-
-        pCtx.fillStyle = grad;
-        pCtx.beginPath();
-        pCtx.moveTo(0, -this.size);
-        pCtx.bezierCurveTo(this.size * 0.8, -this.size * 0.5, this.size * 0.8, this.size * 0.6, 0, this.size);
-        pCtx.bezierCurveTo(-this.size * 0.8, this.size * 0.6, -this.size * 0.8, -this.size * 0.5, 0, -this.size);
-        pCtx.fill();
-
-        pCtx.strokeStyle = 'rgba(255,255,255,0.2)';
-        pCtx.lineWidth = 0.8;
-        pCtx.beginPath();
-        pCtx.moveTo(0, -this.size * 0.8);
-        pCtx.lineTo(0, this.size * 0.8);
-        pCtx.stroke();
-
-        pCtx.restore();
-      }
-    }
-
-    function triggerFlowerShower() {
-      for (let i = 0; i < 75; i++) {
-        particles.push(new RealisticPetal());
-      }
-    }
-
-    function animateParticles() {
-      requestAnimationFrame(animateParticles);
-      pCtx.clearRect(0, 0, window.innerWidth, window.innerHeight);
-      
-      for (let i = particles.length - 1; i >= 0; i--) {
-        const p = particles[i];
-        p.update();
-        p.draw();
-        if (p.y > window.innerHeight + 40) {
-          particles.splice(i, 1);
-        }
-      }
-    }
-
-    document.getElementById("flowerBtn").addEventListener("click", triggerFlowerShower);
-
-    function playBellSound() {
-      try {
-        const AudioCtx = window.AudioContext || window.webkitAudioContext;
-        const bellCtx = new AudioCtx();
-        if (bellCtx.state === 'suspended') {
-          bellCtx.resume();
-        }
-        const osc = bellCtx.createOscillator();
-        const gain = bellCtx.createGain();
-
-        osc.type = "sine";
-        osc.frequency.setValueAtTime(1200, bellCtx.currentTime);
-        osc.frequency.exponentialRampToValueAtTime(400, bellCtx.currentTime + 1.2);
-
-        gain.gain.setValueAtTime(0.6, bellCtx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.01, bellCtx.currentTime + 1.2);
-
-        osc.connect(gain);
-        gain.connect(bellCtx.destination);
-
-        osc.start();
-        osc.stop(bellCtx.currentTime + 1.2);
-      } catch (e) {
-        console.warn("Audio Context trigger blocked:", e);
-      }
-    }
-
-    document.getElementById("bellBtn").addEventListener("click", playBellSound);
-
-    // Modal Actions: Theme Selector & Playlist Views
-    themeBtn.addEventListener("click", () => {
-      openModal();
-      renderThemeView();
-    });
-
-    playlistsBtn.addEventListener("click", () => {
-      openModal();
-      renderPlaylistsView();
-    });
-
-    songsBtn.addEventListener("click", () => {
-      openModal();
-      renderAllTracksView();
-    });
-
+    // --- Modal Interactions ---
+    themeBtn.addEventListener("click", () => { openModal(); renderThemeView(); });
+    playlistsBtn.addEventListener("click", () => { openModal(); renderPlaylistsView(); });
+    songsBtn.addEventListener("click", () => { openModal(); renderAllTracksView(); });
     closeModalBtn.addEventListener("click", closeModal);
     backBtn.addEventListener("click", renderPlaylistsView);
-    songsModal.addEventListener("click", (e) => { if (e.target === songsModal) closeModal(); });
 
-    function openModal() {
-      songsModal.style.display = "flex";
-    }
+    function openModal() { songsModal.style.display = "flex"; }
+    function closeModal() { songsModal.style.display = "none"; }
 
-    function closeModal() {
-      songsModal.style.display = "none";
-    }
-
-    // View: Wallpaper Themes
     function renderThemeView() {
       modalTitle.textContent = "Select Wallpaper Theme";
       backBtn.style.display = "none";
@@ -1206,7 +787,6 @@
       });
     }
 
-    // View: Playlists Overview
     function renderPlaylistsView() {
       modalTitle.textContent = "Playlists";
       backBtn.style.display = "none";
@@ -1215,15 +795,14 @@
           <div class="playlist-icon"><i class="fa-solid fa-music"></i></div>
           <div class="playlist-info">
             <h4>Ganpati Songs</h4>
-            <p>25 Songs • Devotional Collection</p>
+            <p>${songPlaylist.length} Songs • Devotional Collection</p>
           </div>
         </div>
-
         <div class="playlist-card" id="playlistAartis">
           <div class="playlist-icon"><i class="fa-solid fa-om"></i></div>
           <div class="playlist-info">
             <h4>Ganpati Aartis</h4>
-            <p>4 Aartis • Sacred Chants</p>
+            <p>${aartiList.length} Aartis • Sacred Chants</p>
           </div>
         </div>
       `;
@@ -1231,30 +810,24 @@
       document.getElementById("playlistSongs").addEventListener("click", () => {
         renderPlaylistTracks("Ganpati Songs", songPlaylist, 0);
       });
-
       document.getElementById("playlistAartis").addEventListener("click", () => {
         renderPlaylistTracks("Ganpati Aartis", aartiList, songPlaylist.length);
       });
     }
 
-    // View: Playlist Tracks
     function renderPlaylistTracks(title, trackList, globalOffset) {
       modalTitle.textContent = title;
       backBtn.style.display = "inline-block";
       modalBodyContainer.innerHTML = "";
-
       trackList.forEach((song, idx) => {
-        const globalIdx = globalOffset + idx;
-        modalBodyContainer.appendChild(createSongRow(song, globalIdx));
+        modalBodyContainer.appendChild(createSongRow(song, globalOffset + idx));
       });
     }
 
-    // View: All Tracks
     function renderAllTracksView() {
       modalTitle.textContent = "All Tracks";
       backBtn.style.display = "none";
       modalBodyContainer.innerHTML = "";
-
       fullPlaylist.forEach((song, globalIdx) => {
         modalBodyContainer.appendChild(createSongRow(song, globalIdx));
       });
@@ -1264,7 +837,7 @@
       const item = document.createElement("div");
       item.className = `song-item ${globalIndex === currentTrackIndex ? 'active' : ''}`;
       item.innerHTML = `
-        <div class="song-item-info">
+        <div>
           <span class="song-item-title">${song.title}</span>
           <span class="song-item-artist">${song.artist}</span>
         </div>
@@ -1278,18 +851,132 @@
       return item;
     }
 
+    // --- Real-time Clock ---
     function updateTime() {
       const timeDisplay = document.getElementById("timeDisplay");
       const now = new Date();
       timeDisplay.textContent = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
     }
-
     setInterval(updateTime, 1000);
-    resizeCanvases();
-    loadTrack(currentTrackIndex);
-    drawVisualizer();
-    animateParticles();
     updateTime();
+
+    // --- Particle Animation System (Flower Shower) ---
+    const pCanvas = document.getElementById('particleCanvas');
+    const pCtx = pCanvas.getContext('2d');
+    let particles = [];
+
+    function resizeCanvases() {
+      pCanvas.width = window.innerWidth;
+      pCanvas.height = window.innerHeight;
+      vCanvas.width = window.innerWidth;
+      vCanvas.height = window.innerHeight;
+    }
+
+    class Particle {
+      constructor() {
+        this.reset();
+      }
+      reset() {
+        this.x = Math.random() * pCanvas.width;
+        this.y = -20;
+        this.size = Math.random() * 12 + 8;
+        this.speedY = Math.random() * 2 + 1;
+        this.speedX = Math.random() * 2 - 1;
+        this.rotation = Math.random() * 360;
+        this.rotSpeed = Math.random() * 2 - 1;
+        this.color = ['#ff4d6d', '#ffd166', '#ff9f1c', '#ffffff'][Math.floor(Math.random() * 4)];
+      }
+      update() {
+        this.y += this.speedY;
+        this.x += this.speedX;
+        this.rotation += this.rotSpeed;
+        if (this.y > pCanvas.height + 20) {
+          this.reset();
+        }
+      }
+      draw() {
+        pCtx.save();
+        pCtx.translate(this.x, this.y);
+        pCtx.rotate((this.rotation * Math.PI) / 180);
+        pCtx.fillStyle = this.color;
+        pCtx.beginPath();
+        // Draw simple petal shape
+        pCtx.ellipse(0, 0, this.size / 2, this.size, 0, 0, Math.PI * 2);
+        pCtx.fill();
+        pCtx.restore();
+      }
+    }
+
+    function triggerFlowerShower() {
+      for (let i = 0; i < 40; i++) {
+        particles.push(new Particle());
+      }
+    }
+
+    flowerBtn.addEventListener("click", triggerFlowerShower);
+
+    function animateParticles() {
+      pCtx.clearRect(0, 0, pCanvas.width, pCanvas.height);
+      particles.forEach((p, index) => {
+        p.update();
+        p.draw();
+      });
+      requestAnimationFrame(animateParticles);
+    }
+
+    // --- Audio Visualizer ---
+    const vCanvas = document.getElementById('visualizerCanvas');
+    const vCtx = vCanvas.getContext('2d');
+    let audioCtx, analyser, srcNode;
+
+    function initAudioVisualizer() {
+      if (audioCtx) return;
+      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      analyser = audioCtx.createAnalyser();
+      srcNode = audioCtx.createMediaElementSource(audio);
+      srcNode.connect(analyser);
+      analyser.connect(audioCtx.destination);
+      analyser.fftSize = 64;
+    }
+
+    audio.addEventListener('play', () => {
+      initAudioVisualizer();
+      if (audioCtx && audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+    });
+
+    function drawVisualizer() {
+      requestAnimationFrame(drawVisualizer);
+      vCtx.clearRect(0, 0, vCanvas.width, vCanvas.height);
+
+      if (!analyser) return;
+      const bufferLength = analyser.frequencyBinCount;
+      const dataArray = new Uint8Array(bufferLength);
+      analyser.getByteFrequencyData(dataArray);
+
+      const barWidth = (vCanvas.width / bufferLength) * 2.5;
+      let barHeight;
+      let x = 0;
+
+      for (let i = 0; i < bufferLength; i++) {
+        barHeight = (dataArray[i] / 255) * (vCanvas.height / 3);
+        vCtx.fillStyle = `rgba(255, 209, 102, ${dataArray[i] / 255 + 0.2})`;
+        vCtx.fillRect(x, vCanvas.height - barHeight, barWidth - 2, barHeight);
+        x += barWidth;
+      }
+    }
+
+    window.addEventListener('resize', resizeCanvases);
+    resizeCanvases();
+    animateParticles();
+    drawVisualizer();
+
+    // --- Optional Firebase Setup Placeholder ---
+    // If Firebase config details are provided, live presence counting can be attached here.
+    // Default online count remains 1.
+
+    loadTrack(currentTrackIndex);
   </script>
 </body>
 </html>
