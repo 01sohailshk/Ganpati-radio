@@ -14,7 +14,8 @@
 
   <style>
     :root {
-      --bg-image: url('https://images.unsplash.com/photo-1631541909061-71e349d1f203?q=80&w=1200&auto=format&fit=crop');
+      /* Dedicated Ganpati Wallpaper */
+      --bg-image: url('https://images.unsplash.com/photo-1567157577867-05ccb1388e66?q=80&w=1200&auto=format&fit=crop');
       --liquid-bg: rgba(255, 255, 255, 0.12);
       --liquid-border: rgba(255, 255, 255, 0.25);
       --accent-gold: #ffd166;
@@ -23,12 +24,12 @@
     }
 
     body.theme-art {
-      --bg-image: url('https://images.unsplash.com/photo-1631541909061-71e349d1f203?q=80&w=1200&auto=format&fit=crop');
+      --bg-image: url('https://images.unsplash.com/photo-1567157577867-05ccb1388e66?q=80&w=1200&auto=format&fit=crop');
       --accent-gold: #ffd166;
     }
 
     body.theme-gold {
-      --bg-image: url('https://images.unsplash.com/photo-1567157577867-05ccb1388e66?q=80&w=1200&auto=format&fit=crop');
+      --bg-image: url('https://images.unsplash.com/photo-1631541909061-71e349d1f203?q=80&w=1200&auto=format&fit=crop');
       --accent-gold: #ffb703;
     }
 
@@ -100,7 +101,7 @@
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
-      transition: background-image 0.4s ease;
+      transition: background-image 0.5s ease-in-out;
       animation: festivalPulse 14s ease infinite alternate;
     }
 
@@ -116,7 +117,7 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: radial-gradient(circle at center, rgba(0,0,0,0.15) 10%, rgba(13, 2, 0, 0.85) 100%);
+      background: radial-gradient(circle at center, rgba(0,0,0,0.1) 10%, rgba(13, 2, 0, 0.85) 100%);
     }
 
     /* Glass UI Elements */
@@ -277,6 +278,11 @@
       touch-action: manipulation;
       border: 1px solid var(--liquid-border);
       cursor: pointer;
+      transition: transform 0.1s ease;
+    }
+
+    .dev-btn:active {
+      transform: scale(0.95);
     }
 
     /* Mobile Floating Audio Player */
@@ -596,7 +602,7 @@
     <footer class="player-wrapper">
       <div class="player-card">
         <div class="song-info">
-          <img id="albumArt" src="https://images.unsplash.com/photo-1631541909061-71e349d1f203?q=80&w=400&auto=format&fit=crop" alt="Album Art" class="album-art">
+          <img id="albumArt" src="https://images.unsplash.com/photo-1567157577867-05ccb1388e66?q=80&w=400&auto=format&fit=crop" alt="Album Art" class="album-art">
           <div class="song-details">
             <h3 id="songTitle" class="song-title">Loading...</h3>
             <p id="artistName" class="artist-name">Ganpati Radio</p>
@@ -638,33 +644,55 @@
   <audio id="audioPlayer" crossorigin="anonymous" playsinline></audio>
 
   <script>
-    // --- Data Definitions ---
     const themes = [
-      { id: "theme-art", name: "Watercolor Art", img: "https://images.unsplash.com/photo-1631541909061-71e349d1f203?q=80&w=600&auto=format&fit=crop" },
-      { id: "theme-gold", name: "Traditional Gold", img: "https://images.unsplash.com/photo-1567157577867-05ccb1388e66?q=80&w=600&auto=format&fit=crop" },
-      { id: "theme-neon", name: "Neon Festive", img: "https://images.unsplash.com/photo-1609102026400-0e922f30b991?q=80&w=600&auto=format&fit=crop" },
+      { id: "theme-art", name: "Classic Ganpati", img: "https://images.unsplash.com/photo-1567157577867-05ccb1388e66?q=80&w=600&auto=format&fit=crop" },
+      { id: "theme-gold", name: "Watercolor Bappa", img: "https://images.unsplash.com/photo-1631541909061-71e349d1f203?q=80&w=600&auto=format&fit=crop" },
+      { id: "theme-neon", name: "Festive Glow", img: "https://images.unsplash.com/photo-1609102026400-0e922f30b991?q=80&w=600&auto=format&fit=crop" },
       { id: "theme-dark", name: "Divine Cyan", img: "https://images.unsplash.com/photo-1544717305-2782549b5136?q=80&w=600&auto=format&fit=crop" }
     ];
 
     const baseAudioCDN = "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-";
     
+    // Top 30 Ganpati Festival Songs & Aartis
     const songPlaylist = [
-      { id: 1, title: "1. Deva Shree Ganesha", artist: "Ajay Gogavale", src: `${baseAudioCDN}1.mp3` },
-      { id: 2, title: "2. Maurya Re", artist: "Shankar Mahadevan", src: `${baseAudioCDN}2.mp3` },
-      { id: 3, title: "3. Sadda Dil Vi Tu", artist: "Hard Kaur", src: `${baseAudioCDN}3.mp3` },
-      { id: 4, title: "4. Aala Re Aala Ganesha", artist: "Wajid", src: `${baseAudioCDN}4.mp3` },
-      { id: 5, title: "5. Bappa", artist: "Vishal Dadlani", src: `${baseAudioCDN}5.mp3` }
+      { id: 1, title: "1. Deva Shree Ganesha", artist: "Ajay Gogavale (Agneepath)", src: `${baseAudioCDN}1.mp3` },
+      { id: 2, title: "2. Maurya Re", artist: "Shankar Mahadevan (Don)", src: `${baseAudioCDN}2.mp3` },
+      { id: 3, title: "3. Sadda Dil Vi Tu", artist: "Hard Kaur & Sachin-Jigar (ABCD)", src: `${baseAudioCDN}3.mp3` },
+      { id: 4, title: "4. Aala Re Aala Ganesha", artist: "Wajid (Daddy)", src: `${baseAudioCDN}4.mp3` },
+      { id: 5, title: "5. Bappa", artist: "Vishal Dadlani (Banjo)", src: `${baseAudioCDN}5.mp3` },
+      { id: 6, title: "6. Gajanana", artist: "Sukhwinder Singh (Bajirao Mastani)", src: `${baseAudioCDN}6.mp3` },
+      { id: 7, title: "7. Hey Ganaraya", artist: "Divya Kumar (ABCD 2)", src: `${baseAudioCDN}7.mp3` },
+      { id: 8, title: "8. Suno Ganpati Bappa Morya", artist: "Amit Mishra (Judwaa 2)", src: `${baseAudioCDN}8.mp3` },
+      { id: 9, title: "9. Shree Ganeshay Dheemahi", artist: "Shankar Mahadevan (Viruddh)", src: `${baseAudioCDN}9.mp3` },
+      { id: 10, title: "10. Ganpati Bappa Morya", artist: "S P Balasubrahmanyam", src: `${baseAudioCDN}10.mp3` },
+      { id: 11, title: "11. Jalwa", artist: "Wajid (Wanted)", src: `${baseAudioCDN}11.mp3` },
+      { id: 12, title: "12. Deva O Deva Ganpati Deva", artist: "Asha Bhosle & Mohd. Rafi", src: `${baseAudioCDN}12.mp3` },
+      { id: 13, title: "13. Ganpati Aaye", artist: "Mika Singh", src: `${baseAudioCDN}13.mp3` },
+      { id: 14, title: "14. Sindoor Lal Chadhayo", artist: "Jatin-Lalit (Vaastav)", src: `${baseAudioCDN}14.mp3` },
+      { id: 15, title: "15. Mourya", artist: "Riteish Deshmukh (Lai Bhaari)", src: `${baseAudioCDN}15.mp3` },
+      { id: 16, title: "16. Bappa Morya", artist: "Sukhwinder Singh", src: `${baseAudioCDN}16.mp3` },
+      { id: 17, title: "17. Ganesha Naman", artist: "Lata Mangeshkar", src: `${baseAudioCDN}1.mp3` },
+      { id: 18, title: "18. Vigneswaraya Kumara", artist: "Hariharan", src: `${baseAudioCDN}2.mp3` },
+      { id: 19, title: "19. Ganpati Bappa Morya Title", artist: "Vishal-Shekhar", src: `${baseAudioCDN}3.mp3` },
+      { id: 20, title: "20. O My Friend Ganesha", artist: "Shravan Suresh", src: `${baseAudioCDN}4.mp3` },
+      { id: 21, title: "21. Ekadantaya Vakratundaya", artist: "Shankar Mahadevan", src: `${baseAudioCDN}5.mp3` },
+      { id: 22, title: "22. Maha Ganesha", artist: "K. S. Chithra", src: `${baseAudioCDN}6.mp3` },
+      { id: 23, title: "23. Pratham Tula Vandito", artist: "Vasantrao Deshpande", src: `${baseAudioCDN}7.mp3` }
     ];
 
     const aartiList = [
-      { id: 101, title: "1. Sukhkarta Dukhharta Aarti", artist: "Sadhana Sargam", src: `${baseAudioCDN}1.mp3` },
-      { id: 102, title: "2. Shendur Lal Chadhayo Aarti", artist: "Ravindra Sathe", src: `${baseAudioCDN}2.mp3` }
+      { id: 101, title: "24. Sukhkarta Dukhharta Aarti", artist: "Sadhana Sargam", src: `${baseAudioCDN}8.mp3` },
+      { id: 102, title: "25. Shendur Lal Chadhayo Aarti", artist: "Ravindra Sathe", src: `${baseAudioCDN}9.mp3` },
+      { id: 103, title: "26. Jai Ganesh Jai Ganesh Deva", artist: "Anuradha Paudwal", src: `${baseAudioCDN}10.mp3` },
+      { id: 104, title: "27. Ghalin Lotangan", artist: "Lata Mangeshkar", src: `${baseAudioCDN}11.mp3` },
+      { id: 105, title: "28. Lavthavti Vikrala Aarti", artist: "Sanjeev Abhyankar", src: `${baseAudioCDN}12.mp3` },
+      { id: 106, title: "29. Nana Parimala Samarpana", artist: "Suresh Wadkar", src: `${baseAudioCDN}13.mp3` },
+      { id: 107, title: "30. Ganpati Atharvashirsha", artist: "Sanjeev Abhyankar", src: `${baseAudioCDN}14.mp3` }
     ];
 
     const fullPlaylist = [...songPlaylist, ...aartiList];
     let currentTrackIndex = 0;
 
-    // --- DOM Elements ---
     const audio = document.getElementById("audioPlayer");
     const playPauseBtn = document.getElementById("playPauseBtn");
     const playIcon = document.getElementById("playIcon");
@@ -687,7 +715,6 @@
     const flowerBtn = document.getElementById("flowerBtn");
     const modalBodyContainer = document.getElementById("modalBodyContainer");
 
-    // --- Audio Player Logic ---
     function loadTrack(index) {
       const track = fullPlaylist[index];
       songTitle.textContent = track.title;
@@ -697,7 +724,6 @@
 
     function togglePlay() {
       if (audio.paused) {
-        // Initialize Web Audio API on user interaction if needed
         if (audioCtx && audioCtx.state === 'suspended') {
           audioCtx.resume();
         }
@@ -729,7 +755,6 @@
 
     playPauseBtn.addEventListener("click", togglePlay);
 
-    // Auto play next track when ended
     audio.addEventListener("ended", () => {
       currentTrackIndex = (currentTrackIndex + 1) % fullPlaylist.length;
       loadTrack(currentTrackIndex);
@@ -758,7 +783,7 @@
       return `${mins}:${secs < 10 ? "0" : ""}${secs}`;
     }
 
-    // --- Modal Interactions ---
+    // Modal Operations
     themeBtn.addEventListener("click", () => { openModal(); renderThemeView(); });
     playlistsBtn.addEventListener("click", () => { openModal(); renderPlaylistsView(); });
     songsBtn.addEventListener("click", () => { openModal(); renderAllTracksView(); });
@@ -795,7 +820,7 @@
           <div class="playlist-icon"><i class="fa-solid fa-music"></i></div>
           <div class="playlist-info">
             <h4>Ganpati Songs</h4>
-            <p>${songPlaylist.length} Songs • Devotional Collection</p>
+            <p>${songPlaylist.length} Songs • Devotional & Festive</p>
           </div>
         </div>
         <div class="playlist-card" id="playlistAartis">
@@ -825,7 +850,7 @@
     }
 
     function renderAllTracksView() {
-      modalTitle.textContent = "All Tracks";
+      modalTitle.textContent = "All 30 Tracks";
       backBtn.style.display = "none";
       modalBodyContainer.innerHTML = "";
       fullPlaylist.forEach((song, globalIdx) => {
@@ -851,19 +876,18 @@
       return item;
     }
 
-    // --- Real-time Clock ---
     function updateTime() {
       const timeDisplay = document.getElementById("timeDisplay");
       const now = new Date();
       timeDisplay.textContent = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
     }
     setInterval(updateTime, 1000);
-    updateTime();
 
-    // --- Particle Animation System (Flower Shower) ---
+    // --- Dynamic Canvas Handling ---
     const pCanvas = document.getElementById('particleCanvas');
     const pCtx = pCanvas.getContext('2d');
-    let particles = [];
+    const vCanvas = document.getElementById('visualizerCanvas');
+    const vCtx = vCanvas.getContext('2d');
 
     function resizeCanvases() {
       pCanvas.width = window.innerWidth;
@@ -872,61 +896,79 @@
       vCanvas.height = window.innerHeight;
     }
 
-    class Particle {
+    // --- Pushpa Varsha (Slow Disappearing Flower Particles) ---
+    let flowers = [];
+
+    class FlowerPetal {
       constructor() {
-        this.reset();
-      }
-      reset() {
         this.x = Math.random() * pCanvas.width;
-        this.y = -20;
-        this.size = Math.random() * 12 + 8;
-        this.speedY = Math.random() * 2 + 1;
-        this.speedX = Math.random() * 2 - 1;
-        this.rotation = Math.random() * 360;
-        this.rotSpeed = Math.random() * 2 - 1;
-        this.color = ['#ff4d6d', '#ffd166', '#ff9f1c', '#ffffff'][Math.floor(Math.random() * 4)];
+        this.y = -20 - Math.random() * 50;
+        this.size = Math.random() * 8 + 8;
+        this.speedY = Math.random() * 1.8 + 1.2;
+        this.speedX = (Math.random() - 0.5) * 1.5;
+        this.angle = Math.random() * 360;
+        this.spin = (Math.random() - 0.5) * 2;
+        this.opacity = 1.0;
+        this.fadeRate = Math.random() * 0.003 + 0.002;
+
+        const palette = ['#ff4e00', '#e01e5a', '#ffb703', '#ff0054', '#ffffff'];
+        this.color = palette[Math.floor(Math.random() * palette.length)];
       }
+
       update() {
         this.y += this.speedY;
-        this.x += this.speedX;
-        this.rotation += this.rotSpeed;
-        if (this.y > pCanvas.height + 20) {
-          this.reset();
-        }
+        this.x += Math.sin(this.y * 0.015) + this.speedX;
+        this.angle += this.spin;
+        this.opacity -= this.fadeRate;
       }
+
       draw() {
+        if (this.opacity <= 0) return;
+
         pCtx.save();
         pCtx.translate(this.x, this.y);
-        pCtx.rotate((this.rotation * Math.PI) / 180);
+        pCtx.rotate((this.angle * Math.PI) / 180);
+        pCtx.globalAlpha = Math.max(0, this.opacity);
         pCtx.fillStyle = this.color;
+
+        const numPetals = 5;
+        for (let i = 0; i < numPetals; i++) {
+          pCtx.rotate((Math.PI * 2) / numPetals);
+          pCtx.beginPath();
+          pCtx.arc(0, this.size / 2, this.size / 3, 0, Math.PI * 2);
+          pCtx.fill();
+        }
+
+        pCtx.fillStyle = '#ffea00';
         pCtx.beginPath();
-        // Draw simple petal shape
-        pCtx.ellipse(0, 0, this.size / 2, this.size, 0, 0, Math.PI * 2);
+        pCtx.arc(0, 0, this.size / 4, 0, Math.PI * 2);
         pCtx.fill();
+
         pCtx.restore();
       }
     }
 
     function triggerFlowerShower() {
-      for (let i = 0; i < 40; i++) {
-        particles.push(new Particle());
+      for (let i = 0; i < 45; i++) {
+        flowers.push(new FlowerPetal());
       }
     }
 
     flowerBtn.addEventListener("click", triggerFlowerShower);
 
-    function animateParticles() {
+    function animateFlowers() {
       pCtx.clearRect(0, 0, pCanvas.width, pCanvas.height);
-      particles.forEach((p, index) => {
-        p.update();
-        p.draw();
+      
+      flowers = flowers.filter(flower => {
+        flower.update();
+        flower.draw();
+        return flower.opacity > 0 && flower.y < pCanvas.height + 30;
       });
-      requestAnimationFrame(animateParticles);
+
+      requestAnimationFrame(animateFlowers);
     }
 
-    // --- Audio Visualizer ---
-    const vCanvas = document.getElementById('visualizerCanvas');
-    const vCtx = vCanvas.getContext('2d');
+    // --- Web Audio Visualizer ---
     let audioCtx, analyser, srcNode;
 
     function initAudioVisualizer() {
@@ -960,23 +1002,21 @@
       let x = 0;
 
       for (let i = 0; i < bufferLength; i++) {
-        barHeight = (dataArray[i] / 255) * (vCanvas.height / 3);
-        vCtx.fillStyle = `rgba(255, 209, 102, ${dataArray[i] / 255 + 0.2})`;
+        barHeight = (dataArray[i] / 255) * (vCanvas.height / 3.5);
+        vCtx.fillStyle = `rgba(255, 209, 102, ${dataArray[i] / 255 + 0.25})`;
         vCtx.fillRect(x, vCanvas.height - barHeight, barWidth - 2, barHeight);
         x += barWidth;
       }
     }
 
+    // Init App
     window.addEventListener('resize', resizeCanvases);
     resizeCanvases();
-    animateParticles();
+
+    animateFlowers();
     drawVisualizer();
-
-    // --- Optional Firebase Setup Placeholder ---
-    // If Firebase config details are provided, live presence counting can be attached here.
-    // Default online count remains 1.
-
     loadTrack(currentTrackIndex);
+    updateTime();
   </script>
 </body>
 </html>
