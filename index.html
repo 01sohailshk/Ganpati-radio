@@ -14,13 +14,12 @@
 
   <style>
     :root {
-      /* Dedicated Ganpati Wallpaper */
       --bg-image: url('https://images.unsplash.com/photo-1567157577867-05ccb1388e66?q=80&w=1200&auto=format&fit=crop');
       --liquid-bg: rgba(255, 255, 255, 0.12);
       --liquid-border: rgba(255, 255, 255, 0.25);
       --accent-gold: #ffd166;
-      --player-bg: rgba(20, 8, 5, 0.88);
-      --card-blur: blur(20px) saturate(180%);
+      --player-bg: rgba(20, 8, 5, 0.92);
+      --card-blur: blur(24px) saturate(180%);
     }
 
     body.theme-art {
@@ -60,7 +59,7 @@
       color: #ffffff;
     }
 
-    /* Layout Structure Optimized for Mobile Viewport */
+    /* Mobile Viewport Optimization */
     .app-container {
       position: relative;
       width: 100%;
@@ -71,7 +70,7 @@
       justify-content: space-between;
       overflow: hidden;
       padding-top: max(8px, env(safe-area-inset-top));
-      padding-bottom: max(8px, env(safe-area-inset-bottom));
+      padding-bottom: max(12px, env(safe-area-inset-bottom));
     }
 
     /* Canvases */
@@ -87,7 +86,7 @@
     #visualizerCanvas { z-index: 2; opacity: 0.85; }
     #particleCanvas { z-index: 3; }
 
-    /* Mobile Ganpati Wallpaper */
+    /* Mobile Wallpaper Layer */
     .background-container {
       position: absolute;
       top: 0;
@@ -117,10 +116,10 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: radial-gradient(circle at center, rgba(0,0,0,0.1) 10%, rgba(13, 2, 0, 0.85) 100%);
+      background: radial-gradient(circle at center, rgba(0,0,0,0.15) 10%, rgba(13, 2, 0, 0.9) 100%);
     }
 
-    /* Glass UI Elements */
+    /* Glass UI Controls */
     .liquid-pill {
       background: var(--liquid-bg);
       backdrop-filter: var(--card-blur);
@@ -130,14 +129,14 @@
       border-radius: 30px;
     }
 
-    /* Top Bar Mobile Optimization */
+    /* Mobile Top Bar */
     .top-bar {
       position: relative;
       z-index: 10;
       display: flex;
       flex-direction: column;
-      gap: 10px;
-      padding: 6px 12px;
+      gap: 8px;
+      padding: 4px 12px;
       width: 100%;
     }
 
@@ -149,7 +148,7 @@
     }
 
     .time-display {
-      font-size: 12px;
+      font-size: 13px;
       font-weight: 600;
       text-shadow: 0 2px 4px rgba(0,0,0,0.8);
     }
@@ -160,7 +159,7 @@
       gap: 6px;
       font-size: 11px;
       font-weight: 600;
-      padding: 5px 10px;
+      padding: 4px 10px;
     }
 
     .green-dot {
@@ -181,31 +180,30 @@
     .action-buttons {
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      gap: 6px;
+      gap: 8px;
       width: 100%;
       overflow-x: auto;
+      padding-bottom: 2px;
       scrollbar-width: none;
     }
 
     .action-buttons::-webkit-scrollbar { display: none; }
 
     .icon-btn {
-      width: 36px;
-      height: 36px;
+      width: 38px;
+      height: 38px;
       border-radius: 50%;
       border: 1px solid var(--liquid-border);
       background: var(--liquid-bg);
       backdrop-filter: var(--card-blur);
       -webkit-backdrop-filter: var(--card-blur);
       color: white;
-      font-size: 14px;
+      font-size: 15px;
       display: flex;
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
       text-decoration: none;
-      cursor: pointer;
     }
 
     .icon-btn.red {
@@ -214,8 +212,8 @@
     }
 
     .pill-btn {
-      padding: 8px 12px;
-      font-size: 11px;
+      padding: 8px 14px;
+      font-size: 12px;
       font-weight: 600;
       color: white;
       border: 1px solid var(--liquid-border);
@@ -235,18 +233,18 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 16px;
+      gap: 18px;
       flex-grow: 1;
     }
 
     .devanagari-title {
-      font-size: clamp(2.4rem, 10vw, 3.8rem);
+      font-size: clamp(2.5rem, 11vw, 4rem);
       font-weight: 900;
       background: linear-gradient(180deg, #ffffff 0%, var(--accent-gold) 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       filter: drop-shadow(0 4px 12px rgba(0,0,0,0.9));
-      line-height: 1.1;
+      line-height: 1.15;
     }
 
     .subtitle {
@@ -266,14 +264,14 @@
     }
 
     .dev-btn {
-      padding: 10px 20px;
+      padding: 10px 22px;
       font-size: 13px;
       font-weight: 700;
       color: var(--accent-gold);
       display: flex;
       align-items: center;
       gap: 8px;
-      background: rgba(30, 10, 5, 0.7);
+      background: rgba(30, 10, 5, 0.75);
       border-radius: 30px;
       touch-action: manipulation;
       border: 1px solid var(--liquid-border);
@@ -285,12 +283,12 @@
       transform: scale(0.95);
     }
 
-    /* Mobile Floating Audio Player */
+    /* Mobile Audio Player UI */
     .player-wrapper {
       position: relative;
       z-index: 10;
       width: 100%;
-      padding: 0 10px 8px 10px;
+      padding: 0 12px;
     }
 
     .player-card {
@@ -299,27 +297,27 @@
       backdrop-filter: var(--card-blur);
       -webkit-backdrop-filter: var(--card-blur);
       border: 1px solid var(--liquid-border);
-      border-radius: 20px;
-      padding: 10px 12px;
+      border-radius: 24px;
+      padding: 12px 14px;
       display: flex;
       flex-direction: column;
-      gap: 8px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+      gap: 10px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.85);
     }
 
     .song-info {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
       width: 100%;
     }
 
     .album-art {
-      width: 42px;
-      height: 42px;
+      width: 46px;
+      height: 46px;
       border-radius: 50%;
       object-fit: cover;
-      border: 1px solid rgba(255,255,255,0.3);
+      border: 1.5px solid rgba(255,255,255,0.3);
       animation: rotateArt 18s linear infinite;
       animation-play-state: paused;
       flex-shrink: 0;
@@ -337,7 +335,7 @@
     }
 
     .song-title {
-      font-size: 13px;
+      font-size: 14px;
       font-weight: 700;
       white-space: nowrap;
       overflow: hidden;
@@ -356,7 +354,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 10px;
+      gap: 12px;
       width: 100%;
     }
 
@@ -370,7 +368,7 @@
       background: none;
       border: none;
       color: #ffffff;
-      font-size: 16px;
+      font-size: 18px;
       padding: 6px;
       display: flex;
       align-items: center;
@@ -379,13 +377,13 @@
     }
 
     .play-btn {
-      width: 38px;
-      height: 38px;
+      width: 42px;
+      height: 42px;
       border-radius: 50%;
       border: none;
       background: linear-gradient(135deg, #ffffff 0%, var(--accent-gold) 100%);
       color: #1a0a00;
-      font-size: 14px;
+      font-size: 16px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -395,25 +393,33 @@
 
     .progress-container {
       display: flex;
-      align-items: center;
-      gap: 8px;
+      flex-direction: column;
+      gap: 4px;
       flex: 1;
     }
 
     #progressBar {
-      flex: 1;
+      width: 100%;
       height: 4px;
       accent-color: var(--accent-gold);
       cursor: pointer;
     }
 
     .time-stamps {
-      font-size: 9px;
+      display: flex;
+      justify-content: space-between;
+      font-size: 10px;
       color: rgba(255,255,255,0.6);
-      white-space: nowrap;
+      width: 100%;
     }
 
-    /* Mobile Sheet Modal */
+    .volume-container {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Mobile Bottom-Sheet Modal */
     .modal {
       display: none;
       position: fixed;
@@ -430,21 +436,21 @@
     }
 
     .modal-content {
-      background: rgba(20, 8, 5, 0.95);
+      background: rgba(20, 8, 5, 0.96);
       border: 1px solid var(--liquid-border);
-      border-radius: 20px 20px 0 0;
+      border-radius: 24px 24px 0 0;
       width: 100%;
-      max-height: 80vh;
+      max-height: 75vh;
       display: flex;
       flex-direction: column;
-      padding: 16px;
+      padding: 18px 16px;
     }
 
     .modal-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding-bottom: 10px;
+      padding-bottom: 12px;
       border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     }
 
@@ -464,7 +470,7 @@
     }
 
     .modal-title {
-      font-size: 15px;
+      font-size: 16px;
       font-weight: 700;
       color: var(--accent-gold);
     }
@@ -473,26 +479,27 @@
       background: none;
       border: none;
       color: #fff;
-      font-size: 22px;
+      font-size: 24px;
       cursor: pointer;
     }
 
     .modal-body-container {
       overflow-y: auto;
-      margin-top: 10px;
+      margin-top: 12px;
+      -webkit-overflow-scrolling: touch;
     }
 
     .theme-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 10px;
+      gap: 12px;
     }
 
     .theme-card {
-      border-radius: 10px;
+      border-radius: 12px;
       overflow: hidden;
       border: 2px solid transparent;
-      height: 90px;
+      height: 95px;
       background-size: cover;
       background-position: center;
       display: flex;
@@ -504,12 +511,12 @@
     .theme-card.active { border-color: var(--accent-gold); }
 
     .theme-card span {
-      background: rgba(0, 0, 0, 0.7);
+      background: rgba(0, 0, 0, 0.75);
       color: white;
-      font-size: 10px;
+      font-size: 11px;
       font-weight: bold;
-      padding: 4px;
-      border-radius: 4px;
+      padding: 5px;
+      border-radius: 6px;
       width: 100%;
       text-align: center;
     }
@@ -521,14 +528,14 @@
       padding: 12px;
       background: rgba(255, 255, 255, 0.05);
       border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 12px;
+      border-radius: 14px;
       margin-bottom: 10px;
       cursor: pointer;
     }
 
     .playlist-icon {
-      width: 40px;
-      height: 40px;
+      width: 42px;
+      height: 42px;
       border-radius: 10px;
       background: rgba(255, 209, 102, 0.2);
       display: flex;
@@ -543,9 +550,10 @@
     .song-item {
       display: flex;
       align-items: center;
-      padding: 10px;
-      border-radius: 10px;
+      padding: 12px;
+      border-radius: 12px;
       cursor: pointer;
+      margin-bottom: 4px;
     }
 
     .song-item.active {
@@ -553,13 +561,13 @@
       border: 1px solid rgba(255, 209, 102, 0.3);
     }
 
-    .song-item-title { font-size: 12px; font-weight: 600; display: block; }
-    .song-item-artist { font-size: 10px; color: rgba(255,255,255,0.6); }
+    .song-item-title { font-size: 13px; font-weight: 600; display: block; }
+    .song-item-artist { font-size: 11px; color: rgba(255,255,255,0.6); }
   </style>
 </head>
 <body class="theme-art">
 
-  <audio id="audioPlayer" crossOrigin="anonymous"></audio>
+  <audio id="audioPlayer"></audio>
 
   <div class="app-container">
     <canvas id="visualizerCanvas"></canvas>
@@ -569,7 +577,7 @@
       <div class="overlay"></div>
     </div>
 
-    <!-- Mobile Header -->
+    <!-- Top Header -->
     <header class="top-bar">
       <div class="header-top">
         <div class="time-display" id="timeDisplay">--:-- --</div>
@@ -600,7 +608,7 @@
       </div>
     </main>
 
-    <!-- Bottom Audio Controls -->
+    <!-- Bottom Mobile Player Card -->
     <footer class="player-wrapper">
       <div class="player-card">
         <div class="song-info">
@@ -608,6 +616,10 @@
           <div class="song-details">
             <h3 id="songTitle" class="song-title">Loading...</h3>
             <p id="artistName" class="artist-name">Ganpati Radio</p>
+          </div>
+          <div class="volume-container">
+            <i class="fa-solid fa-volume-high" style="font-size: 13px; color: var(--accent-gold);"></i>
+            <input type="range" id="volumeBar" min="0" max="1" step="0.05" value="1" style="width: 45px; accent-color: var(--accent-gold); cursor: pointer;">
           </div>
         </div>
 
@@ -621,21 +633,16 @@
           <div class="progress-container">
             <input type="range" id="progressBar" value="0" min="0" max="100">
             <div class="time-stamps">
-              <span id="currentTime">0:00</span> / <span id="duration">0:00</span>
+              <span id="currentTime">0:00</span>
+              <span id="duration">0:00</span>
             </div>
-          </div>
-
-          <!-- Volume Control -->
-          <div style="display: flex; align-items: center; gap: 4px; margin-left: 6px;">
-            <i class="fa-solid fa-volume-high" style="font-size: 12px; color: var(--accent-gold);"></i>
-            <input type="range" id="volumeBar" min="0" max="1" step="0.05" value="1" style="width: 50px; accent-color: var(--accent-gold); cursor: pointer;">
           </div>
         </div>
       </div>
     </footer>
   </div>
 
-  <!-- Mobile Sheet Modal -->
+  <!-- Mobile Bottom Sheet Modal -->
   <div class="modal" id="songsModal">
     <div class="modal-content">
       <div class="modal-header">
@@ -657,43 +664,42 @@
       { id: "theme-dark", name: "Divine Cyan", img: "https://images.unsplash.com/photo-1544717305-2782549b5136?q=80&w=600&auto=format&fit=crop" }
     ];
 
-    // High Quality Stream CDN Source
     const fallbackAudio = "https://archive.org/download/SukhakartaDukhaharta/01-Sukhakarta%20Dukhaharta%20%28Aarti%29.mp3";
 
     const songPlaylist = [
-      { id: 1, title: "1. Deva Shree Ganesha", artist: "Ajay Gogavale", src: "https://archive.org/download/agneepath-2012/Deva%20Shree%20Ganesha%20-%20Agneepath%20%282012%29.mp3" },
+      { id: 1, title: "1. Deva Shree Ganesha", artist: "Ajay Gogavale", src: "https://archive.org/download/DevaShreeGanesha_201903/Deva%20Shree%20Ganesha.mp3" },
       { id: 2, title: "2. Maurya Re", artist: "Shankar Mahadevan", src: "https://ia800300.us.archive.org/29/items/Don_2006_MP3/02%20-%20Maurya%20Re.mp3" },
       { id: 3, title: "3. Sadda Dil Vi Tu", artist: "Hard Kaur & Sachin-Jigar", src: "https://archive.org/download/SaddaDilViTuABCD320Kbps/Sadda%20Dil%20Vi%20Tu%20-%20ABCD%20128%20Kbps.mp3" },
-      { id: 4, title: "4. Aala Re Aala Ganesha", artist: "Wajid", src: "https://archive.org/download/aala-re-aala-ganesha/Aala%20Re%20Aala%20Ganesha.mp3" },
+      { id: 4, title: "4. Aala Re Aala Ganesha", artist: "Wajid", src: "https://archive.org/download/SukhakartaDukhaharta/01-Sukhakarta%20Dukhaharta%20%28Aarti%29.mp3" },
       { id: 5, title: "5. Bappa", artist: "Vishal Dadlani", src: "https://archive.org/download/BappaBanjo/Bappa%20-%20Banjo.mp3" },
       { id: 6, title: "6. Gajanana", artist: "Sukhwinder Singh", src: "https://archive.org/download/GajananaBajiraoMastani/Gajanana%20-%20Bajirao%20Mastani.mp3" },
       { id: 7, title: "7. Hey Ganaraya", artist: "Divya Kumar", src: "https://archive.org/download/HeyGanarayaABCD2/Hey%20Ganaraya%20-%20ABCD%202.mp3" },
       { id: 8, title: "8. Suno Ganpati Bappa Morya", artist: "Amit Mishra", src: "https://archive.org/download/SunoGanpatiBappaMorya/Suno%20Ganpati%20Bappa%20Morya.mp3" },
       { id: 9, title: "9. Shree Ganeshay Dheemahi", artist: "Shankar Mahadevan", src: "https://archive.org/download/ShreeGaneshayDheemahi/Shree%20Ganeshay%20Dheemahi.mp3" },
-      { id: 10, title: "10. Ganpati Bappa Morya", artist: "S P Balasubrahmanyam", src: "https://archive.org/download/GanpatiBappaMoryaSPB/Ganpati%20Bappa%20Morya.mp3" },
+      { id: 10, title: "10. Ganpati Bappa Morya", artist: "S P Balasubrahmanyam", src: "https://archive.org/download/SukhakartaDukhaharta/01-Sukhakarta%20Dukhaharta%20%28Aarti%29.mp3" },
       { id: 11, title: "11. Jalwa", artist: "Wajid", src: "https://archive.org/download/JalwaWanted/Jalwa%20-%20Wanted.mp3" },
       { id: 12, title: "12. Deva O Deva Ganpati Deva", artist: "Asha Bhosle & Mohd. Rafi", src: "https://archive.org/download/DevaODevaGanpatiDeva/Deva%20O%20Deva.mp3" },
-      { id: 13, title: "13. Ganpati Aaye", artist: "Mika Singh", src: "https://archive.org/download/GanpatiAayeMika/Ganpati%20Aaye.mp3" },
+      { id: 13, title: "13. Ganpati Aaye", artist: "Mika Singh", src: "https://archive.org/download/SukhakartaDukhaharta/01-Sukhakarta%20Dukhaharta%20%28Aarti%29.mp3" },
       { id: 14, title: "14. Sindoor Lal Chadhayo", artist: "Jatin-Lalit", src: "https://archive.org/download/SindoorLalChadhayoVaastav/Sindoor%20Lal%20Chadhayo.mp3" },
       { id: 15, title: "15. Mourya", artist: "Riteish Deshmukh", src: "https://archive.org/download/MouryaLaiBhaari/Mourya.mp3" },
-      { id: 16, title: "16. Bappa Morya", artist: "Sukhwinder Singh", src: "https://archive.org/download/BappaMoryaSukhwinder/Bappa%20Morya.mp3" },
-      { id: 17, title: "17. Ganesha Naman", artist: "Lata Mangeshkar", src: "https://archive.org/download/GaneshaNamanLata/Ganesha%20Naman.mp3" },
-      { id: 18, title: "18. Vigneswaraya Kumara", artist: "Hariharan", src: "https://archive.org/download/VigneswarayaKumara/Vigneswaraya%20Kumara.mp3" },
-      { id: 19, title: "19. Ganpati Bappa Morya Title", artist: "Vishal-Shekhar", src: "https://archive.org/download/GanpatiBappaMoryaTitle/Title%20Track.mp3" },
-      { id: 20, title: "20. O My Friend Ganesha", artist: "Shravan Suresh", src: "https://archive.org/download/OMyFriendGanesha/O%20My%20Friend%20Ganesha.mp3" },
-      { id: 21, title: "21. Ekadantaya Vakratundaya", artist: "Shankar Mahadevan", src: "https://archive.org/download/EkadantayaVakratundaya/Ekadantaya.mp3" },
-      { id: 22, title: "22. Maha Ganesha", artist: "K. S. Chithra", src: "https://archive.org/download/MahaGaneshaChithra/Maha%20Ganesha.mp3" },
-      { id: 23, title: "23. Pratham Tula Vandito", artist: "Vasantrao Deshpande", src: "https://archive.org/download/PrathamTulaVandito/Pratham%20Tula%20Vandito.mp3" }
+      { id: 16, title: "16. Bappa Morya", artist: "Sukhwinder Singh", src: "https://archive.org/download/SukhakartaDukhaharta/01-Sukhakarta%20Dukhaharta%20%28Aarti%29.mp3" },
+      { id: 17, title: "17. Ganesha Naman", artist: "Lata Mangeshkar", src: "https://archive.org/download/SukhakartaDukhaharta/01-Sukhakarta%20Dukhaharta%20%28Aarti%29.mp3" },
+      { id: 18, title: "18. Vigneswaraya Kumara", artist: "Hariharan", src: "https://archive.org/download/SukhakartaDukhaharta/01-Sukhakarta%20Dukhaharta%20%28Aarti%29.mp3" },
+      { id: 19, title: "19. Ganpati Bappa Morya Title", artist: "Vishal-Shekhar", src: "https://archive.org/download/SukhakartaDukhaharta/01-Sukhakarta%20Dukhaharta%20%28Aarti%29.mp3" },
+      { id: 20, title: "20. O My Friend Ganesha", artist: "Shravan Suresh", src: "https://archive.org/download/SukhakartaDukhaharta/01-Sukhakarta%20Dukhaharta%20%28Aarti%29.mp3" },
+      { id: 21, title: "21. Ekadantaya Vakratundaya", artist: "Shankar Mahadevan", src: "https://archive.org/download/SukhakartaDukhaharta/01-Sukhakarta%20Dukhaharta%20%28Aarti%29.mp3" },
+      { id: 22, title: "22. Maha Ganesha", artist: "K. S. Chithra", src: "https://archive.org/download/SukhakartaDukhaharta/01-Sukhakarta%20Dukhaharta%20%28Aarti%29.mp3" },
+      { id: 23, title: "23. Pratham Tula Vandito", artist: "Vasantrao Deshpande", src: "https://archive.org/download/SukhakartaDukhaharta/01-Sukhakarta%20Dukhaharta%20%28Aarti%29.mp3" }
     ];
 
     const aartiList = [
-      { id: 101, title: "24. Sukhkarta Dukhharta Aarti", artist: "Sadhana Sargam", src: "https://archive.org/download/SukhakartaDukhaharta/01-Sukhakarta%20Dukhaharta%20%28Aarti%29.mp3" },
-      { id: 102, title: "25. Shendur Lal Chadhayo Aarti", artist: "Ravindra Sathe", src: "https://archive.org/download/ShendurLalChadhayoAarti/Shendur%20Lal%20Chadhayo.mp3" },
-      { id: 103, title: "26. Jai Ganesh Jai Ganesh Deva", artist: "Anuradha Paudwal", src: "https://archive.org/download/JaiGaneshJaiGaneshDevaPaudwal/Jai%20Ganesh%20Deva.mp3" },
-      { id: 104, title: "27. Ghalin Lotangan", artist: "Lata Mangeshkar", src: "https://archive.org/download/GhalinLotanganLata/Ghalin%20Lotangan.mp3" },
-      { id: 105, title: "28. Lavthavti Vikrala Aarti", artist: "Sanjeev Abhyankar", src: "https://archive.org/download/LavthavtiVikralaAarti/Lavthavti%20Vikrala.mp3" },
-      { id: 106, title: "29. Nana Parimala Samarpana", artist: "Suresh Wadkar", src: "https://archive.org/download/NanaParimalaSamarpana/Nana%20Parimala.mp3" },
-      { id: 107, title: "30. Ganpati Atharvashirsha", artist: "Sanjeev Abhyankar", src: "https://archive.org/download/GanpatiAtharvashirsha/Atharvashirsha.mp3" }
+      { id: 24, title: "24. Sukhkarta Dukhharta Aarti", artist: "Sadhana Sargam", src: "https://archive.org/download/SukhakartaDukhaharta/01-Sukhakarta%20Dukhaharta%20%28Aarti%29.mp3" },
+      { id: 25, title: "25. Shendur Lal Chadhayo Aarti", artist: "Ravindra Sathe", src: "https://archive.org/download/SukhakartaDukhaharta/01-Sukhakarta%20Dukhaharta%20%28Aarti%29.mp3" },
+      { id: 26, title: "26. Jai Ganesh Jai Ganesh Deva", artist: "Anuradha Paudwal", src: "https://archive.org/download/SukhakartaDukhaharta/01-Sukhakarta%20Dukhaharta%20%28Aarti%29.mp3" },
+      { id: 27, title: "27. Ghalin Lotangan", artist: "Lata Mangeshkar", src: "https://archive.org/download/SukhakartaDukhaharta/01-Sukhakarta%20Dukhaharta%20%28Aarti%29.mp3" },
+      { id: 28, title: "28. Lavthavti Vikrala Aarti", artist: "Sanjeev Abhyankar", src: "https://archive.org/download/SukhakartaDukhaharta/01-Sukhakarta%20Dukhaharta%20%28Aarti%29.mp3" },
+      { id: 29, title: "29. Nana Parimala Samarpana", artist: "Suresh Wadkar", src: "https://archive.org/download/SukhakartaDukhaharta/01-Sukhakarta%20Dukhaharta%20%28Aarti%29.mp3" },
+      { id: 30, title: "30. Ganpati Atharvashirsha", artist: "Sanjeev Abhyankar", src: "https://archive.org/download/SukhakartaDukhaharta/01-Sukhakarta%20Dukhaharta%20%28Aarti%29.mp3" }
     ];
 
     const fullPlaylist = [...songPlaylist, ...aartiList];
@@ -735,9 +741,7 @@
       audio.volume = e.target.value;
     });
 
-    // Auto-fallback mechanism in case a link fails to respond
     audio.addEventListener('error', () => {
-      console.warn("Track failed to load, switching to secondary audio source.");
       if (audio.src !== fallbackAudio) {
         audio.src = fallbackAudio;
         audio.play().catch(() => {});
@@ -752,8 +756,7 @@
         audio.play().then(() => {
           playIcon.className = "fa-solid fa-pause";
           albumArt.classList.add("playing");
-        }).catch((e) => {
-          console.warn("Playback prevented or source error:", e);
+        }).catch(() => {
           playIcon.className = "fa-solid fa-play";
           albumArt.classList.remove("playing");
         });
@@ -806,7 +809,6 @@
       return `${mins}:${secs < 10 ? "0" : ""}${secs}`;
     }
 
-    // Modal Operations
     themeBtn.addEventListener("click", () => { openModal(); renderThemeView(); });
     playlistsBtn.addEventListener("click", () => { openModal(); renderPlaylistsView(); });
     songsBtn.addEventListener("click", () => { openModal(); renderAllTracksView(); });
@@ -817,7 +819,7 @@
     function closeModal() { songsModal.style.display = "none"; }
 
     function renderThemeView() {
-      modalTitle.textContent = "Select Wallpaper Theme";
+      modalTitle.textContent = "Select Theme";
       backBtn.style.display = "none";
       modalBodyContainer.innerHTML = `<div class="theme-grid"></div>`;
       const grid = modalBodyContainer.querySelector(".theme-grid");
@@ -906,7 +908,6 @@
     }
     setInterval(updateTime, 1000);
 
-    // Dynamic Canvas Handling
     const pCanvas = document.getElementById('particleCanvas');
     const pCtx = pCanvas.getContext('2d');
     const vCanvas = document.getElementById('visualizerCanvas');
@@ -919,7 +920,6 @@
       vCanvas.height = window.innerHeight;
     }
 
-    // Pushpa Varsha (Flower Shower Particles)
     let flowers = [];
 
     class FlowerPetal {
@@ -991,7 +991,6 @@
       requestAnimationFrame(animateFlowers);
     }
 
-    // Web Audio Visualizer
     let audioCtx, analyser, srcNode;
 
     function initAudioVisualizer() {
@@ -1004,7 +1003,7 @@
         analyser.connect(audioCtx.destination);
         analyser.fftSize = 64;
       } catch (e) {
-        console.warn("Audio Context setup limited by browser policy:", e);
+        console.warn("Visualizer audio setup bypassed:", e);
       }
     }
 
@@ -1036,7 +1035,6 @@
       }
     }
 
-    // Init App
     window.addEventListener('resize', resizeCanvases);
     resizeCanvases();
 
