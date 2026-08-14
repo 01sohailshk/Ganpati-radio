@@ -1,1298 +1,605 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="mr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>गणपति उत्सव | Modern Devotional Experience</title>
-
-  <!-- Google Fonts & Font Awesome Icons -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&family=Rozha+One&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
-  <style>
-    :root {
-      --bg-image: url('https://images.unsplash.com/photo-1567157577867-05ccb1388e66?q=80&w=1400&auto=format&fit=crop');
-      --accent-color: #ffd166;
-      --accent-glow: rgba(255, 209, 102, 0.4);
-      --glass-bg: rgba(18, 10, 24, 0.55);
-      --glass-border: rgba(255, 255, 255, 0.12);
-      --card-blur: blur(28px) saturate(200%);
-      --text-main: #ffffff;
-      --text-sub: rgba(255, 255, 255, 0.7);
-    }
-
-    body.theme-gold {
-      --bg-image: url('https://images.unsplash.com/photo-1631541909061-71e349d1f203?q=80&w=1400&auto=format&fit=crop');
-      --accent-color: #ffb703;
-      --accent-glow: rgba(255, 183, 3, 0.4);
-    }
-
-    body.theme-neon {
-      --bg-image: url('https://images.unsplash.com/photo-1609102026400-0e922f30b991?q=80&w=1400&auto=format&fit=crop');
-      --accent-color: #ff007f;
-      --accent-glow: rgba(255, 0, 127, 0.4);
-    }
-
-    body.theme-dark {
-      --bg-image: url('https://images.unsplash.com/photo-1544717305-2782549b5136?q=80&w=1400&auto=format&fit=crop');
-      --accent-color: #00f0ff;
-      --accent-glow: rgba(0, 240, 255, 0.4);
-    }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
-      -webkit-tap-highlight-color: transparent;
-      user-select: none;
-    }
-
-    html, body {
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-      background-color: #080205;
-      color: var(--text-main);
-    }
-
-    /* BACKGROUND MESH & IMAGE OVERLAYS */
-    .bg-wrapper {
-      position: absolute;
-      inset: 0;
-      z-index: 1;
-      background-image: var(--bg-image);
-      background-size: cover;
-      background-position: center;
-      transition: background-image 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-      animation: pulseBg 20s infinite alternate ease-in-out;
-    }
-
-    @keyframes pulseBg {
-      0% { transform: scale(1); filter: brightness(0.85) contrast(1.1); }
-      100% { transform: scale(1.05); filter: brightness(0.95) contrast(1.2); }
-    }
-
-    .bg-gradient-overlay {
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(circle at center, rgba(12, 5, 16, 0.2) 0%, rgba(8, 2, 5, 0.88) 100%),
-                  linear-gradient(to bottom, rgba(8, 2, 5, 0.6) 0%, transparent 40%, rgba(8, 2, 5, 0.95) 100%);
-      z-index: 2;
-    }
-
-    #visualizerCanvas, #particleCanvas {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-    }
-
-    #visualizerCanvas { z-index: 3; opacity: 0.8; }
-    #particleCanvas { z-index: 4; }
-
-    /* MODERN GATEWAY OVERLAY */
-    #paymentGatewayOverlay {
-      position: fixed;
-      inset: 0;
-      z-index: 99999;
-      background: rgba(5, 2, 8, 0.85);
-      backdrop-filter: blur(35px) saturate(210%);
-      -webkit-backdrop-filter: blur(35px) saturate(210%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-      transition: opacity 0.5s ease, visibility 0.5s ease;
-    }
-
-    .payment-card {
-      width: 100%;
-      max-width: 380px;
-      background: rgba(22, 12, 30, 0.65);
-      border: 1px solid var(--glass-border);
-      border-radius: 32px;
-      padding: 28px 24px;
-      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.8), inset 0 1px 1px rgba(255, 255, 255, 0.2);
-      text-align: center;
-      animation: cardEnter 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    @keyframes cardEnter {
-      from { transform: translateY(30px) scale(0.95); opacity: 0; }
-      to { transform: translateY(0) scale(1); opacity: 1; }
-    }
-
-    .payment-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      background: rgba(255, 209, 102, 0.12);
-      color: var(--accent-color);
-      border: 1px solid rgba(255, 209, 102, 0.3);
-      padding: 6px 16px;
-      border-radius: 100px;
-      font-size: 11px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      margin-bottom: 16px;
-    }
-
-    .payment-title {
-      font-family: 'Rozha One', serif;
-      font-size: 32px;
-      color: #ffffff;
-      margin-bottom: 4px;
-      text-shadow: 0 2px 10px rgba(0,0,0,0.5);
-    }
-
-    .payment-subtitle {
-      font-size: 13px;
-      color: var(--text-sub);
-      margin-bottom: 22px;
-    }
-
-    .amount-box {
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px dashed var(--glass-border);
-      border-radius: 20px;
-      padding: 14px;
-      margin-bottom: 20px;
-    }
-
-    .amount-label {
-      font-size: 11px;
-      color: var(--text-sub);
-      text-transform: uppercase;
-      letter-spacing: 0.8px;
-    }
-
-    .amount-val {
-      font-size: 34px;
-      font-weight: 800;
-      color: var(--accent-color);
-      margin-top: 2px;
-    }
-
-    .upi-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 10px;
-      margin-bottom: 16px;
-    }
-
-    .upi-app-btn {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      padding: 12px;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid var(--glass-border);
-      border-radius: 18px;
-      color: white;
-      font-size: 13px;
-      font-weight: 600;
-      text-decoration: none;
-      transition: all 0.2s ease;
-    }
-
-    .upi-app-btn:active {
-      transform: scale(0.96);
-      background: rgba(255, 209, 102, 0.15);
-    }
-
-    .pay-direct-btn {
-      width: 100%;
-      padding: 16px;
-      border: none;
-      border-radius: 20px;
-      background: linear-gradient(135deg, var(--accent-color) 0%, #ff9f1c 100%);
-      color: #0f0500;
-      font-size: 15px;
-      font-weight: 800;
-      cursor: pointer;
-      box-shadow: 0 8px 25px var(--accent-glow);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      text-decoration: none;
-      margin-bottom: 16px;
-      transition: transform 0.2s ease;
-    }
-
-    .pay-direct-btn:active { transform: scale(0.98); }
-
-    .qr-container {
-      margin-top: 14px;
-      padding-top: 14px;
-      border-top: 1px solid var(--glass-border);
-    }
-
-    .qr-img {
-      width: 110px;
-      height: 110px;
-      border-radius: 16px;
-      border: 2px solid var(--accent-color);
-      background: white;
-      padding: 6px;
-      margin: 10px auto 6px;
-      display: block;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.4);
-    }
-
-    .secure-footer {
-      margin-top: 12px;
-      font-size: 11px;
-      color: var(--text-sub);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-    }
-
-    /* MAIN APP LAYOUT */
-    .app-container {
-      position: relative;
-      z-index: 5;
-      width: 100%;
-      height: 100vh;
-      height: 100dvh;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      padding: max(12px, env(safe-area-inset-top)) 16px max(16px, env(safe-area-inset-bottom));
-    }
-
-    /* TOP NAVIGATION */
-    .top-bar {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      width: 100%;
-    }
-
-    .header-top {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .time-display {
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--text-sub);
-      letter-spacing: 0.5px;
-    }
-
-    .online-indicator {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 11px;
-      font-weight: 700;
-      padding: 6px 14px;
-      background: var(--glass-bg);
-      backdrop-filter: var(--card-blur);
-      -webkit-backdrop-filter: var(--card-blur);
-      border: 1px solid var(--glass-border);
-      border-radius: 100px;
-    }
-
-    .green-dot {
-      width: 8px;
-      height: 8px;
-      background-color: #00f59b;
-      border-radius: 50%;
-      box-shadow: 0 0 10px #00f59b;
-      animation: livePulse 1.8s infinite;
-    }
-
-    @keyframes livePulse {
-      0% { transform: scale(0.95); opacity: 0.8; }
-      70% { transform: scale(1.3); opacity: 1; }
-      100% { transform: scale(0.95); opacity: 0.8; }
-    }
-
-    .action-buttons {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      overflow-x: auto;
-      scrollbar-width: none;
-      padding-bottom: 2px;
-    }
-
-    .action-buttons::-webkit-scrollbar { display: none; }
-
-    .pill-btn, .icon-btn {
-      background: var(--glass-bg);
-      backdrop-filter: var(--card-blur);
-      -webkit-backdrop-filter: var(--card-blur);
-      border: 1px solid var(--glass-border);
-      color: var(--text-main);
-      border-radius: 100px;
-      transition: all 0.2s ease;
-    }
-
-    .pill-btn {
-      padding: 8px 16px;
-      font-size: 12px;
-      font-weight: 600;
-      white-space: nowrap;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .icon-btn {
-      width: 38px;
-      height: 38px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 14px;
-      text-decoration: none;
-      flex-shrink: 0;
-    }
-
-    .pill-btn:active, .icon-btn:active {
-      transform: scale(0.92);
-      border-color: var(--accent-color);
-    }
-
-    /* CENTER HERO CONTENT */
-    .center-content {
-      text-align: center;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 20px;
-      flex-grow: 1;
-    }
-
-    .devanagari-title {
-      font-family: 'Rozha One', serif;
-      font-size: clamp(2.8rem, 12vw, 4.5rem);
-      background: linear-gradient(180deg, #ffffff 30%, var(--accent-color) 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      filter: drop-shadow(0 4px 20px rgba(0,0,0,0.8));
-      line-height: 1.1;
-    }
-
-    .subtitle {
-      font-size: 11px;
-      letter-spacing: 3px;
-      color: var(--text-sub);
-      text-transform: uppercase;
-      font-weight: 700;
-    }
-
-    .dev-btn {
-      padding: 12px 26px;
-      font-size: 13px;
-      font-weight: 700;
-      color: var(--accent-color);
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      background: var(--glass-bg);
-      backdrop-filter: var(--card-blur);
-      -webkit-backdrop-filter: var(--card-blur);
-      border: 1px solid var(--glass-border);
-      border-radius: 100px;
-      cursor: pointer;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
-      transition: all 0.2s ease;
-    }
-
-    .dev-btn:active {
-      transform: scale(0.94);
-      box-shadow: 0 0 20px var(--accent-glow);
-    }
-
-    /* AESTHETIC PLAYER CARD */
-    .player-wrapper {
-      width: 100%;
-      max-width: 500px;
-      margin: 0 auto;
-    }
-
-    .player-card {
-      background: var(--glass-bg);
-      backdrop-filter: var(--card-blur);
-      -webkit-backdrop-filter: var(--card-blur);
-      border: 1px solid var(--glass-border);
-      border-radius: 32px;
-      padding: 16px 20px;
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-    }
-
-    .song-info {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-    }
-
-    .album-art {
-      width: 52px;
-      height: 52px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 2px solid var(--accent-color);
-      box-shadow: 0 0 15px var(--accent-glow);
-      animation: rotateArt 20s linear infinite;
-      animation-play-state: paused;
-      flex-shrink: 0;
-    }
-
-    .album-art.playing { animation-play-state: running; }
-
-    @keyframes rotateArt { 100% { transform: rotate(360deg); } }
-
-    .song-details {
-      display: flex;
-      flex-direction: column;
-      flex: 1;
-      overflow: hidden;
-    }
-
-    .song-title {
-      font-size: 15px;
-      font-weight: 700;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      color: var(--text-main);
-    }
-
-    .artist-name {
-      font-size: 12px;
-      color: var(--text-sub);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      margin-top: 2px;
-    }
-
-    .player-controls-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 14px;
-    }
-
-    .playback-buttons {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .control-btn {
-      background: none;
-      border: none;
-      color: var(--text-main);
-      font-size: 16px;
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: background 0.2s ease;
-    }
-
-    .control-btn:active { background: rgba(255,255,255,0.1); }
-
-    .play-btn {
-      width: 46px;
-      height: 46px;
-      border-radius: 50%;
-      border: none;
-      background: linear-gradient(135deg, #ffffff 0%, var(--accent-color) 100%);
-      color: #0d0408;
-      font-size: 16px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      box-shadow: 0 4px 15px var(--accent-glow);
-      transition: transform 0.2s ease;
-    }
-
-    .play-btn:active { transform: scale(0.92); }
-
-    .progress-container {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      flex: 1;
-    }
-
-    #progressBar {
-      width: 100%;
-      height: 4px;
-      accent-color: var(--accent-color);
-      border-radius: 10px;
-      cursor: pointer;
-    }
-
-    .time-stamps {
-      display: flex;
-      justify-content: space-between;
-      font-size: 10px;
-      color: var(--text-sub);
-      font-weight: 600;
-    }
-
-    .volume-container {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    /* BOTTOM SHEET MODAL UI */
-    .modal {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.7);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      z-index: 1000;
-      justify-content: center;
-      align-items: flex-end;
-    }
-
-    .modal-content {
-      background: rgba(18, 10, 24, 0.95);
-      border: 1px solid var(--glass-border);
-      border-radius: 32px 32px 0 0;
-      width: 100%;
-      max-width: 500px;
-      max-height: 75vh;
-      display: flex;
-      flex-direction: column;
-      padding: 20px 20px 28px;
-      animation: sheetUp 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    @keyframes sheetUp {
-      from { transform: translateY(100%); }
-      to { transform: translateY(0); }
-    }
-
-    .modal-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding-bottom: 14px;
-      border-bottom: 1px solid var(--glass-border);
-    }
-
-    .modal-title-group {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .back-btn {
-      background: none;
-      border: none;
-      color: var(--accent-color);
-      font-size: 16px;
-      display: none;
-      cursor: pointer;
-    }
-
-    .modal-title {
-      font-size: 17px;
-      font-weight: 700;
-      color: var(--accent-color);
-    }
-
-    .close-btn {
-      background: none;
-      border: none;
-      color: var(--text-main);
-      font-size: 22px;
-      cursor: pointer;
-    }
-
-    .modal-body-container {
-      overflow-y: auto;
-      margin-top: 14px;
-      scrollbar-width: none;
-    }
-
-    .theme-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 12px;
-    }
-
-    .theme-card {
-      border-radius: 18px;
-      overflow: hidden;
-      border: 2px solid transparent;
-      height: 100px;
-      background-size: cover;
-      background-position: center;
-      display: flex;
-      align-items: flex-end;
-      padding: 8px;
-      cursor: pointer;
-      transition: transform 0.2s ease;
-    }
-
-    .theme-card:active { transform: scale(0.96); }
-    .theme-card.active { border-color: var(--accent-color); }
-
-    .theme-card span {
-      background: rgba(0, 0, 0, 0.7);
-      backdrop-filter: blur(8px);
-      color: white;
-      font-size: 11px;
-      font-weight: 700;
-      padding: 6px;
-      border-radius: 10px;
-      width: 100%;
-      text-align: center;
-    }
-
-    .playlist-card {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      padding: 14px;
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid var(--glass-border);
-      border-radius: 20px;
-      margin-bottom: 10px;
-      cursor: pointer;
-      transition: background 0.2s ease;
-    }
-
-    .playlist-card:active { background: rgba(255, 255, 255, 0.08); }
-
-    .playlist-icon {
-      width: 44px;
-      height: 44px;
-      border-radius: 14px;
-      background: rgba(255, 209, 102, 0.15);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--accent-color);
-      font-size: 18px;
-    }
-
-    .playlist-info h4 { font-size: 14px; font-weight: 700; }
-    .playlist-info p { font-size: 11px; color: var(--text-sub); margin-top: 2px; }
-
-    .song-item {
-      display: flex;
-      align-items: center;
-      padding: 12px 14px;
-      border-radius: 16px;
-      cursor: pointer;
-      margin-bottom: 6px;
-      transition: background 0.2s ease;
-    }
-
-    .song-item:active { background: rgba(255, 255, 255, 0.06); }
-
-    .song-item.active {
-      background: rgba(255, 209, 102, 0.12);
-      border: 1px solid rgba(255, 209, 102, 0.25);
-    }
-
-    .song-item-title { font-size: 13px; font-weight: 700; display: block; }
-    .song-item-artist { font-size: 11px; color: var(--text-sub); margin-top: 2px; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>गणपती उत्सव रेडिओ — Ganpati Utsav Radio</title>
+<meta name="description" content="Non-stop Ganpati Utsav songs — playing all festival long.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Yatra+One&family=Mukta:wght@400;500;600;700&family=Baloo+2:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-0:#1c0904;
+    --bg-1:#2c0f07;
+    --bg-2:#3a170c;
+    --gold:#f0a500;
+    --gold-light:#ffd772;
+    --vermilion:#d8432e;
+    --vermilion-dark:#a8301f;
+    --cream:#fbeedd;
+    --leaf:#3f7350;
+    --muted:rgba(251,238,221,.62);
+    --ring-track:rgba(251,238,221,.14);
+    --shadow:0 20px 50px rgba(0,0,0,.45);
+    --radius:22px;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    font-family:'Mukta',system-ui,sans-serif;
+    color:var(--cream);
+    background:
+      radial-gradient(1100px 600px at 50% -10%, var(--bg-2), transparent 60%),
+      radial-gradient(900px 500px at 90% 10%, rgba(216,67,46,.18), transparent 55%),
+      linear-gradient(180deg,var(--bg-1),var(--bg-0) 60%);
+    min-height:100vh;
+    overflow-x:hidden;
+  }
+  a{color:inherit;}
+  button{font-family:inherit;}
+
+  /* ---------- marigold garland border ---------- */
+  .garland{
+    height:26px;
+    width:100%;
+    display:flex;
+    justify-content:space-evenly;
+    align-items:flex-start;
+    opacity:.9;
+    filter:drop-shadow(0 4px 6px rgba(0,0,0,.4));
+  }
+  .garland svg{width:18px;height:22px;flex:none;}
+  .garland.bottom{transform:rotate(180deg);}
+
+  /* ---------- top bar ---------- */
+  .topbar{
+    display:flex;justify-content:space-between;align-items:center;
+    max-width:1000px;margin:0 auto;padding:18px 22px 4px;
+    font-size:.85rem;letter-spacing:.02em;color:var(--muted);
+  }
+  .live{display:flex;align-items:center;gap:8px;font-weight:600;color:var(--gold-light);}
+  .dot{width:8px;height:8px;border-radius:50%;background:#ff5b3f;box-shadow:0 0 0 0 rgba(255,91,63,.6);animation:pulse 1.8s infinite;}
+  @keyframes pulse{
+    0%{box-shadow:0 0 0 0 rgba(255,91,63,.55);}
+    70%{box-shadow:0 0 0 9px rgba(255,91,63,0);}
+    100%{box-shadow:0 0 0 0 rgba(255,91,63,0);}
+  }
+  .brand-mark{font-family:'Baloo 2',sans-serif;font-weight:700;color:var(--gold-light);text-decoration:none;font-size:.95rem;}
+
+  /* ---------- hero ---------- */
+  .hero{max-width:760px;margin:26px auto 0;padding:0 22px;text-align:center;}
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:8px;
+    background:rgba(240,165,0,.12);border:1px solid rgba(240,165,0,.35);
+    color:var(--gold-light);padding:6px 14px;border-radius:999px;
+    font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;font-weight:600;
+    margin-bottom:18px;
+  }
+  h1{
+    font-family:'Yatra One',cursive;
+    font-weight:400;
+    font-size:clamp(2.4rem,7vw,4rem);
+    line-height:1.05;
+    margin:0 0 10px;
+    color:var(--cream);
+    text-shadow:0 6px 30px rgba(240,165,0,.25);
+  }
+  .sub{
+    color:var(--muted);
+    font-size:1.02rem;
+    max-width:480px;
+    margin:0 auto 30px;
+  }
+
+  /* ---------- player ---------- */
+  .player-wrap{
+    max-width:560px;margin:0 auto;padding:0 22px;
+  }
+  .console{
+    background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.015));
+    border:1px solid rgba(255,215,114,.14);
+    border-radius:var(--radius);
+    padding:30px 26px 26px;
+    box-shadow:var(--shadow);
+    position:relative;
+  }
+  .now-playing-label{
+    font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--muted);text-align:center;margin-bottom:6px;
+  }
+  #track-title{
+    font-family:'Baloo 2',sans-serif;font-weight:700;
+    font-size:1.15rem;text-align:center;color:var(--gold-light);
+    min-height:1.4em;
+    margin-bottom:22px;
+    overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding:0 10px;
+  }
+
+  .diya-stage{
+    display:flex;align-items:center;justify-content:center;
+    margin:0 auto 20px;
+    position:relative;
+    width:190px;height:190px;
+  }
+  .ring-svg{transform:rotate(-90deg);width:190px;height:190px;}
+  .ring-track{fill:none;stroke:var(--ring-track);stroke-width:6;}
+  .ring-progress{
+    fill:none;stroke:url(#ringGrad);stroke-width:6;stroke-linecap:round;
+    stroke-dasharray:534;stroke-dashoffset:534;
+    transition:stroke-dashoffset .2s linear;
+  }
+  .play-btn{
+    position:absolute;
+    width:118px;height:118px;border-radius:50%;
+    border:none;cursor:pointer;
+    background:radial-gradient(circle at 35% 30%, var(--gold-light), var(--gold) 60%, var(--vermilion-dark));
+    box-shadow:0 12px 30px rgba(216,67,46,.4), inset 0 -6px 12px rgba(0,0,0,.2);
+    display:flex;align-items:center;justify-content:center;
+    transition:transform .15s ease;
+  }
+  .play-btn:hover{transform:scale(1.04);}
+  .play-btn:active{transform:scale(.97);}
+  .play-btn:focus-visible{outline:3px solid var(--cream);outline-offset:4px;}
+  .play-btn svg{width:38px;height:38px;fill:#2c0f07;pointer-events:none;}
+  .flame{
+    position:absolute;top:14px;left:50%;translate:-50% 0;
+    width:14px;height:22px;
+    animation:flicker 1.6s ease-in-out infinite;
+    transform-origin:bottom center;
+  }
+  @keyframes flicker{
+    0%,100%{transform:translate(-50%,0) scale(1) rotate(-1deg);}
+    50%{transform:translate(-50%,-1px) scale(1.08) rotate(2deg);}
+  }
+
+  .meta-row{
+    display:flex;justify-content:space-between;align-items:center;
+    font-size:.82rem;color:var(--muted);margin-bottom:20px;padding:0 4px;
+  }
+  .track-count{font-weight:600;color:var(--gold-light);}
+
+  .controls{display:flex;justify-content:center;gap:18px;align-items:center;margin-bottom:4px;}
+  .ctrl-btn{
+    background:none;border:1px solid rgba(251,238,221,.2);
+    color:var(--cream);width:44px;height:44px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;cursor:pointer;
+    transition:background .15s, border-color .15s;
+  }
+  .ctrl-btn:hover{background:rgba(251,238,221,.08);border-color:rgba(251,238,221,.4);}
+  .ctrl-btn:focus-visible{outline:2px solid var(--gold-light);outline-offset:2px;}
+  .ctrl-btn svg{width:18px;height:18px;fill:currentColor;pointer-events:none;}
+
+  .status-line{
+    text-align:center;font-size:.76rem;color:var(--muted);margin-top:16px;
+  }
+
+  /* ---------- admin MP3 picker ---------- */
+  .admin-panel{
+    margin-top:20px;
+    padding-top:15px;
+    border-top:1px dashed rgba(251,238,221,.15);
+    text-align:center;
+  }
+  .admin-btn{
+    background:rgba(240,165,0,.15);
+    border:1px solid rgba(240,165,0,.4);
+    color:var(--gold-light);
+    padding:8px 16px;
+    border-radius:8px;
+    font-size:.8rem;
+    cursor:pointer;
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+  }
+  .admin-btn:hover{background:rgba(240,165,0,.25);}
+  #mp3Input{display:none;}
+
+  /* ---------- queue ---------- */
+  .queue-section{max-width:680px;margin:44px auto 0;padding:0 22px;}
+  .queue-heading{
+    display:flex;align-items:baseline;justify-content:space-between;
+    margin-bottom:14px;
+  }
+  .queue-heading h2{
+    font-family:'Baloo 2',sans-serif;font-size:1.05rem;margin:0;color:var(--cream);
+  }
+  .queue-heading span{font-size:.78rem;color:var(--muted);}
+  .queue-list{
+    display:flex;flex-direction:column;gap:8px;
+    max-height:300px;overflow-y:auto;
+    padding-right:4px;
+  }
+  .queue-list::-webkit-scrollbar{width:6px;}
+  .queue-list::-webkit-scrollbar-thumb{background:rgba(251,238,221,.2);border-radius:3px;}
+  .qrow{
+    display:flex;align-items:center;gap:12px;
+    padding:10px 14px;border-radius:12px;
+    background:rgba(255,255,255,.03);
+    border:1px solid rgba(255,255,255,.05);
+    font-size:.88rem;color:var(--muted);
+    cursor:pointer;
+  }
+  .qrow:hover{background:rgba(255,255,255,.07);}
+  .qrow.active{
+    background:rgba(240,165,0,.12);
+    border-color:rgba(240,165,0,.35);
+    color:var(--gold-light);font-weight:600;
+  }
+  .qnum{width:22px;flex:none;text-align:center;font-variant-numeric:tabular-nums;opacity:.7;}
+  .qtitle{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+
+  /* ---------- footer ---------- */
+  footer{
+    max-width:760px;margin:60px auto 0;padding:0 22px 40px;
+    text-align:center;font-size:.78rem;color:var(--muted);line-height:1.6;
+  }
+
+  /* ---------- paywall modal ---------- */
+  .overlay{
+    position:fixed;inset:0;background:rgba(10,3,1,.72);
+    backdrop-filter:blur(6px);
+    display:flex;align-items:center;justify-content:center;
+    padding:20px;z-index:50;
+    opacity:0;pointer-events:none;transition:opacity .25s ease;
+  }
+  .overlay.show{opacity:1;pointer-events:auto;}
+  .modal{
+    width:100%;max-width:420px;
+    background:linear-gradient(180deg,var(--bg-2),var(--bg-1));
+    border:1px solid rgba(255,215,114,.22);
+    border-radius:24px;padding:28px 26px 24px;
+    box-shadow:0 30px 70px rgba(0,0,0,.6);
+    transform:translateY(16px) scale(.98);
+    transition:transform .25s ease;
+    max-height:88vh;overflow-y:auto;
+  }
+  .overlay.show .modal{transform:translateY(0) scale(1);}
+  .modal-icon{font-size:2rem;text-align:center;margin-bottom:6px;}
+  .modal h3{
+    font-family:'Yatra One',cursive;font-weight:400;
+    text-align:center;font-size:1.6rem;margin:0 0 8px;color:var(--gold-light);
+  }
+  .modal p.desc{text-align:center;color:var(--muted);font-size:.9rem;margin:0 0 20px;line-height:1.5;}
+  .amount-badge{
+    display:block;width:fit-content;margin:0 auto 20px;
+    background:rgba(240,165,0,.14);border:1px solid rgba(240,165,0,.4);
+    color:var(--gold-light);font-weight:700;font-size:1.1rem;
+    padding:6px 20px;border-radius:999px;
+  }
+  #qrcode{
+    display:flex;justify-content:center;margin:0 auto 16px;
+    background:#fff;padding:10px;border-radius:14px;width:fit-content;
+  }
+  .pay-app-btn{
+    display:block;width:100%;text-align:center;
+    background:linear-gradient(180deg,var(--gold-light),var(--gold));
+    color:#2c0f07;font-weight:700;text-decoration:none;
+    padding:13px;border-radius:14px;margin-bottom:10px;
+    font-size:.95rem;
+  }
+  .pay-hint{text-align:center;font-size:.74rem;color:var(--muted);margin-bottom:22px;}
+  .divider{
+    display:flex;align-items:center;gap:10px;margin:18px 0;
+    color:var(--muted);font-size:.75rem;text-transform:uppercase;letter-spacing:.08em;
+  }
+  .divider::before,.divider::after{content:"";flex:1;height:1px;background:rgba(255,255,255,.12);}
+  label.field-label{display:block;font-size:.8rem;color:var(--muted);margin-bottom:6px;}
+  .utr-input{
+    width:100%;padding:12px 14px;border-radius:12px;
+    background:rgba(0,0,0,.25);border:1px solid rgba(255,255,255,.14);
+    color:var(--cream);font-size:.95rem;letter-spacing:.03em;
+    margin-bottom:8px;
+  }
+  .utr-input:focus-visible{outline:2px solid var(--gold-light);outline-offset:1px;}
+  .field-err{font-size:.76rem;color:#ff9b85;min-height:1.1em;margin-bottom:10px;}
+  .confirm-btn{
+    width:100%;padding:13px;border-radius:14px;border:none;cursor:pointer;
+    background:var(--vermilion);color:var(--cream);font-weight:700;font-size:.95rem;
+    transition:background .15s;
+  }
+  .confirm-btn:hover{background:var(--vermilion-dark);}
+  .confirm-btn:focus-visible{outline:2px solid var(--gold-light);outline-offset:2px;}
+
+  .toast{
+    position:fixed;left:50%;bottom:26px;translate:-50% 0;
+    background:var(--leaf);color:var(--cream);
+    padding:12px 20px;border-radius:12px;font-size:.88rem;font-weight:600;
+    box-shadow:0 12px 30px rgba(0,0,0,.4);
+    opacity:0;pointer-events:none;transition:opacity .3s, transform .3s;
+    z-index:60;
+  }
+  .toast.show{opacity:1;transform:translate(-50%,-6px);}
+</style>
 </head>
-<body class="theme-art">
+<body>
 
-  <!-- MODERN PAYMENT GATEWAY MODAL (LOCKED ACCESS) -->
-  <div id="paymentGatewayOverlay">
-    <div class="payment-card">
-      <div class="payment-badge"><i class="fa-solid fa-lock"></i> Premium Devotional Access</div>
-      <h2 class="payment-title">गणपति उत्सव</h2>
-      <p class="payment-subtitle">Unlock 30 HD Devotional Songs & Aartis</p>
+<div class="garland" aria-hidden="true" id="garlandTop"></div>
 
-      <div class="amount-box">
-        <div class="amount-label">Access Fee</div>
-        <div class="amount-val">₹20.00</div>
-      </div>
+<div class="topbar">
+  <a class="brand-mark" href="#">गणपती उत्सव रेडिओ</a>
+  <div class="live"><span class="dot"></span><span id="listenerCount">—</span> online</div>
+</div>
 
-      <!-- Selectable UPI Apps Grid linked directly to 9324234816@kotakbank -->
-      <div class="upi-grid">
-        <a href="upi://pay?pa=9324234816@kotakbank&pn=GanpatiRadio&am=20.00&cu=INR&tn=GanpatiRadioAccess" class="upi-app-btn" onclick="handlePaymentRedirect()">
-          <i class="fa-brands fa-google-pay" style="font-size: 20px; color: #4285F4;"></i> Google Pay
-        </a>
-        <a href="upi://pay?pa=9324234816@kotakbank&pn=GanpatiRadio&am=20.00&cu=INR&tn=GanpatiRadioAccess" class="upi-app-btn" onclick="handlePaymentRedirect()">
-          <i class="fa-solid fa-mobile-screen-button" style="font-size: 16px; color: #9d4edd;"></i> PhonePe
-        </a>
-        <a href="upi://pay?pa=9324234816@kotakbank&pn=GanpatiRadio&am=20.00&cu=INR&tn=GanpatiRadioAccess" class="upi-app-btn" onclick="handlePaymentRedirect()">
-          <i class="fa-solid fa-wallet" style="font-size: 16px; color: #00b9f5;"></i> Paytm
-        </a>
-        <a href="upi://pay?pa=9324234816@kotakbank&pn=GanpatiRadio&am=20.00&cu=INR&tn=GanpatiRadioAccess" class="upi-app-btn" onclick="handlePaymentRedirect()">
-          <i class="fa-solid fa-building-columns" style="font-size: 16px; color: #eb6e1e;"></i> BHIM UPI
-        </a>
-      </div>
+<section class="hero">
+  <span class="eyebrow">🪔 Direct MP3 High Quality Audio</span>
+  <h1>बाप्पा मोरया</h1>
+  <p class="sub">Non-stop Ganpati Utsav radio — zero-lag audio direct from the mandal playlist.</p>
+</section>
 
-      <!-- Direct Instant Pay Button -->
-      <a href="upi://pay?pa=9324234816@kotakbank&pn=GanpatiRadio&am=20.00&cu=INR&tn=GanpatiRadioAccess" class="pay-direct-btn" onclick="handlePaymentRedirect()">
-        <i class="fa-solid fa-bolt"></i> Pay & Instant Unlock
-      </a>
+<div class="player-wrap">
+  <div class="console">
+    <div class="now-playing-label">Now playing</div>
+    <div id="track-title">Select or Add Songs to start…</div>
 
-      <!-- Dynamic QR Code for 9324234816@kotakbank -->
-      <div class="qr-container">
-        <p style="font-size: 11px; color: var(--text-sub);">Scan QR Code using any UPI App</p>
-        <img class="qr-img" src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=upi%3A%2F%2Fpay%3Fpa%3D9324234816%40kotakbank%26pn%3DGanpatiRadio%26am%3D20.00%26cu%3DINR" alt="UPI QR Code">
-      </div>
-
-      <div class="secure-footer">
-        <i class="fa-solid fa-shield-halved"></i> 256-Bit Encrypted Direct Unlock
-      </div>
-    </div>
-  </div>
-
-  <audio id="audioPlayer"></audio>
-
-  <!-- BACKGROUND GRAPHICS -->
-  <div class="bg-wrapper"></div>
-  <div class="bg-gradient-overlay"></div>
-  <canvas id="visualizerCanvas"></canvas>
-  <canvas id="particleCanvas"></canvas>
-
-  <div class="app-container">
-    <!-- Top Header Navigation -->
-    <header class="top-bar">
-      <div class="header-top">
-        <div class="time-display" id="timeDisplay">--:-- --</div>
-        <div class="online-indicator">
-          <span class="green-dot"></span>
-          <span id="onlineCount">1 Live Listener</span>
-        </div>
-      </div>
-
-      <div class="action-buttons">
-        <button class="pill-btn" id="themeBtn"><i class="fa-solid fa-palette"></i> Themes</button>
-        <a href="https://open.spotify.com" target="_blank" rel="noopener" class="icon-btn"><i class="fa-brands fa-spotify"></i></a>
-        <a href="https://music.youtube.com" target="_blank" rel="noopener" class="icon-btn" style="color: #ff4d4d;"><i class="fa-brands fa-youtube"></i></a>
-        <button class="pill-btn" id="playlistsBtn"><i class="fa-solid fa-list-ul"></i> Playlists</button>
-        <button class="pill-btn" id="songsBtn"><i class="fa-solid fa-music"></i> Tracks</button>
-      </div>
-    </header>
-
-    <!-- Center Hero Section -->
-    <main class="center-content">
-      <div class="title-group">
-        <h1 class="devanagari-title">गणपति उत्सव</h1>
-        <p class="subtitle">GANPATI RADIO • 24/7 DEVOTIONAL STREAM</p>
-      </div>
-
-      <button class="dev-btn" id="flowerBtn">
-        <i class="fa-solid fa-spa"></i> Pushpa Varsha
+    <div class="diya-stage">
+      <svg class="ring-svg" viewBox="0 0 190 190">
+        <defs>
+          <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#ffd772"/>
+            <stop offset="100%" stop-color="#d8432e"/>
+          </linearGradient>
+        </defs>
+        <circle class="ring-track" cx="95" cy="95" r="85"/>
+        <circle class="ring-progress" id="ringProgress" cx="95" cy="95" r="85"/>
+      </svg>
+      <svg class="flame" viewBox="0 0 24 34" aria-hidden="true">
+        <path d="M12 0C7 8 4 13 4 19a8 8 0 0016 0c0-6-3-11-8-19z" fill="#ffcf4d"/>
+        <path d="M12 10c-2 4-3.4 7-3.4 9.6a3.4 3.4 0 006.8 0c0-2.6-1.4-5.6-3.4-9.6z" fill="#d8432e"/>
+      </svg>
+      <button class="play-btn" id="playBtn" aria-label="Play or Pause">
+        <svg id="playIcon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
       </button>
-    </main>
+    </div>
 
-    <!-- Bottom Audio Player Card -->
-    <footer class="player-wrapper">
-      <div class="player-card">
-        <div class="song-info">
-          <img id="albumArt" src="https://images.unsplash.com/photo-1567157577867-05ccb1388e66?q=80&w=400&auto=format&fit=crop" alt="Album Art" class="album-art">
-          <div class="song-details">
-            <h3 id="songTitle" class="song-title">🔒 Payment Required</h3>
-            <p id="artistName" class="artist-name">Unlock to stream 30 tracks</p>
-          </div>
-          <div class="volume-container">
-            <i class="fa-solid fa-volume-high" style="font-size: 12px; color: var(--accent-color);"></i>
-            <input type="range" id="volumeBar" min="0" max="1" step="0.05" value="1" style="width: 45px; accent-color: var(--accent-color); cursor: pointer;">
-          </div>
-        </div>
+    <div class="meta-row">
+      <span id="timeLabel">0:00 / 0:00</span>
+      <span class="track-count" id="trackCount">Track 0 / 0</span>
+    </div>
 
-        <div class="player-controls-row">
-          <div class="playback-buttons">
-            <button id="prevBtn" class="control-btn" aria-label="Previous"><i class="fa-solid fa-backward-step"></i></button>
-            <button id="playPauseBtn" class="play-btn" aria-label="Play/Pause"><i id="playIcon" class="fa-solid fa-play"></i></button>
-            <button id="nextBtn" class="control-btn" aria-label="Next"><i class="fa-solid fa-forward-step"></i></button>
-          </div>
+    <div class="controls">
+      <button class="ctrl-btn" id="prevBtn" aria-label="Previous song">
+        <svg viewBox="0 0 24 24"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg>
+      </button>
+      <button class="ctrl-btn" id="muteBtn" aria-label="Mute">
+        <svg viewBox="0 0 24 24"><path d="M3 10v4h4l5 5V5L7 10H3z"/></svg>
+      </button>
+      <button class="ctrl-btn" id="nextBtn" aria-label="Next song">
+        <svg viewBox="0 0 24 24"><path d="M16 6h2v12h-2zm-3.5 6L4 6v12z"/></svg>
+      </button>
+    </div>
 
-          <div class="progress-container">
-            <input type="range" id="progressBar" value="0" min="0" max="100">
-            <div class="time-stamps">
-              <span id="currentTime">0:00</span>
-              <span id="duration">0:00</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </footer>
-  </div>
+    <div class="status-line" id="statusLine">2 free songs, then ₹20 keeps the utsav going 🙏</div>
 
-  <!-- Bottom Sheet Modal UI -->
-  <div class="modal" id="songsModal">
-    <div class="modal-content">
-      <div class="modal-header">
-        <div class="modal-title-group">
-          <button class="back-btn" id="backBtn"><i class="fa-solid fa-arrow-left"></i></button>
-          <h3 class="modal-title" id="modalTitle">Select View</h3>
-        </div>
-        <button class="close-btn" id="closeModalBtn">&times;</button>
-      </div>
-      <div class="modal-body-container" id="modalBodyContainer"></div>
+    <!-- Admin Panel to Select Songs from Phone -->
+    <div class="admin-panel">
+      <button class="admin-btn" onclick="document.getElementById('mp3Input').click()">
+        📁 <span>🔒 Mandal Admin: Add MP3 Songs</span>
+      </button>
+      <input type="file" id="mp3Input" accept="audio/mp3,audio/*" multiple>
     </div>
   </div>
+</div>
 
-  <script>
-    let isPaid = false;
+<section class="queue-section">
+  <div class="queue-heading">
+    <h2>Playlist Queue</h2>
+    <span id="queueSub">0 songs loaded</span>
+  </div>
+  <div class="queue-list" id="queueList"></div>
+</section>
 
-    function requireAccessGuard(actionCallback) {
-      if (!isPaid) {
-        showPaymentOverlay();
-        return false;
-      }
-      actionCallback();
-      return true;
-    }
+<footer>
+  © 2026 Ganpati Utsav Radio · Built for zero lag playback
+</footer>
 
-    function showPaymentOverlay() {
-      const overlay = document.getElementById("paymentGatewayOverlay");
-      overlay.style.visibility = 'visible';
-      overlay.style.opacity = '1';
-    }
+<!-- Audio Engine -->
+<audio id="audioPlayer"></audio>
 
-    function handlePaymentRedirect() {
-      setTimeout(() => {
-        isPaid = true;
-        
-        const overlay = document.getElementById("paymentGatewayOverlay");
-        overlay.style.opacity = '0';
-        
-        setTimeout(() => {
-          overlay.style.visibility = 'hidden';
-          triggerFlowerShower();
-          loadTrack(currentTrackIndex);
-          togglePlay();
-        }, 500);
-      }, 1500);
-    }
+<!-- Paywall modal -->
+<div class="overlay" id="overlay">
+  <div class="modal" role="dialog" aria-modal="true">
+    <div class="modal-icon">🪔</div>
+    <h3>2 गाणी झाली!</h3>
+    <p class="desc">You've enjoyed 2 songs on the house. Chip in ₹20 to keep the music playing.</p>
+    <span class="amount-badge">₹20 · one-time</span>
 
-    const themes = [
-      { id: "theme-art", name: "Classic Gold", img: "https://images.unsplash.com/photo-1567157577867-05ccb1388e66?q=80&w=600&auto=format&fit=crop" },
-      { id: "theme-gold", name: "Amber Glow", img: "https://images.unsplash.com/photo-1631541909061-71e349d1f203?q=80&w=600&auto=format&fit=crop" },
-      { id: "theme-neon", name: "Festive Neon", img: "https://images.unsplash.com/photo-1609102026400-0e922f30b991?q=80&w=600&auto=format&fit=crop" },
-      { id: "theme-dark", name: "Cyber Teal", img: "https://images.unsplash.com/photo-1544717305-2782549b5136?q=80&w=600&auto=format&fit=crop" }
-    ];
+    <div id="qrcode"></div>
+    <a href="#" id="upiIntentBtn" class="pay-app-btn">Pay with GPay / PhonePe / Paytm</a>
 
-    const fallbackAudio = "https://archive.org/download/SukhakartaDukhaharta/01-Sukhakarta%20Dukhaharta%20%28Aarti%29.mp3";
+    <div class="divider">after paying</div>
 
-    const songPlaylist = [
-      { id: 1, title: "1. Deva Shree Ganesha", artist: "Ajay Gogavale", src: "https://archive.org/download/DevaShreeGanesha_201903/Deva%20Shree%20Ganesha.mp3" },
-      { id: 2, title: "2. Maurya Re", artist: "Shankar Mahadevan", src: "https://ia800300.us.archive.org/29/items/Don_2006_MP3/02%20-%20Maurya%20Re.mp3" },
-      { id: 3, title: "3. Sadda Dil Vi Tu", artist: "Hard Kaur & Sachin-Jigar", src: "https://archive.org/download/SaddaDilViTuABCD320Kbps/Sadda%20Dil%20Vi%20Tu%20-%20ABCD%20128%20Kbps.mp3" },
-      { id: 4, title: "4. Aala Re Aala Ganesha", artist: "Wajid", src: fallbackAudio },
-      { id: 5, title: "5. Bappa", artist: "Vishal Dadlani", src: "https://archive.org/download/BappaBanjo/Bappa%20-%20Banjo.mp3" },
-      { id: 6, title: "6. Gajanana", artist: "Sukhwinder Singh", src: "https://archive.org/download/GajananaBajiraoMastani/Gajanana%20-%20Bajirao%20Mastani.mp3" },
-      { id: 7, title: "7. Hey Ganaraya", artist: "Divya Kumar", src: "https://archive.org/download/HeyGanarayaABCD2/Hey%20Ganaraya%20-%20ABCD%202.mp3" },
-      { id: 8, title: "8. Suno Ganpati Bappa Morya", artist: "Amit Mishra", src: "https://archive.org/download/SunoGanpatiBappaMorya/Suno%20Ganpati%20Bappa%20Morya.mp3" },
-      { id: 9, title: "9. Shree Ganeshay Dheemahi", artist: "Shankar Mahadevan", src: "https://archive.org/download/ShreeGaneshayDheemahi/Shree%20Ganeshay%20Dheemahi.mp3" },
-      { id: 10, title: "10. Ganpati Bappa Morya", artist: "S P Balasubrahmanyam", src: fallbackAudio },
-      { id: 11, title: "11. Jalwa", artist: "Wajid", src: "https://archive.org/download/JalwaWanted/Jalwa%20-%20Wanted.mp3" },
-      { id: 12, title: "12. Deva O Deva Ganpati Deva", artist: "Asha Bhosle & Mohd. Rafi", src: "https://archive.org/download/DevaODevaGanpatiDeva/Deva%20O%20Deva.mp3" },
-      { id: 13, title: "13. Ganpati Aaye", artist: "Mika Singh", src: fallbackAudio },
-      { id: 14, title: "14. Sindoor Lal Chadhayo", artist: "Jatin-Lalit", src: "https://archive.org/download/SindoorLalChadhayoVaastav/Sindoor%20Lal%20Chadhayo.mp3" },
-      { id: 15, title: "15. Mourya", artist: "Riteish Deshmukh", src: "https://archive.org/download/MouryaLaiBhaari/Mourya.mp3" },
-      { id: 16, title: "16. Bappa Morya", artist: "Sukhwinder Singh", src: fallbackAudio },
-      { id: 17, title: "17. Ganesha Naman", artist: "Lata Mangeshkar", src: fallbackAudio },
-      { id: 18, title: "18. Vigneswaraya Kumara", artist: "Hariharan", src: fallbackAudio },
-      { id: 19, title: "19. Ganpati Bappa Morya Title", artist: "Vishal-Shekhar", src: fallbackAudio },
-      { id: 20, title: "20. O My Friend Ganesha", artist: "Shravan Suresh", src: fallbackAudio },
-      { id: 21, title: "21. Ekadantaya Vakratundaya", artist: "Shankar Mahadevan", src: fallbackAudio },
-      { id: 22, title: "22. Maha Ganesha", artist: "K. S. Chithra", src: fallbackAudio },
-      { id: 23, title: "23. Pratham Tula Vandito", artist: "Vasantrao Deshpande", src: fallbackAudio }
-    ];
+    <label class="field-label" for="utrInput">Enter 12-digit UPI reference / UTR number</label>
+    <input class="utr-input" id="utrInput" inputmode="numeric" maxlength="12" placeholder="e.g. 402913887456">
+    <div class="field-err" id="utrErr"></div>
+    <button class="confirm-btn" id="confirmBtn">I've paid — unlock music</button>
+  </div>
+</div>
 
-    const aartiList = [
-      { id: 24, title: "24. Sukhkarta Dukhharta Aarti", artist: "Sadhana Sargam", src: fallbackAudio },
-      { id: 25, title: "25. Shendur Lal Chadhayo Aarti", artist: "Ravindra Sathe", src: fallbackAudio },
-      { id: 26, title: "26. Jai Ganesh Jai Ganesh Deva", artist: "Anuradha Paudwal", src: fallbackAudio },
-      { id: 27, title: "27. Ghalin Lotangan", artist: "Lata Mangeshkar", src: fallbackAudio },
-      { id: 28, title: "28. Lavthavti Vikrala Aarti", artist: "Sanjeev Abhyankar", src: fallbackAudio },
-      { id: 29, title: "29. Nana Parimala Samarpana", artist: "Suresh Wadkar", src: fallbackAudio },
-      { id: 30, title: "30. Ganpati Atharvashirsha", artist: "Sanjeev Abhyankar", src: fallbackAudio }
-    ];
+<div class="toast" id="toast"></div>
 
-    const fullPlaylist = [...songPlaylist, ...aartiList];
-    let currentTrackIndex = 0;
+<div class="garland bottom" aria-hidden="true" id="garlandBottom"></div>
 
-    const audio = document.getElementById("audioPlayer");
-    const playPauseBtn = document.getElementById("playPauseBtn");
-    const playIcon = document.getElementById("playIcon");
-    const prevBtn = document.getElementById("prevBtn");
-    const nextBtn = document.getElementById("nextBtn");
-    const songTitle = document.getElementById("songTitle");
-    const artistName = document.getElementById("artistName");
-    const albumArt = document.getElementById("albumArt");
-    const progressBar = document.getElementById("progressBar");
-    const currentTimeEl = document.getElementById("currentTime");
-    const durationEl = document.getElementById("duration");
-    const volumeBar = document.getElementById("volumeBar");
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script>
+// Application State
+let songs = [];
+let currentIndex = 0;
+let completedSongs = 0;
+let unlocked = false;
+let isMuted = false;
 
-    const songsModal = document.getElementById("songsModal");
-    const closeModalBtn = document.getElementById("closeModalBtn");
-    const backBtn = document.getElementById("backBtn");
-    const modalTitle = document.getElementById("modalTitle");
-    const songsBtn = document.getElementById("songsBtn");
-    const playlistsBtn = document.getElementById("playlistsBtn");
-    const themeBtn = document.getElementById("themeBtn");
-    const flowerBtn = document.getElementById("flowerBtn");
-    const modalBodyContainer = document.getElementById("modalBodyContainer");
+const audio = document.getElementById('audioPlayer');
+const playBtn = document.getElementById('playBtn');
+const playIcon = document.getElementById('playIcon');
+const mp3Input = document.getElementById('mp3Input');
 
-    function loadTrack(index) {
-      if (!isPaid) return;
-      const track = fullPlaylist[index];
-      songTitle.textContent = track.title;
-      artistName.textContent = track.artist;
-      audio.src = track.src;
-      audio.volume = volumeBar.value;
-    }
+// Default Built-in Demo Songs (Fallback)
+const demoPlaylist = [
+  { title: "Shevanti Chhati - Ganpati Aarti", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" },
+  { title: "Sukhakarta Dukhaharta Aarti", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" }
+];
 
-    volumeBar.addEventListener("input", (e) => {
-      audio.volume = e.target.value;
-    });
+// Load Default Demo Songs
+songs = [...demoPlaylist];
 
-    audio.addEventListener('error', () => {
-      if (isPaid && audio.src !== fallbackAudio) {
-        audio.src = fallbackAudio;
-        audio.play().catch(() => {});
-      }
-    });
+function buildGarland(id){
+  const el = document.getElementById(id);
+  if(!el) return;
+  let html='';
+  for(let i=0;i<26;i++){
+    html += `<svg viewBox="0 0 18 22"><path d="M9 0c4 4 7 7 7 12a7 7 0 11-14 0c0-5 3-8 7-12z" fill="${i%2?'#f0a500':'#d8432e'}"/></svg>`;
+  }
+  el.innerHTML = html;
+}
+buildGarland('garlandTop');
+buildGarland('garlandBottom');
 
-    function togglePlay() {
-      requireAccessGuard(() => {
-        if (audio.paused) {
-          if (audioCtx && audioCtx.state === 'suspended') {
-            audioCtx.resume();
-          }
-          audio.play().then(() => {
-            playIcon.className = "fa-solid fa-pause";
-            albumArt.classList.add("playing");
-          }).catch(() => {
-            playIcon.className = "fa-solid fa-play";
-            albumArt.classList.remove("playing");
-          });
-        } else {
-          audio.pause();
-          playIcon.className = "fa-solid fa-play";
-          albumArt.classList.remove("playing");
-        }
-      });
-    }
+// Load audio track index
+function loadTrack(index) {
+  if (songs.length === 0) return;
+  currentIndex = index;
+  audio.src = songs[currentIndex].url;
+  document.getElementById('track-title').textContent = songs[currentIndex].title;
+  document.getElementById('trackCount').textContent = `Track ${currentIndex + 1} / ${songs.length}`;
+  renderQueue();
+}
 
-    nextBtn.addEventListener("click", () => {
-      requireAccessGuard(() => {
-        currentTrackIndex = (currentTrackIndex + 1) % fullPlaylist.length;
-        loadTrack(currentTrackIndex);
-        togglePlay();
-      });
-    });
+// Playback logic
+function playAudio() {
+  if (!unlocked && completedSongs >= 2) {
+    showPaywall();
+    return;
+  }
+  audio.play().then(() => {
+    playIcon.innerHTML = '<path d="M6 5h4v14H6zm8 0h4v14h-4z"/>';
+  }).catch(e => console.log('Playback error:', e));
+}
 
-    prevBtn.addEventListener("click", () => {
-      requireAccessGuard(() => {
-        currentTrackIndex = (currentTrackIndex - 1 + fullPlaylist.length) % fullPlaylist.length;
-        loadTrack(currentTrackIndex);
-        togglePlay();
-      });
-    });
+function pauseAudio() {
+  audio.pause();
+  playIcon.innerHTML = '<path d="M8 5v14l11-7z"/>';
+}
 
-    playPauseBtn.addEventListener("click", togglePlay);
+playBtn.addEventListener('click', () => {
+  if (audio.paused) {
+    playAudio();
+  } else {
+    pauseAudio();
+  }
+});
 
-    audio.addEventListener("ended", () => {
-      if (!isPaid) return;
-      currentTrackIndex = (currentTrackIndex + 1) % fullPlaylist.length;
-      loadTrack(currentTrackIndex);
-      togglePlay();
-    });
+document.getElementById('nextBtn').addEventListener('click', () => {
+  if (!unlocked && completedSongs >= 2) { showPaywall(); return; }
+  currentIndex = (currentIndex + 1) % songs.length;
+  loadTrack(currentIndex);
+  playAudio();
+});
 
-    audio.addEventListener("timeupdate", () => {
-      if (isPaid && audio.duration) {
-        const progress = (audio.currentTime / audio.duration) * 100;
-        progressBar.value = progress;
-        currentTimeEl.textContent = formatTime(audio.currentTime);
-        durationEl.textContent = formatTime(audio.duration);
-      }
-    });
+document.getElementById('prevBtn').addEventListener('click', () => {
+  currentIndex = (currentIndex - 1 + songs.length) % songs.length;
+  loadTrack(currentIndex);
+  playAudio();
+});
 
-    progressBar.addEventListener("input", () => {
-      requireAccessGuard(() => {
-        if (audio.duration) {
-          audio.currentTime = (progressBar.value / 100) * audio.duration;
-        }
-      });
-    });
+document.getElementById('muteBtn').addEventListener('click', function() {
+  isMuted = !isMuted;
+  audio.muted = isMuted;
+  this.style.opacity = isMuted ? 0.5 : 1;
+});
 
-    function formatTime(seconds) {
-      if (isNaN(seconds)) return "0:00";
-      const mins = Math.floor(seconds / 60);
-      const secs = Math.floor(seconds % 60);
-      return `${mins}:${secs < 10 ? "0" : ""}${secs}`;
-    }
+// Update progress bar
+audio.addEventListener('timeupdate', () => {
+  const dur = audio.duration || 0;
+  const cur = audio.currentTime || 0;
+  const ring = document.getElementById('ringProgress');
+  const circumference = 2 * Math.PI * 85;
+  const pct = dur ? (cur / dur) : 0;
+  ring.style.strokeDashoffset = circumference - (pct * circumference);
+  
+  document.getElementById('timeLabel').textContent = `${fmt(cur)} / ${fmt(dur)}`;
+});
 
-    themeBtn.addEventListener("click", () => { openModal(); renderThemeView(); });
-    playlistsBtn.addEventListener("click", () => {
-      requireAccessGuard(() => { openModal(); renderPlaylistsView(); });
-    });
-    songsBtn.addEventListener("click", () => {
-      requireAccessGuard(() => { openModal(); renderAllTracksView(); });
-    });
+audio.addEventListener('ended', () => {
+  completedSongs++;
+  if (!unlocked && completedSongs >= 2) {
+    pauseAudio();
+    showPaywall();
+  } else {
+    currentIndex = (currentIndex + 1) % songs.length;
+    loadTrack(currentIndex);
+    playAudio();
+  }
+});
 
-    closeModalBtn.addEventListener("click", closeModal);
-    backBtn.addEventListener("click", renderPlaylistsView);
+// Admin MP3 Uploader from Phone Storage
+mp3Input.addEventListener('change', (e) => {
+  const files = Array.from(e.target.files);
+  if (files.length > 0) {
+    const newSongs = files.map(file => ({
+      title: file.name.replace(/\.[^/.]+$/, ""),
+      url: URL.createObjectURL(file)
+    }));
+    
+    songs = newSongs;
+    loadTrack(0);
+    showToast(`${files.length} custom MP3s loaded! 🎵`);
+  }
+});
 
-    function openModal() { songsModal.style.display = "flex"; }
-    function closeModal() { songsModal.style.display = "none"; }
+function renderQueue() {
+  const list = document.getElementById('queueList');
+  document.getElementById('queueSub').textContent = `${songs.length} songs active`;
+  let html = '';
+  songs.forEach((song, i) => {
+    html += `<div class="qrow ${i === currentIndex ? 'active' : ''}" onclick="selectSong(${i})">
+      <span class="qnum">${i + 1}</span>
+      <span class="qtitle">${song.title}</span>
+    </div>`;
+  });
+  list.innerHTML = html;
+}
 
-    function renderThemeView() {
-      modalTitle.textContent = "Themes";
-      backBtn.style.display = "none";
-      modalBodyContainer.innerHTML = `<div class="theme-grid"></div>`;
-      const grid = modalBodyContainer.querySelector(".theme-grid");
+function selectSong(i) {
+  if (!unlocked && completedSongs >= 2) { showPaywall(); return; }
+  loadTrack(i);
+  playAudio();
+}
 
-      themes.forEach(t => {
-        const card = document.createElement("div");
-        card.className = `theme-card ${document.body.classList.contains(t.id) ? 'active' : ''}`;
-        card.style.backgroundImage = `url('${t.img}')`;
-        card.innerHTML = `<span>${t.name}</span>`;
-        card.addEventListener("click", () => {
-          document.body.className = t.id;
-          closeModal();
-        });
-        grid.appendChild(card);
-      });
-    }
+function fmt(s){
+  s = Math.floor(s||0);
+  const m = Math.floor(s/60), sec = s%60;
+  return `${m}:${sec.toString().padStart(2,'0')}`;
+}
 
-    function renderPlaylistsView() {
-      modalTitle.textContent = "Playlists";
-      backBtn.style.display = "none";
-      modalBodyContainer.innerHTML = `
-        <div class="playlist-card" id="playlistSongs">
-          <div class="playlist-icon"><i class="fa-solid fa-music"></i></div>
-          <div class="playlist-info">
-            <h4>Ganpati Songs</h4>
-            <p>${songPlaylist.length} Tracks • Devotional & Energetic</p>
-          </div>
-        </div>
-        <div class="playlist-card" id="playlistAartis">
-          <div class="playlist-icon"><i class="fa-solid fa-om"></i></div>
-          <div class="playlist-info">
-            <h4>Ganpati Aartis</h4>
-            <p>${aartiList.length} Aartis • Sacred Chants</p>
-          </div>
-        </div>
-      `;
+// Paywall
+const overlay = document.getElementById('overlay');
+function showPaywall(){ overlay.classList.add('show'); }
+function hidePaywall(){ overlay.classList.remove('show'); }
 
-      document.getElementById("playlistSongs").addEventListener("click", () => {
-        renderPlaylistTracks("Ganpati Songs", songPlaylist, 0);
-      });
-      document.getElementById("playlistAartis").addEventListener("click", () => {
-        renderPlaylistTracks("Ganpati Aartis", aartiList, songPlaylist.length);
-      });
-    }
+document.getElementById('confirmBtn').addEventListener('click', ()=>{
+  const input = document.getElementById('utrInput');
+  if(!/^\d{12}$/.test(input.value.trim())){
+    document.getElementById('utrErr').textContent = 'Enter valid 12-digit UPI reference.';
+    return;
+  }
+  unlocked = true;
+  hidePaywall();
+  showToast('Unlocked successfully! 🪔');
+  playAudio();
+});
 
-    function renderPlaylistTracks(title, trackList, globalOffset) {
-      modalTitle.textContent = title;
-      backBtn.style.display = "inline-block";
-      modalBodyContainer.innerHTML = "";
-      trackList.forEach((song, idx) => {
-        modalBodyContainer.appendChild(createSongRow(song, globalOffset + idx));
-      });
-    }
+function showToast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 3200);
+}
 
-    function renderAllTracksView() {
-      modalTitle.textContent = "All 30 Tracks";
-      backBtn.style.display = "none";
-      modalBodyContainer.innerHTML = "";
-      fullPlaylist.forEach((song, globalIdx) => {
-        modalBodyContainer.appendChild(createSongRow(song, globalIdx));
-      });
-    }
-
-    function createSongRow(song, globalIndex) {
-      const item = document.createElement("div");
-      item.className = `song-item ${globalIndex === currentTrackIndex ? 'active' : ''}`;
-      item.innerHTML = `
-        <div>
-          <span class="song-item-title">${song.title}</span>
-          <span class="song-item-artist">${song.artist}</span>
-        </div>
-      `;
-      item.addEventListener("click", () => {
-        requireAccessGuard(() => {
-          currentTrackIndex = globalIndex;
-          loadTrack(currentTrackIndex);
-          togglePlay();
-          closeModal();
-        });
-      });
-      return item;
-    }
-
-    function updateTime() {
-      const timeDisplay = document.getElementById("timeDisplay");
-      const now = new Date();
-      timeDisplay.textContent = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    }
-    setInterval(updateTime, 1000);
-
-    const pCanvas = document.getElementById('particleCanvas');
-    const pCtx = pCanvas.getContext('2d');
-    const vCanvas = document.getElementById('visualizerCanvas');
-    const vCtx = vCanvas.getContext('2d');
-
-    function resizeCanvases() {
-      pCanvas.width = window.innerWidth;
-      pCanvas.height = window.innerHeight;
-      vCanvas.width = window.innerWidth;
-      vCanvas.height = window.innerHeight;
-    }
-
-    let flowers = [];
-
-    class FlowerPetal {
-      constructor() {
-        this.x = Math.random() * pCanvas.width;
-        this.y = -20 - Math.random() * 50;
-        this.size = Math.random() * 8 + 8;
-        this.speedY = Math.random() * 1.8 + 1.2;
-        this.speedX = (Math.random() - 0.5) * 1.5;
-        this.angle = Math.random() * 360;
-        this.spin = (Math.random() - 0.5) * 2;
-        this.opacity = 1.0;
-        this.fadeRate = Math.random() * 0.003 + 0.002;
-
-        const palette = ['#ff4e00', '#e01e5a', '#ffd166', '#ff0054', '#ffffff'];
-        this.color = palette[Math.floor(Math.random() * palette.length)];
-      }
-
-      update() {
-        this.y += this.speedY;
-        this.x += Math.sin(this.y * 0.015) + this.speedX;
-        this.angle += this.spin;
-        this.opacity -= this.fadeRate;
-      }
-
-      draw() {
-        if (this.opacity <= 0) return;
-
-        pCtx.save();
-        pCtx.translate(this.x, this.y);
-        pCtx.rotate((this.angle * Math.PI) / 180);
-        pCtx.globalAlpha = Math.max(0, this.opacity);
-        pCtx.fillStyle = this.color;
-
-        const numPetals = 5;
-        for (let i = 0; i < numPetals; i++) {
-          pCtx.rotate((Math.PI * 2) / numPetals);
-          pCtx.beginPath();
-          pCtx.arc(0, this.size / 2, this.size / 3, 0, Math.PI * 2);
-          pCtx.fill();
-        }
-
-        pCtx.fillStyle = '#ffea00';
-        pCtx.beginPath();
-        pCtx.arc(0, 0, this.size / 4, 0, Math.PI * 2);
-        pCtx.fill();
-
-        pCtx.restore();
-      }
-    }
-
-    function triggerFlowerShower() {
-      for (let i = 0; i < 50; i++) {
-        flowers.push(new FlowerPetal());
-      }
-    }
-
-    flowerBtn.addEventListener("click", triggerFlowerShower);
-
-    function animateFlowers() {
-      pCtx.clearRect(0, 0, pCanvas.width, pCanvas.height);
-      
-      flowers = flowers.filter(flower => {
-        flower.update();
-        flower.draw();
-        return flower.opacity > 0 && flower.y < pCanvas.height + 30;
-      });
-
-      requestAnimationFrame(animateFlowers);
-    }
-
-    let audioCtx, analyser, srcNode;
-
-    function initAudioVisualizer() {
-      if (audioCtx) return;
-      try {
-        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        analyser = audioCtx.createAnalyser();
-        srcNode = audioCtx.createMediaElementSource(audio);
-        srcNode.connect(analyser);
-        analyser.connect(audioCtx.destination);
-        analyser.fftSize = 64;
-      } catch (e) {
-        console.warn("Audio visualizer bypassed:", e);
-      }
-    }
-
-    audio.addEventListener('play', () => {
-      initAudioVisualizer();
-      if (audioCtx && audioCtx.state === 'suspended') {
-        audioCtx.resume();
-      }
-    });
-
-    function drawVisualizer() {
-      requestAnimationFrame(drawVisualizer);
-      vCtx.clearRect(0, 0, vCanvas.width, vCanvas.height);
-
-      if (!analyser || !isPaid) return;
-      const bufferLength = analyser.frequencyBinCount;
-      const dataArray = new Uint8Array(bufferLength);
-      analyser.getByteFrequencyData(dataArray);
-
-      const barWidth = (vCanvas.width / bufferLength) * 2.5;
-      let barHeight;
-      let x = 0;
-
-      for (let i = 0; i < bufferLength; i++) {
-        barHeight = (dataArray[i] / 255) * (vCanvas.height / 3.5);
-        vCtx.fillStyle = `rgba(255, 209, 102, ${dataArray[i] / 255 + 0.2})`;
-        vCtx.fillRect(x, vCanvas.height - barHeight, barWidth - 2, barHeight);
-        x += barWidth;
-      }
-    }
-
-    window.addEventListener('resize', resizeCanvases);
-    resizeCanvases();
-
-    animateFlowers();
-    drawVisualizer();
-    updateTime();
-  </script>
+// Initial setup
+loadTrack(0);
+</script>
 </body>
 </html>
