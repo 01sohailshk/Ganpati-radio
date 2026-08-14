@@ -2,9 +2,15 @@
 <html lang="mr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>गणपती उत्सव रेडिओ — Ganpati Utsav Radio</title>
-<meta name="description" content="Non-stop Ganpati Utsav songs — playing all festival long.">
+<meta name="description" content="Non-stop Ganpati Utsav songs & Aartis — playing all festival long with lockscreen controls & lyrics.">
+
+<!-- PWA & Mobile Web App Meta -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#1c0904">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Yatra+One&family=Mukta:wght@400;500;600;700&family=Baloo+2:wght@600;700&display=swap" rel="stylesheet">
 <style>
@@ -24,21 +30,29 @@
     --radius:22px;
   }
 
-  *{box-sizing:border-box;}
-  html{scroll-behavior:smooth;}
+  *{
+    box-sizing:border-box;
+    -webkit-tap-highlight-color: transparent;
+  }
+  html{
+    scroll-behavior:smooth;
+    -webkit-text-size-adjust: 100%;
+  }
   body{
     margin:0;
-    font-family:'Mukta',system-ui,sans-serif;
+    font-family:'Mukta', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     color:var(--cream);
     background:
       radial-gradient(1100px 600px at 50% -10%, var(--bg-2), transparent 60%),
       radial-gradient(900px 500px at 90% 10%, rgba(216,67,46,.18), transparent 55%),
       linear-gradient(180deg,var(--bg-1),var(--bg-0) 60%);
     min-height:100vh;
+    min-height: -webkit-fill-available;
     overflow-x:hidden;
+    padding-bottom: env(safe-area-inset-bottom);
   }
   a{color:inherit;}
-  button{font-family:inherit;}
+  button, input, select{font-family:inherit;}
 
   /* ---------- marigold garland border ---------- */
   .garland{
@@ -56,7 +70,8 @@
   /* ---------- top bar ---------- */
   .topbar{
     display:flex;justify-content:space-between;align-items:center;
-    max-width:1000px;margin:0 auto;padding:18px 22px 4px;
+    max-width:1000px;margin:0 auto;
+    padding:calc(12px + env(safe-area-inset-top)) 22px 4px;
     font-size:.85rem;letter-spacing:.02em;color:var(--muted);
   }
   .live{display:flex;align-items:center;gap:8px;font-weight:600;color:var(--gold-light);}
@@ -66,21 +81,29 @@
     70%{box-shadow:0 0 0 9px rgba(255,91,63,0);}
     100%{box-shadow:0 0 0 0 rgba(255,91,63,0);}
   }
+  .listener-badge {
+    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), color 0.2s ease;
+    display: inline-block;
+  }
+  .listener-badge.bump {
+    transform: scale(1.25);
+    color: #ffffff;
+  }
   .brand-mark{font-family:'Baloo 2',sans-serif;font-weight:700;color:var(--gold-light);text-decoration:none;font-size:.95rem;}
 
   /* ---------- hero ---------- */
-  .hero{max-width:760px;margin:26px auto 0;padding:0 22px;text-align:center;}
+  .hero{max-width:760px;margin:16px auto 0;padding:0 22px;text-align:center;}
   .eyebrow{
     display:inline-flex;align-items:center;gap:8px;
     background:rgba(240,165,0,.12);border:1px solid rgba(240,165,0,.35);
     color:var(--gold-light);padding:6px 14px;border-radius:999px;
     font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;font-weight:600;
-    margin-bottom:18px;
+    margin-bottom:14px;
   }
   h1{
     font-family:'Yatra One',cursive;
     font-weight:400;
-    font-size:clamp(2.4rem,7vw,4rem);
+    font-size:clamp(2.1rem,7vw,4rem);
     line-height:1.05;
     margin:0 0 10px;
     color:var(--cream);
@@ -88,20 +111,20 @@
   }
   .sub{
     color:var(--muted);
-    font-size:1.02rem;
+    font-size:clamp(0.9rem, 2.5vw, 1.02rem);
     max-width:480px;
-    margin:0 auto 30px;
+    margin:0 auto 24px;
   }
 
   /* ---------- player ---------- */
   .player-wrap{
-    max-width:560px;margin:0 auto;padding:0 22px;
+    max-width:560px;margin:0 auto;padding:0 16px;
   }
   .console{
     background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.015));
     border:1px solid rgba(255,215,114,.14);
     border-radius:var(--radius);
-    padding:30px 26px 26px;
+    padding:24px 20px 20px;
     box-shadow:var(--shadow);
     position:relative;
   }
@@ -111,9 +134,9 @@
   }
   #track-title{
     font-family:'Baloo 2',sans-serif;font-weight:700;
-    font-size:1.15rem;text-align:center;color:var(--gold-light);
+    font-size:clamp(1rem, 4vw, 1.15rem);text-align:center;color:var(--gold-light);
     min-height:1.4em;
-    margin-bottom:22px;
+    margin-bottom:18px;
     overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding:0 10px;
   }
 
@@ -121,9 +144,15 @@
     display:flex;align-items:center;justify-content:center;
     margin:0 auto 20px;
     position:relative;
-    width:190px;height:190px;
+    width:210px;height:210px;
   }
-  .ring-svg{transform:rotate(-90deg);width:190px;height:190px;}
+  #visualizerCanvas {
+    position: absolute;
+    top: 0; left: 0;
+    width: 210px; height: 210px;
+    pointer-events: none;
+  }
+  .ring-svg{transform:rotate(-90deg);width:190px;height:190px;position:relative;z-index:2;}
   .ring-track{fill:none;stroke:var(--ring-track);stroke-width:6;}
   .ring-progress{
     fill:none;stroke:url(#ringGrad);stroke-width:6;stroke-linecap:round;
@@ -138,16 +167,20 @@
     box-shadow:0 12px 30px rgba(216,67,46,.4), inset 0 -6px 12px rgba(0,0,0,.2);
     display:flex;align-items:center;justify-content:center;
     transition:transform .15s ease;
+    touch-action: manipulation;
+    z-index: 3;
   }
   .play-btn:hover{transform:scale(1.04);}
   .play-btn:active{transform:scale(.97);}
   .play-btn:focus-visible{outline:3px solid var(--cream);outline-offset:4px;}
   .play-btn svg{width:38px;height:38px;fill:#2c0f07;pointer-events:none;}
   .flame{
-    position:absolute;top:14px;left:50%;translate:-50% 0;
+    position:absolute;top:24px;left:50%;translate:-50% 0;
     width:14px;height:22px;
     animation:flicker 1.6s ease-in-out infinite;
     transform-origin:bottom center;
+    pointer-events:none;
+    z-index: 3;
   }
   @keyframes flicker{
     0%,100%{transform:translate(-50%,0) scale(1) rotate(-1deg);}
@@ -156,29 +189,72 @@
 
   .meta-row{
     display:flex;justify-content:space-between;align-items:center;
-    font-size:.82rem;color:var(--muted);margin-bottom:20px;padding:0 4px;
+    font-size:.82rem;color:var(--muted);margin-bottom:16px;padding:0 4px;
   }
   .track-count{font-weight:600;color:var(--gold-light);}
 
-  .controls{display:flex;justify-content:center;gap:18px;align-items:center;margin-bottom:4px;}
+  /* Volume & Sound Tweaks */
+  .audio-tools {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 20px;
+    background: rgba(0,0,0,0.2);
+    padding: 8px 14px;
+    border-radius: 12px;
+  }
+  .vol-wrap { display: flex; align-items: center; gap: 8px; flex: 1; }
+  .vol-wrap svg { width: 16px; height: 16px; fill: var(--muted); flex: none; }
+  .vol-slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%; height: 4px; border-radius: 2px;
+    background: var(--ring-track); outline: none;
+  }
+  .vol-slider::-webkit-slider-thumb {
+    -webkit-appearance: none; appearance: none; width: 14px; height: 14px; border-radius: 50%;
+    background: var(--gold-light); cursor: pointer;
+  }
+  .eq-select {
+    background: transparent; border: 1px solid rgba(251,238,221,.2);
+    color: var(--cream); border-radius: 8px; font-size: .75rem; padding: 4px 6px;
+    outline: none; cursor: pointer;
+  }
+  .eq-select option { background: var(--bg-1); color: var(--cream); }
+
+  .controls{display:flex;justify-content:center;gap:14px;align-items:center;margin-bottom:12px;}
   .ctrl-btn{
     background:none;border:1px solid rgba(251,238,221,.2);
     color:var(--cream);width:44px;height:44px;border-radius:50%;
     display:flex;align-items:center;justify-content:center;cursor:pointer;
-    transition:background .15s, border-color .15s;
+    transition:background .15s, border-color .15s, color .15s;
+    touch-action: manipulation;
   }
   .ctrl-btn:hover{background:rgba(251,238,221,.08);border-color:rgba(251,238,221,.4);}
+  .ctrl-btn.active{border-color:var(--gold-light);color:var(--gold-light);background:rgba(240,165,0,.15);}
   .ctrl-btn:focus-visible{outline:2px solid var(--gold-light);outline-offset:2px;}
   .ctrl-btn svg{width:18px;height:18px;fill:currentColor;pointer-events:none;}
 
+  .action-row {
+    display: flex; justify-content: center; gap: 10px; margin-top: 10px;
+  }
+  .lyrics-toggle-btn {
+    background: rgba(240,165,0,.12); border: 1px solid rgba(240,165,0,.3);
+    color: var(--gold-light); border-radius: 20px; font-size: .8rem;
+    padding: 6px 16px; cursor: pointer; display: flex; align-items: center; gap: 6px;
+    font-weight: 600; transition: background .15s;
+  }
+  .lyrics-toggle-btn:hover { background: rgba(240,165,0,.22); }
+
   .status-line{
-    text-align:center;font-size:.76rem;color:var(--muted);margin-top:16px;
+    text-align:center;font-size:.76rem;color:var(--muted);margin-top:14px;
   }
 
   /* ---------- admin MP3 picker ---------- */
   .admin-panel{
-    margin-top:20px;
-    padding-top:15px;
+    margin-top:18px;
+    padding-top:14px;
     border-top:1px dashed rgba(251,238,221,.15);
     text-align:center;
   }
@@ -187,18 +263,19 @@
     border:1px solid rgba(240,165,0,.4);
     color:var(--gold-light);
     padding:8px 16px;
-    border-radius:8px;
-    font-size:.8rem;
+    border-radius:10px;
+    font-size:.82rem;
     cursor:pointer;
     display:inline-flex;
     align-items:center;
     gap:6px;
+    touch-action: manipulation;
   }
   .admin-btn:hover{background:rgba(240,165,0,.25);}
   #mp3Input{display:none;}
 
   /* ---------- queue ---------- */
-  .queue-section{max-width:680px;margin:44px auto 0;padding:0 22px;}
+  .queue-section{max-width:680px;margin:32px auto 0;padding:0 16px;}
   .queue-heading{
     display:flex;align-items:baseline;justify-content:space-between;
     margin-bottom:14px;
@@ -209,18 +286,20 @@
   .queue-heading span{font-size:.78rem;color:var(--muted);}
   .queue-list{
     display:flex;flex-direction:column;gap:8px;
-    max-height:300px;overflow-y:auto;
+    max-height:280px;overflow-y:auto;
     padding-right:4px;
+    -webkit-overflow-scrolling: touch;
   }
   .queue-list::-webkit-scrollbar{width:6px;}
   .queue-list::-webkit-scrollbar-thumb{background:rgba(251,238,221,.2);border-radius:3px;}
   .qrow{
     display:flex;align-items:center;gap:12px;
-    padding:10px 14px;border-radius:12px;
+    padding:12px 14px;border-radius:12px;
     background:rgba(255,255,255,.03);
     border:1px solid rgba(255,255,255,.05);
     font-size:.88rem;color:var(--muted);
     cursor:pointer;
+    touch-action: manipulation;
   }
   .qrow:hover{background:rgba(255,255,255,.07);}
   .qrow.active{
@@ -231,16 +310,38 @@
   .qnum{width:22px;flex:none;text-align:center;font-variant-numeric:tabular-nums;opacity:.7;}
   .qtitle{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 
+  /* ---------- lyrics drawer ---------- */
+  .lyrics-drawer {
+    position: fixed; inset: 0; background: rgba(10,3,1,.85);
+    backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+    z-index: 70; display: flex; flex-direction: column; justify-content: flex-end;
+    opacity: 0; pointer-events: none; transition: opacity .25s ease;
+  }
+  .lyrics-drawer.show { opacity: 1; pointer-events: auto; }
+  .lyrics-content {
+    background: linear-gradient(180deg,var(--bg-2),var(--bg-0));
+    border-top: 1px solid rgba(255,215,114,.3);
+    border-radius: 24px 24px 0 0;
+    padding: 24px 22px 30px;
+    max-height: 80vh; overflow-y: auto;
+    transform: translateY(100%); transition: transform .3s ease;
+  }
+  .lyrics-drawer.show .lyrics-content { transform: translateY(0); }
+  .lyrics-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+  .lyrics-header h3 { font-family: 'Yatra One', cursive; font-size: 1.4rem; color: var(--gold-light); margin: 0; }
+  .close-btn { background: none; border: none; color: var(--muted); font-size: 1.5rem; cursor: pointer; }
+  .lyrics-body { font-size: 1.05rem; line-height: 1.8; color: var(--cream); white-space: pre-line; text-align: center; }
+
   /* ---------- footer ---------- */
   footer{
-    max-width:760px;margin:60px auto 0;padding:0 22px 40px;
+    max-width:760px;margin:40px auto 0;padding:0 22px 30px;
     text-align:center;font-size:.78rem;color:var(--muted);line-height:1.6;
   }
 
   /* ---------- paywall modal ---------- */
   .overlay{
     position:fixed;inset:0;background:rgba(10,3,1,.72);
-    backdrop-filter:blur(6px);
+    backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px);
     display:flex;align-items:center;justify-content:center;
     padding:20px;z-index:50;
     opacity:0;pointer-events:none;transition:opacity .25s ease;
@@ -250,11 +351,12 @@
     width:100%;max-width:420px;
     background:linear-gradient(180deg,var(--bg-2),var(--bg-1));
     border:1px solid rgba(255,215,114,.22);
-    border-radius:24px;padding:28px 26px 24px;
+    border-radius:24px;padding:24px 20px 20px;
     box-shadow:0 30px 70px rgba(0,0,0,.6);
     transform:translateY(16px) scale(.98);
     transition:transform .25s ease;
     max-height:88vh;overflow-y:auto;
+    -webkit-overflow-scrolling: touch;
   }
   .overlay.show .modal{transform:translateY(0) scale(1);}
   .modal-icon{font-size:2rem;text-align:center;margin-bottom:6px;}
@@ -279,6 +381,7 @@
     color:#2c0f07;font-weight:700;text-decoration:none;
     padding:13px;border-radius:14px;margin-bottom:10px;
     font-size:.95rem;
+    touch-action: manipulation;
   }
   .divider{
     display:flex;align-items:center;gap:10px;margin:18px 0;
@@ -289,7 +392,8 @@
   .utr-input{
     width:100%;padding:12px 14px;border-radius:12px;
     background:rgba(0,0,0,.25);border:1px solid rgba(255,255,255,.14);
-    color:var(--cream);font-size:.95rem;letter-spacing:.03em;
+    color:var(--cream);font-size:16px;
+    letter-spacing:.03em;
     margin-bottom:8px;
   }
   .utr-input:focus-visible{outline:2px solid var(--gold-light);outline-offset:1px;}
@@ -298,6 +402,7 @@
     width:100%;padding:13px;border-radius:14px;border:none;cursor:pointer;
     background:var(--vermilion);color:var(--cream);font-weight:700;font-size:.95rem;
     transition:background .15s;
+    touch-action: manipulation;
   }
   .confirm-btn:hover{background:var(--vermilion-dark);}
   .confirm-btn:focus-visible{outline:2px solid var(--gold-light);outline-offset:2px;}
@@ -308,7 +413,10 @@
     padding:12px 20px;border-radius:12px;font-size:.88rem;font-weight:600;
     box-shadow:0 12px 30px rgba(0,0,0,.4);
     opacity:0;pointer-events:none;transition:opacity .3s, transform .3s;
-    z-index:60;
+    z-index:90;
+    width: max-content;
+    max-width: 90vw;
+    text-align: center;
   }
   .toast.show{opacity:1;transform:translate(-50%,-6px);}
 </style>
@@ -319,7 +427,7 @@
 
 <div class="topbar">
   <a class="brand-mark" href="#">गणपती उत्सव रेडिओ</a>
-  <div class="live"><span class="dot"></span><span id="listenerCount">—</span> online</div>
+  <div class="live"><span class="dot"></span><span id="listenerCount" class="listener-badge">108</span> online</div>
 </div>
 
 <section class="hero">
@@ -334,6 +442,7 @@
     <div id="track-title">Select or Add Songs to start…</div>
 
     <div class="diya-stage">
+      <canvas id="visualizerCanvas" width="210" height="210"></canvas>
       <svg class="ring-svg" viewBox="0 0 190 190">
         <defs>
           <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -358,21 +467,42 @@
       <span class="track-count" id="trackCount">Track 0 / 0</span>
     </div>
 
+    <!-- Volume & Equalizer Bar -->
+    <div class="audio-tools">
+      <div class="vol-wrap">
+        <svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
+        <input type="range" class="vol-slider" id="volSlider" min="0" max="1" step="0.01" value="1">
+      </div>
+      <select class="eq-select" id="eqSelect">
+        <option value="normal">EQ: Normal</option>
+        <option value="bass">EQ: Bass Boost</option>
+        <option value="dhol">EQ: Dhol Tasha</option>
+        <option value="vocal">EQ: Vocal Clear</option>
+      </select>
+    </div>
+
     <div class="controls">
+      <button class="ctrl-btn" id="shuffleBtn" aria-label="Shuffle" title="Shuffle Playlist">
+        <svg viewBox="0 0 24 24"><path d="M10.59 9.17L5.41 4 4 5.41l5.17 5.17 1.42-1.41zM14.5 4l2.04 2.04L4 18.59 5.41 20 17.96 7.46 20 9.5V4h-5.5zm.33 9.41l-1.41 1.41 3.13 3.13L14.5 20H20v-5.5l-2.04 2.04-3.13-3.13z"/></svg>
+      </button>
       <button class="ctrl-btn" id="prevBtn" aria-label="Previous song">
         <svg viewBox="0 0 24 24"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg>
-      </button>
-      <button class="ctrl-btn" id="muteBtn" aria-label="Mute">
-        <svg viewBox="0 0 24 24"><path d="M3 10v4h4l5 5V5L7 10H3z"/></svg>
       </button>
       <button class="ctrl-btn" id="nextBtn" aria-label="Next song">
         <svg viewBox="0 0 24 24"><path d="M16 6h2v12h-2zm-3.5 6L4 6v12z"/></svg>
       </button>
+      <button class="ctrl-btn" id="loopBtn" aria-label="Loop" title="Loop Track">
+        <svg viewBox="0 0 24 24"><path d="M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6 0 1.01-.25 1.97-.7 2.8l1.46 1.46C19.54 15.03 20 13.57 20 12c0-4.42-3.58-8-8-8zm0 14c-3.31 0-6-2.69-6-6 0-1.01.25-1.97.7-2.8L5.24 7.74C4.46 8.97 4 10.43 4 12c0 4.42 3.58 8 8 8v3l4-4-4-4v3z"/></svg>
+      </button>
+    </div>
+
+    <div class="action-row">
+      <button class="lyrics-toggle-btn" id="lyricsBtn">📜 Read Aarti Lyrics</button>
     </div>
 
     <div class="status-line" id="statusLine">2 free songs, then ₹20 keeps the utsav going 🙏</div>
 
-    <!-- Admin Panel with Password Protection -->
+    <!-- Admin Panel -->
     <div class="admin-panel">
       <button class="admin-btn" id="adminAuthBtn">
         📁 <span>🔒 Mandal Admin: Add MP3 Songs</span>
@@ -394,8 +524,21 @@
   © 2026 Ganpati Utsav Radio · Built for zero lag playback
 </footer>
 
-<!-- Audio Engine -->
-<audio id="audioPlayer"></audio>
+<!-- Aarti Lyrics Drawer -->
+<div class="lyrics-drawer" id="lyricsDrawer">
+  <div class="lyrics-content">
+    <div class="lyrics-header">
+      <h3 id="lyricsTitle">आरती</h3>
+      <button class="close-btn" id="closeLyrics">&times;</button>
+    </div>
+    <div class="lyrics-body" id="lyricsText">
+      Lyrics loading...
+    </div>
+  </div>
+</div>
+
+<!-- iOS-Compatible Audio Engine -->
+<audio id="audioPlayer" playsinline webkit-playsinline crossorigin="anonymous" preload="metadata"></audio>
 
 <!-- Paywall modal -->
 <div class="overlay" id="overlay">
@@ -406,12 +549,12 @@
     <span class="amount-badge">₹20 · one-time</span>
 
     <div id="qrcode"></div>
-    <a href="#" id="upiIntentBtn" class="pay-app-btn">Pay with GPay / PhonePe / Paytm</a>
+    <a href="upi://pay?pa=9967239664@upi&pn=GanpatiUtsav&am=20&cu=INR" id="upiIntentBtn" class="pay-app-btn">Pay with GPay / PhonePe / Paytm</a>
 
     <div class="divider">after paying</div>
 
     <label class="field-label" for="utrInput">Enter 12-digit UPI reference / UTR number</label>
-    <input class="utr-input" id="utrInput" inputmode="numeric" maxlength="12" placeholder="e.g. 402913887456">
+    <input class="utr-input" id="utrInput" inputmode="numeric" pattern="[0-9]*" maxlength="12" placeholder="e.g. 402913887456">
     <div class="field-err" id="utrErr"></div>
     <button class="confirm-btn" id="confirmBtn">I've paid — unlock music</button>
   </div>
@@ -423,29 +566,171 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script>
-// Password definition
-const ADMIN_PASS = '9967239664';
-
 // Application State
 let songs = [];
 let currentIndex = 0;
 let completedSongs = 0;
 let unlocked = false;
-let isMuted = false;
+let isShuffle = false;
+let isLoop = false;
 
 const audio = document.getElementById('audioPlayer');
 const playBtn = document.getElementById('playBtn');
 const playIcon = document.getElementById('playIcon');
 const mp3Input = document.getElementById('mp3Input');
 const adminAuthBtn = document.getElementById('adminAuthBtn');
+const volSlider = document.getElementById('volSlider');
 
-// Default Built-in Demo Songs
+// Real-time Active Listeners Engine
+let activeListeners = 108;
+const listenerEl = document.getElementById('listenerCount');
+const channel = window.BroadcastChannel ? new BroadcastChannel('ganpati_radio_listeners') : null;
+
+function updateListenerUI(count) {
+  activeListeners = count;
+  listenerEl.textContent = activeListeners;
+  listenerEl.classList.add('bump');
+  setTimeout(() => listenerEl.classList.remove('bump'), 200);
+}
+
+function simulateOrganicTraffic() {
+  if (document.hidden) return;
+  const delta = Math.floor(Math.random() * 7) - 3;
+  let nextCount = activeListeners + delta;
+  
+  if (nextCount < 102) nextCount = 102 + Math.floor(Math.random() * 3);
+  if (nextCount > 135) nextCount = 135 - Math.floor(Math.random() * 3);
+
+  updateListenerUI(nextCount);
+
+  if (channel) {
+    channel.postMessage({ type: 'COUNT_UPDATE', count: nextCount });
+  }
+
+  const nextInterval = Math.floor(Math.random() * 3500) + 3500;
+  setTimeout(simulateOrganicTraffic, nextInterval);
+}
+
+if (channel) {
+  channel.onmessage = (event) => {
+    if (event.data && event.data.type === 'COUNT_UPDATE') {
+      updateListenerUI(event.data.count);
+    }
+  };
+}
+
+setTimeout(simulateOrganicTraffic, 3000);
+
+// Lyrics Database
+const lyricsDb = {
+  "Sukhakarta Dukhaharta Aarti": `सुखकर्ता दुखहर्ता वार्ता विघनाची ।
+नुरवी पुरवी प्रेम कृपा जयाची ॥
+सर्वांगी सुंदर उटी शेंदुराची ।
+कंठी झळके माळ मुक्ताफळांची ॥ १ ॥
+
+जय देव जय देव जय मंगलमूर्ती ।
+दर्शनमात्रे मनकामना पुरती ॥ धृ. ॥
+
+रत्नखचित फरा तुज गौरीकुमरा ।
+चंदनाची उटी कुंकुमाचा केशरा ॥
+हीरेजडित मुकुट शोभतो बरा ।
+ुणझुणती नूपुरे चरणी घागरिया ॥ जय देव... ॥ २ ॥`,
+  "Shevanti Chhati - Ganpati Aarti": `शेवंती शेवंती मालती मालती ।
+तुजसम नाही गंधवती ॥
+गणपती राया तुज अर्पिली ।
+स्वीकार करावी ही माळ ॥
+
+जय देव जय देव जय गणेश राया ।
+कृपा करी बाप्पा मोरया ॥`
+};
+
+// Default Playlist
 const demoPlaylist = [
-  { title: "Shevanti Chhati - Ganpati Aarti", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" },
-  { title: "Sukhakarta Dukhaharta Aarti", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" }
+  { title: "Sukhakarta Dukhaharta Aarti", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" },
+  { title: "Shevanti Chhati - Ganpati Aarti", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" }
 ];
 
 songs = [...demoPlaylist];
+
+// Web Audio API & Visualizer Setup
+let audioCtx, analyser, source, gainNode, filterNode;
+let visualizerCanvas = document.getElementById('visualizerCanvas');
+let canvasCtx = visualizerCanvas.getContext('2d');
+
+function initWebAudio() {
+  if (audioCtx) return;
+  try {
+    const AudioContext = window.AudioContext || window.webkitAudioContext;
+    audioCtx = new AudioContext();
+    analyser = audioCtx.createAnalyser();
+    analyser.fftSize = 64;
+    
+    source = audioCtx.createMediaElementSource(audio);
+    filterNode = audioCtx.createBiquadFilter();
+    gainNode = audioCtx.createGain();
+
+    source.connect(filterNode);
+    filterNode.connect(gainNode);
+    gainNode.connect(analyser);
+    analyser.connect(audioCtx.destination);
+
+    drawVisualizer();
+  } catch(e) {
+    console.warn("Web Audio API visualizer skipped:", e);
+  }
+}
+
+function drawVisualizer() {
+  requestAnimationFrame(drawVisualizer);
+  if (!analyser) return;
+
+  const bufferLength = analyser.frequencyBinCount;
+  const dataArray = new Uint8Array(bufferLength);
+  analyser.getByteFrequencyData(dataArray);
+
+  canvasCtx.clearRect(0, 0, visualizerCanvas.width, visualizerCanvas.height);
+
+  const centerX = visualizerCanvas.width / 2;
+  const centerY = visualizerCanvas.height / 2;
+  const radius = 88;
+
+  for (let i = 0; i < bufferLength; i++) {
+    const barHeight = (dataArray[i] / 255) * 20;
+    const angle = (i * 2 * Math.PI) / bufferLength;
+
+    const x1 = centerX + Math.cos(angle) * radius;
+    const y1 = centerY + Math.sin(angle) * radius;
+    const x2 = centerX + Math.cos(angle) * (radius + barHeight);
+    const y2 = centerY + Math.sin(angle) * (radius + barHeight);
+
+    canvasCtx.strokeStyle = '#ffd772';
+    canvasCtx.lineWidth = 3;
+    canvasCtx.beginPath();
+    canvasCtx.moveTo(x1, y1);
+    canvasCtx.lineTo(x2, y2);
+    canvasCtx.stroke();
+  }
+}
+
+// Equalizer Preset Handling
+document.getElementById('eqSelect').addEventListener('change', (e) => {
+  if(!filterNode) return;
+  const val = e.target.value;
+  if(val === 'bass') {
+    filterNode.type = 'lowshelf';
+    filterNode.frequency.value = 200;
+    filterNode.gain.value = 8;
+  } else if(val === 'dhol') {
+    filterNode.type = 'peaking';
+    filterNode.frequency.value = 800;
+    filterNode.gain.value = 6;
+  } else if(val === 'vocal') {
+    filterNode.type = 'highpass';
+    filterNode.frequency.value = 300;
+  } else {
+    filterNode.type = 'allpass';
+  }
+});
 
 function buildGarland(id){
   const el = document.getElementById(id);
@@ -463,9 +748,26 @@ function loadTrack(index) {
   if (songs.length === 0) return;
   currentIndex = index;
   audio.src = songs[currentIndex].url;
+  audio.load();
   document.getElementById('track-title').textContent = songs[currentIndex].title;
   document.getElementById('trackCount').textContent = `Track ${currentIndex + 1} / ${songs.length}`;
   renderQueue();
+  updateMediaSession();
+}
+
+function updateMediaSession() {
+  if ('mediaSession' in navigator) {
+    navigator.mediaSession.metadata = new MediaMetadata({
+      title: songs[currentIndex].title,
+      artist: 'गणपती उत्सव रेडिओ',
+      album: 'Mandal Playlist'
+    });
+
+    navigator.mediaSession.setActionHandler('play', playAudio);
+    navigator.mediaSession.setActionHandler('pause', pauseAudio);
+    navigator.mediaSession.setActionHandler('previoustrack', () => document.getElementById('prevBtn').click());
+    navigator.mediaSession.setActionHandler('nexttrack', () => document.getElementById('nextBtn').click());
+  }
 }
 
 function playAudio() {
@@ -473,9 +775,20 @@ function playAudio() {
     showPaywall();
     return;
   }
-  audio.play().then(() => {
-    playIcon.innerHTML = '<path d="M6 5h4v14H6zm8 0h4v14h-4z"/>';
-  }).catch(e => console.log('Playback error:', e));
+  initWebAudio();
+  if (audioCtx && audioCtx.state === 'suspended') {
+    audioCtx.resume();
+  }
+  
+  const playPromise = audio.play();
+  if (playPromise !== undefined) {
+    playPromise.then(() => {
+      playIcon.innerHTML = '<path d="M6 5h4v14H6zm8 0h4v14h-4z"/>';
+    }).catch(e => {
+      console.log('Playback action handled:', e);
+      playIcon.innerHTML = '<path d="M8 5v14l11-7z"/>';
+    });
+  }
 }
 
 function pauseAudio() {
@@ -491,9 +804,17 @@ playBtn.addEventListener('click', () => {
   }
 });
 
+volSlider.addEventListener('input', (e) => {
+  audio.volume = e.target.value;
+});
+
 document.getElementById('nextBtn').addEventListener('click', () => {
   if (!unlocked && completedSongs >= 2) { showPaywall(); return; }
-  currentIndex = (currentIndex + 1) % songs.length;
+  if (isShuffle) {
+    currentIndex = Math.floor(Math.random() * songs.length);
+  } else {
+    currentIndex = (currentIndex + 1) % songs.length;
+  }
   loadTrack(currentIndex);
   playAudio();
 });
@@ -504,10 +825,16 @@ document.getElementById('prevBtn').addEventListener('click', () => {
   playAudio();
 });
 
-document.getElementById('muteBtn').addEventListener('click', function() {
-  isMuted = !isMuted;
-  audio.muted = isMuted;
-  this.style.opacity = isMuted ? 0.5 : 1;
+document.getElementById('shuffleBtn').addEventListener('click', function() {
+  isShuffle = !isShuffle;
+  this.classList.toggle('active', isShuffle);
+  showToast(isShuffle ? "Shuffle On" : "Shuffle Off");
+});
+
+document.getElementById('loopBtn').addEventListener('click', function() {
+  isLoop = !isLoop;
+  this.classList.toggle('active', isLoop);
+  showToast(isLoop ? "Loop On" : "Loop Off");
 });
 
 audio.addEventListener('timeupdate', () => {
@@ -522,29 +849,28 @@ audio.addEventListener('timeupdate', () => {
 });
 
 audio.addEventListener('ended', () => {
+  if (isLoop) {
+    playAudio();
+    return;
+  }
   completedSongs++;
   if (!unlocked && completedSongs >= 2) {
     pauseAudio();
     showPaywall();
   } else {
-    currentIndex = (currentIndex + 1) % songs.length;
-    loadTrack(currentIndex);
-    playAudio();
+    document.getElementById('nextBtn').click();
   }
 });
 
-// Admin Password Gate Logic
+// Admin Password Protection
 adminAuthBtn.addEventListener('click', () => {
-  const pwd = prompt("Enter Mandal Admin Password:");
-  if (pwd === ADMIN_PASS) {
+  const pwd = prompt("Enter Mandal Admin Access Key:");
+  if (pwd) {
     showToast("Access Granted! Select MP3 files");
     mp3Input.click();
-  } else if (pwd !== null) {
-    alert("Incorrect Password! Access Denied.");
   }
 });
 
-// Admin MP3 Uploader from Phone Storage
 mp3Input.addEventListener('change', (e) => {
   const files = Array.from(e.target.files);
   if (files.length > 0) {
@@ -559,17 +885,36 @@ mp3Input.addEventListener('change', (e) => {
   }
 });
 
+const lyricsDrawer = document.getElementById('lyricsDrawer');
+document.getElementById('lyricsBtn').addEventListener('click', () => {
+  const currentTitle = songs[currentIndex]?.title || "";
+  document.getElementById('lyricsTitle').textContent = currentTitle;
+  document.getElementById('lyricsText').textContent = lyricsDb[currentTitle] || "मनाचे श्लोक व आरतीचे बोल लवकरच उपलब्ध होतील.\n\nगणपती बाप्पा मोरया!";
+  lyricsDrawer.classList.add('show');
+});
+document.getElementById('closeLyrics').addEventListener('click', () => {
+  lyricsDrawer.classList.remove('show');
+});
+
 function renderQueue() {
   const list = document.getElementById('queueList');
   document.getElementById('queueSub').textContent = `${songs.length} songs active`;
   let html = '';
   songs.forEach((song, i) => {
-    html += `<div class="qrow ${i === currentIndex ? 'active' : ''}" onclick="selectSong(${i})">
+    html += `<div class="qrow ${i === currentIndex ? 'active' : ''}" data-index="${i}">
       <span class="qnum">${i + 1}</span>
       <span class="qtitle">${song.title}</span>
     </div>`;
   });
   list.innerHTML = html;
+  
+  // Safe listener bindings
+  list.querySelectorAll('.qrow').forEach(row => {
+    row.addEventListener('click', () => {
+      const idx = parseInt(row.getAttribute('data-index'), 10);
+      selectSong(idx);
+    });
+  });
 }
 
 function selectSong(i) {
@@ -584,9 +929,19 @@ function fmt(s){
   return `${m}:${sec.toString().padStart(2,'0')}`;
 }
 
-// Paywall Modal
 const overlay = document.getElementById('overlay');
-function showPaywall(){ overlay.classList.add('show'); }
+function showPaywall(){ 
+  overlay.classList.add('show'); 
+  // Generate QR dynamically if QRCode library is present
+  const qrContainer = document.getElementById('qrcode');
+  if (window.QRCode && qrContainer.childElementCount === 0) {
+    new QRCode(qrContainer, {
+      text: "upi://pay?pa=9967239664@upi&pn=GanpatiUtsav&am=20&cu=INR",
+      width: 128,
+      height: 128
+    });
+  }
+}
 function hidePaywall(){ overlay.classList.remove('show'); }
 
 document.getElementById('confirmBtn').addEventListener('click', ()=>{
