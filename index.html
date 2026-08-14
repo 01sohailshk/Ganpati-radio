@@ -280,7 +280,6 @@
     padding:13px;border-radius:14px;margin-bottom:10px;
     font-size:.95rem;
   }
-  .pay-hint{text-align:center;font-size:.74rem;color:var(--muted);margin-bottom:22px;}
   .divider{
     display:flex;align-items:center;gap:10px;margin:18px 0;
     color:var(--muted);font-size:.75rem;text-transform:uppercase;letter-spacing:.08em;
@@ -373,9 +372,9 @@
 
     <div class="status-line" id="statusLine">2 free songs, then ₹20 keeps the utsav going 🙏</div>
 
-    <!-- Admin Panel to Select Songs from Phone -->
+    <!-- Admin Panel with Password Protection -->
     <div class="admin-panel">
-      <button class="admin-btn" onclick="document.getElementById('mp3Input').click()">
+      <button class="admin-btn" id="adminAuthBtn">
         📁 <span>🔒 Mandal Admin: Add MP3 Songs</span>
       </button>
       <input type="file" id="mp3Input" accept="audio/mp3,audio/*" multiple>
@@ -424,6 +423,9 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script>
+// Password definition
+const ADMIN_PASS = '9967239664';
+
 // Application State
 let songs = [];
 let currentIndex = 0;
@@ -435,14 +437,14 @@ const audio = document.getElementById('audioPlayer');
 const playBtn = document.getElementById('playBtn');
 const playIcon = document.getElementById('playIcon');
 const mp3Input = document.getElementById('mp3Input');
+const adminAuthBtn = document.getElementById('adminAuthBtn');
 
-// Default Built-in Demo Songs (Fallback)
+// Default Built-in Demo Songs
 const demoPlaylist = [
   { title: "Shevanti Chhati - Ganpati Aarti", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" },
   { title: "Sukhakarta Dukhaharta Aarti", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" }
 ];
 
-// Load Default Demo Songs
 songs = [...demoPlaylist];
 
 function buildGarland(id){
@@ -457,7 +459,6 @@ function buildGarland(id){
 buildGarland('garlandTop');
 buildGarland('garlandBottom');
 
-// Load audio track index
 function loadTrack(index) {
   if (songs.length === 0) return;
   currentIndex = index;
@@ -467,7 +468,6 @@ function loadTrack(index) {
   renderQueue();
 }
 
-// Playback logic
 function playAudio() {
   if (!unlocked && completedSongs >= 2) {
     showPaywall();
@@ -510,7 +510,6 @@ document.getElementById('muteBtn').addEventListener('click', function() {
   this.style.opacity = isMuted ? 0.5 : 1;
 });
 
-// Update progress bar
 audio.addEventListener('timeupdate', () => {
   const dur = audio.duration || 0;
   const cur = audio.currentTime || 0;
@@ -531,6 +530,17 @@ audio.addEventListener('ended', () => {
     currentIndex = (currentIndex + 1) % songs.length;
     loadTrack(currentIndex);
     playAudio();
+  }
+});
+
+// Admin Password Gate Logic
+adminAuthBtn.addEventListener('click', () => {
+  const pwd = prompt("Enter Mandal Admin Password:");
+  if (pwd === ADMIN_PASS) {
+    showToast("Access Granted! Select MP3 files");
+    mp3Input.click();
+  } else if (pwd !== null) {
+    alert("Incorrect Password! Access Denied.");
   }
 });
 
@@ -574,7 +584,7 @@ function fmt(s){
   return `${m}:${sec.toString().padStart(2,'0')}`;
 }
 
-// Paywall
+// Paywall Modal
 const overlay = document.getElementById('overlay');
 function showPaywall(){ overlay.classList.add('show'); }
 function hidePaywall(){ overlay.classList.remove('show'); }
